@@ -9,16 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/faculty")
 public class FacultyController {
 
-//    @Autowired
-//    private final FacultyServices facultyServices;
-
-//    public FacultyController(FacultyServices facultyServices) {
-//        this.facultyServices = facultyServices;
-//    }
-
     @GetMapping("/faculties")
-    public String getAllFaculties(Model model) {
-//        model.addAttribute("faculties", facultyServices.getAll());
-        return "faculty/faculties";
+    public String allFaculties() {
+        return "faculty/allFaculties";
     }
 }
