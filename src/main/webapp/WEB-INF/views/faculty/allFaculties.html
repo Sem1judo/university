@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmfaculties.htmllns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="ISO-8859-1">
@@ -18,18 +18,20 @@
         <th scope="col">Lectors</th>
     </tr>
     </thead>
-    <tbody>
-    <!--    <tr th:if="${com.ua.foxminded.task_12.services}">-->
-    <!--        <td colspan="2"> No Faculties Available </td>-->
-    <!--    </tr>-->
-    <!--    <tr th:each="faculty : ${faculties}">-->
-    <!--        <td th:text="${facultie.}"></td>-->
-    <!--        <td th:text="${fa.getName()}"></td>-->
-    <!--        <td th:text="${com.ua.foxminded.task_12.model.Faculty.getGroups()}"></td>-->
-    <!--        <td th:text="${com.ua.foxminded.task_12.model.Faculty.getLectors()}"</td>-->
-    <!--    </tr>-->
-    </tbody>
+        <tbody>
+        <tr th:if="${faculties.empty}">
+            <td colspan="2"> No Faculty Available</td>
+        </tr>
+        <tr th:each="faculty : ${faculties}">
+            <td th:text="${faculty.facultyId}"></td>
+            <td th:text="${faculty.name}"></td>
+            <td th:text="${faculty.groups}"></td>
+            <td th:text="${faculty.lectors}"></td>
+        </tr>
+        </tbody>
+    </table>
 </table>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

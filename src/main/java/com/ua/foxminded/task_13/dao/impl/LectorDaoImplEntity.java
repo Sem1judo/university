@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import javax.sql.DataSource;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,9 +15,8 @@ import java.util.List;
 @Repository
 public class LectorDaoImplEntity implements LectorEntity {
 
-    @Autowired
-    @Qualifier("jdbcTemplate")
-    JdbcTemplate jdbcTemplate;
+
+    private final JdbcTemplate jdbcTemplate;
 
     private static final String SQL_FIND_LECTORS = "select * from lectors where lector_id = ?";
     private static final String SQL_DELETE_LECTORS = "delete from lectors where lector_id = ?";
@@ -25,6 +25,12 @@ public class LectorDaoImplEntity implements LectorEntity {
     private static final String SQL_INSERT_LECTORS = "insert into lectors(first_name, last_name) values(?,?)";
     private static final String SQL_GET_LESSONS_LECTORS = "select count(lesson_id)*2 as quantity from time_slots\n" +
             "where time_slots.start_lesson between ? and ?";
+
+    @Autowired
+    public LectorDaoImplEntity(DataSource dataSource) {
+        jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
 
     @Override
     public Lector getById(Long id) {

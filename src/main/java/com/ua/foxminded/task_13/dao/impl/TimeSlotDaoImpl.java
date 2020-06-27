@@ -7,15 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import javax.sql.DataSource;
 
 import java.util.List;
 
 @Repository
 public class TimeSlotDaoImpl implements DaoEntity<TimeSlot> {
 
-    @Autowired
-    @Qualifier("jdbcTemplate")
-    JdbcTemplate jdbcTemplate;
+
+    private final JdbcTemplate jdbcTemplate;
 
     private static final String SQL_FIND_TIMESLOT = "select * from time_slots where timeslot_id = ?";
     private static final String SQL_DELETE_TIMESLOT = "delete from time_slots where timeslot_id = ?";
@@ -23,6 +23,10 @@ public class TimeSlotDaoImpl implements DaoEntity<TimeSlot> {
     private static final String SQL_GET_ALL_TIMESLOT = "select * from lessons";
     private static final String SQL_INSERT_TIMESLOT = "insert into time_slots(start_lesson, end_lesson) values(?,?)";
 
+    @Autowired
+    public TimeSlotDaoImpl(DataSource dataSource) {
+        jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
     @Override
     public TimeSlot getById(Long id) {

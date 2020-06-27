@@ -7,22 +7,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import javax.sql.DataSource;
 
 import java.util.List;
 
 @Repository
 public class LessonDaoImpl implements DaoEntity<Lesson> {
 
-    @Autowired
-    @Qualifier("jdbcTemplate")
-
-    JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     private static final String SQL_FIND_LESSON = "select * from lessons where lesson_id = ?";
     private static final String SQL_DELETE_LESSON = "delete from lessons where lesson_id = ?";
     private static final String SQL_UPDATE_LESSON = "update lessons set lesson_name = ? where lesson_id = ?";
     private static final String SQL_GET_ALL_LESSON = "select * from lessons";
     private static final String SQL_INSERT_LESSON = "insert into lessons(lesson_name) values(?)";
+
+    @Autowired
+    public LessonDaoImpl(DataSource dataSource) {
+        jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
     @Override
     public Lesson getById(Long id) {

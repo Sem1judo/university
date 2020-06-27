@@ -8,20 +8,24 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
 public class FacultyDaoImpl implements DaoEntity<Faculty> {
 
-    @Autowired
-    @Qualifier("jdbcTemplate")
-    JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     private static final String SQL_FIND_FACULTY = "select * from faculties where faculty_id = ?";
     private static final String SQL_DELETE_FACULTY = "delete from faculties where faculty_id = ?";
     private static final String SQL_UPDATE_FACULTY = "update faculties set faculty_name = ? where faculty_id = ?";
     private static final String SQL_GET_ALL_FACULTY = "select * from faculties";
     private static final String SQL_INSERT_FACULTY = "insert into faculties(faculty_name) values(?)";
+
+    @Autowired
+    public FacultyDaoImpl(DataSource dataSource) {
+        jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
     @Override
     public Faculty getById(Long id) {

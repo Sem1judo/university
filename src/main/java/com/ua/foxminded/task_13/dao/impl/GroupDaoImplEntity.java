@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
+
 import java.util.List;
 
 @Repository
 public class GroupDaoImplEntity implements GroupEntity {
 
-    @Autowired
-    @Qualifier("jdbcTemplate")
-    JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     private static final String SQL_FIND_GROUPS = "select * from groups where group_id = ?";
     private static final String SQL_DELETE_GROUPS = "delete from groups where group_id = ?";
@@ -28,6 +28,11 @@ public class GroupDaoImplEntity implements GroupEntity {
             "join groups on groups.group_id = time_slots.group_id\n" +
             "where groups.group_id = ?\n" +
             "group by lessons.lesson_name";
+
+    @Autowired
+    public GroupDaoImplEntity(DataSource dataSource) {
+        jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
     @Override
     public Group getById(Long id) {
