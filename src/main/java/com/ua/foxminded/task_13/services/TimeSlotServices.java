@@ -7,7 +7,6 @@ import com.ua.foxminded.task_13.validation.ValidatorEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ import java.util.List;
 
 
 @Service
-@Scope(value = "session")
 public class TimeSlotServices {
 
     @Autowired

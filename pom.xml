@@ -13,7 +13,18 @@
     </properties>
 
 
+
+
     <dependencies>
+
+<!--        add for pageable in services-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>2.3.1.RELEASE</version>
+        </dependency>
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>

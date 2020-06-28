@@ -1,37 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <meta charset="ISO-8859-1">
-    <title>All cars</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
-
 <table class="table table-striped">
     <thead>
     <tr>
         <th scope="col">ID</th>
         <th scope="col">Name</th>
-        <th scope="col">Groups</th>
-        <th scope="col">Lectors</th>
+        <th scope="col">Lector</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${faculties.empty}">
-        <td colspan="2"> No Faculty Available</td>
+    <tr th:if="${lessons.empty}">
+        <td colspan="2"> No lessons available</td>
     </tr>
-    <tr th:each="faculty : ${faculties}">
-        <td th:text="${faculty.facultyId}"></td>
-        <td th:text="${faculty.name}"></td>
-        <td th:text="${faculty.groups}"></td>
-        <td th:text="${faculty.lectors}"></td>
+    <tr th:each="lesson : ${lessons}">
+        <td th:text="${lesson.lessonId}"></td>
+        <td th:text="${lesson.name}"></td>
+        <td th:text="${lesson.lector}"></td>
     </tr>
     </tbody>
 </table>
-
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>

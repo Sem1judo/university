@@ -14,19 +14,15 @@
     <tr>
         <th scope="col">ID</th>
         <th scope="col">Name</th>
-        <th scope="col">Groups</th>
-        <th scope="col">Lectors</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${faculties.empty}">
-        <td colspan="2"> No Faculty Available</td>
+    <tr th:if="${groups.isEmpty()}">
+        <td colspan="2"> No groups available</td>
     </tr>
-    <tr th:each="faculty : ${faculties}">
-        <td th:text="${faculty.facultyId}"></td>
-        <td th:text="${faculty.name}"></td>
-        <td th:text="${faculty.groups}"></td>
-        <td th:text="${faculty.lectors}"></td>
+    <tr th:each="group : ${groups}">
+        <td th:text="${group.groupId}"></td>
+        <td th:text="${group.name}"></td>
     </tr>
     </tbody>
 </table>
