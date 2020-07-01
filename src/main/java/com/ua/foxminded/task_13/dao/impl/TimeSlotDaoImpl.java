@@ -53,4 +53,5 @@ public class TimeSlotDaoImpl implements DaoEntity<TimeSlot> {
         return jdbcTemplate.update(SQL_INSERT_TIMESLOT, timeSlot.getStartLesson(), timeSlot.getEndLesson()) > 0;
 
     }
+
 }

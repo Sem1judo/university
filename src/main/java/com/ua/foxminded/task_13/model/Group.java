@@ -37,6 +37,14 @@ public class Group {
         this.groupId = groupId;
     }
 
+    public long getFacultyId() {
+        return facultyId;
+    }
+
+    public void setFacultyId(long facultyId) {
+        this.facultyId = facultyId;
+    }
+
     public String getName() {
         return name;
     }

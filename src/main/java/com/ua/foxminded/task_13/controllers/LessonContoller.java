@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/lesson")
 public class LessonContoller {
 
-    private LessonServices lessonServices;
+    private final LessonServices lessonServices;
 
     @Autowired
     public LessonContoller(LessonServices lessonServices) {

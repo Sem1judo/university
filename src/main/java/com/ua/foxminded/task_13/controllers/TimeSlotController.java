@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/timeSlot")
 public class TimeSlotController {
 
-    private TimeSlotServices timeSlotServices;
+    private final TimeSlotServices timeSlotServices;
 
     @Autowired
     public TimeSlotController(TimeSlotServices timeSlotServices) {
         this.timeSlotServices = timeSlotServices;
     }
 
-    @GetMapping("timeSlots")
+    @GetMapping("/timeSlots")
     public String allTimeSlots(Model model) {
         model.addAttribute("timeSlots", timeSlotServices.getAll());
         return "timeSlot/allTimeSlots";

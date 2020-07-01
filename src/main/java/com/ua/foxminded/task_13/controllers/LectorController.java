@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/lector")
 public class LectorController {
 
-    private LectorServices lectorServices;
+    private final LectorServices lectorServices;
 
     @Autowired
     public LectorController(LectorServices lectorServices) {

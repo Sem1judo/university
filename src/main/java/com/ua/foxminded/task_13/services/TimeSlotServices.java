@@ -32,7 +32,6 @@ public class TimeSlotServices {
 
     public List<TimeSlot> getAll() {
         logger.debug("Trying to get all time slots");
-
         try {
             return timeSlotDao.getAll();
         } catch (EmptyResultDataAccessException e) {

@@ -12,9 +12,6 @@
         <spring.version>5.2.6.RELEASE</spring.version>
     </properties>
 
-
-
-
     <dependencies>
 
 <!--        add for pageable in services-->
