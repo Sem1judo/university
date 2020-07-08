@@ -1,7 +1,9 @@
 package com.ua.foxminded.task_13.services;
 
+import com.ua.foxminded.task_13.dao.impl.FacultyDaoImpl;
 import com.ua.foxminded.task_13.dao.impl.GroupDaoImplEntity;
 import com.ua.foxminded.task_13.exceptions.ServiceException;
+import com.ua.foxminded.task_13.model.Faculty;
 import com.ua.foxminded.task_13.model.Group;
 import com.ua.foxminded.task_13.validation.ValidatorEntity;
 import org.slf4j.Logger;
@@ -18,6 +20,8 @@ import java.util.List;
 public class GroupServices {
     @Autowired
     private GroupDaoImplEntity groupDao;
+    @Autowired
+    private FacultyDaoImpl facultyDao;
 
     @Autowired
     private ValidatorEntity<Group> validator;
@@ -44,7 +48,6 @@ public class GroupServices {
 
     public boolean create(Group group) {
         logger.debug("Trying to create group: {}", group);
-
         validator.validate(group);
         try {
             return groupDao.create(group);

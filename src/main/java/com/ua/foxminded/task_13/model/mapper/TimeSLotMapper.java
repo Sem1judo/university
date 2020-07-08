@@ -1,5 +1,6 @@
 package com.ua.foxminded.task_13.model.mapper;
 
+import com.ua.foxminded.task_13.model.Lector;
 import com.ua.foxminded.task_13.model.TimeSlot;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -14,6 +15,8 @@ public class TimeSLotMapper implements RowMapper<TimeSlot> {
         timeSLot.setTimeSlotId(resultSet.getLong("timeslot_id"));
         timeSLot.setStartLesson(resultSet.getTimestamp("start_lesson").toLocalDateTime());
         timeSLot.setEndLesson(resultSet.getTimestamp("end_lesson").toLocalDateTime());
+        timeSLot.setLessonId(resultSet.getLong("lesson_id"));
+        timeSLot.setGroupId(resultSet.getLong("group_id"));
 
         return timeSLot;
     }

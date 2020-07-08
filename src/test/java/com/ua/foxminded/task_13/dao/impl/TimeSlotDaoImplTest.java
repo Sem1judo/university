@@ -24,8 +24,6 @@ class TimeSlotDaoImplTest {
     JdbcTemplate jdbcTemplate;
     @InjectMocks
     TimeSlotDaoImpl timeSlotDao;
-    @InjectMocks
-    ValidatorEntity validator;
 
 
     @BeforeEach

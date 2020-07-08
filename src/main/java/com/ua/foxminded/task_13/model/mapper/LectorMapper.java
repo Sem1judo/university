@@ -15,6 +15,7 @@ public class LectorMapper implements RowMapper<Lector> {
         lector.setLectorId(resultSet.getLong("lector_id"));
         lector.setFirstName(resultSet.getString("first_name"));
         lector.setLastName(resultSet.getString("last_name"));
+        lector.setFacultyId(resultSet.getLong("faculty_id"));
 
         return lector;
     }

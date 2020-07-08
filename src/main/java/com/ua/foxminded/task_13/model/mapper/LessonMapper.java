@@ -14,6 +14,7 @@ public class LessonMapper implements RowMapper<Lesson> {
         Lesson lesson = new Lesson();
 
         lesson.setLessonId(resultSet.getLong("lesson_id"));
+        lesson.setLector(resultSet.getLong("lector_id"));
         lesson.setName(resultSet.getString("lesson_name"));
 
         return lesson;

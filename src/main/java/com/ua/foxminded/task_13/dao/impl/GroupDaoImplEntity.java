@@ -20,9 +20,9 @@ public class GroupDaoImplEntity implements GroupEntity {
 
     private static final String SQL_FIND_GROUPS = "select * from groups where group_id = ?";
     private static final String SQL_DELETE_GROUPS = "delete from groups where group_id = ?";
-    private static final String SQL_UPDATE_GROUPS = "update groups set group_name where group_id = ?";
+    private static final String SQL_UPDATE_GROUPS = "update groups set group_name =? ,faculty_id=? where group_id = ?";
     private static final String SQL_GET_ALL_GROUPS = "select * from groups";
-    private static final String SQL_INSERT_GROUPS = "insert into groups(group_name) values(?)";
+    private static final String SQL_INSERT_GROUPS = "insert into groups(group_name,faculty_id) values(?,?)";
     private static final String SQL_GET_LESSONS_GROUPS = "select lessons.lesson_name, count(time_slots.lesson_id)*2 as quantity from time_slots\n" +
             "join lessons on lessons.lesson_id = time_slots.lesson_id\n" +
             "join groups on groups.group_id = time_slots.group_id\n" +

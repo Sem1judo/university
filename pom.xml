@@ -14,6 +14,21 @@
 
     <dependencies>
 
+
+<!--        added for date thuymeleaf-->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-java8time</artifactId>
+            <version>3.0.1.RELEASE</version>
+        </dependency>
+
+        <!--        add for dto -->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.3.8</version>
+        </dependency>
+
 <!--        add for pageable in services-->
         <dependency>
             <groupId>org.springframework.data</groupId>

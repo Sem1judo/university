@@ -18,9 +18,9 @@ public class LessonDaoImpl implements DaoEntity<Lesson> {
 
     private static final String SQL_FIND_LESSON = "select * from lessons where lesson_id = ?";
     private static final String SQL_DELETE_LESSON = "delete from lessons where lesson_id = ?";
-    private static final String SQL_UPDATE_LESSON = "update lessons set lesson_name = ? where lesson_id = ?";
+    private static final String SQL_UPDATE_LESSON = "update lessons set lesson_name = ?,lector_id=? where lesson_id = ?";
     private static final String SQL_GET_ALL_LESSON = "select * from lessons";
-    private static final String SQL_INSERT_LESSON = "insert into lessons(lesson_name) values(?)";
+    private static final String SQL_INSERT_LESSON = "insert into lessons(lesson_name,lector_id) values(?,?)";
 
     @Autowired
     public LessonDaoImpl(DataSource dataSource) {

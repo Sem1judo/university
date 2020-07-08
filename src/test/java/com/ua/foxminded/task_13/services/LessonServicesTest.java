@@ -39,9 +39,9 @@ class LessonServicesTest {
     @Test
     public void shouldGetAllLessons() {
         List<Lesson> initialLessons = new ArrayList<>();
-        Lesson testLesson1 = new Lesson(1, "technology", new Lector());
-        Lesson testLesson2 = new Lesson(1, "technology", new Lector());
-        Lesson testLesson3 = new Lesson(1, "technology", new Lector());
+        Lesson testLesson1 = new Lesson(1, "technology", 1);
+        Lesson testLesson2 = new Lesson(1, "technology", 1);
+        Lesson testLesson3 = new Lesson(1, "technology", 1);
 
         initialLessons.add(testLesson1);
         initialLessons.add(testLesson2);
@@ -57,7 +57,7 @@ class LessonServicesTest {
 
     @Test
     public void shouldGetByIdLesson() {
-        when(lessonDao.getById(1L)).thenReturn(new Lesson(1, "technology", new Lector()));
+        when(lessonDao.getById(1L)).thenReturn(new Lesson(1, "technology", 1));
 
         Lesson lesson = lessonServices.getById(1L);
 
@@ -67,7 +67,7 @@ class LessonServicesTest {
 
     @Test
     public void shouldCreateLesson() {
-        Lesson lesson = new Lesson(1, "technology", new Lector());
+        Lesson lesson = new Lesson(1, "technology", 1);
 
         when(lessonDao.create(eq(lesson))).thenReturn(Boolean.TRUE);
 
@@ -89,7 +89,7 @@ class LessonServicesTest {
 
     @Test
     public void shouldUpdateLesson() {
-        Lesson lesson = new Lesson(1, "technology", new Lector());
+        Lesson lesson = new Lesson(1, "technology",1);
         when(lessonDao.update(eq(lesson))).thenReturn(Boolean.TRUE);
 
         boolean isUpdated = lessonServices.update(lesson);
@@ -99,31 +99,31 @@ class LessonServicesTest {
 
     @Test
     public void shouldThrowServiceExceptionWhenNameIsNull() {
-        Lesson lesson = new Lesson(1L, null, new Lector());
+        Lesson lesson = new Lesson(1L, null, 1);
         assertThrows(ServiceException.class, () -> lessonServices.create(lesson));
     }
 
     @Test
     public void shouldThrowServiceExceptionWhenNameTooShort() {
-        Lesson lesson = new Lesson(1L, "V", new Lector());
+        Lesson lesson = new Lesson(1L, "V",1);
         assertThrows(ServiceException.class, () -> lessonServices.create(lesson));
     }
 
     @Test
     public void shouldThrowServiceExceptionWhenIdZero() {
-        Lesson lesson = new Lesson(0, "Vansss", new Lector());
+        Lesson lesson = new Lesson(0, "Vansss", 1);
         assertThrows(ServiceException.class, () -> lessonServices.update(lesson));
     }
 
     @Test
     public void shouldThrowServiceExceptionWhenNameHaveForbiddenSymbol() {
-        Lesson lesson = new Lesson(0L, "Va!nss^s", new Lector());
+        Lesson lesson = new Lesson(0L, "Va!nss^s", 1);
         assertThrows(ServiceException.class, () -> lessonServices.create(lesson));
     }
 
     @Test
     public void shouldThrowServiceExceptionWhenNameIsTooLong() {
-        Lesson lesson = new Lesson(0L, "Vaaaaaaaaaaansssssssssssssssssssssssssssssssssssssssssss", new Lector());
+        Lesson lesson = new Lesson(0L, "Vaaaaaaaaaaansssssssssssssssssssssssssssssssssssssssssss", 1);
         assertThrows(ServiceException.class, () -> lessonServices.create(lesson));
     }
 

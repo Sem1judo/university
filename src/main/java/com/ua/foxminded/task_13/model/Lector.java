@@ -7,8 +7,8 @@ import java.util.Objects;
 
 public class Lector {
 
-    private Long lectorId;
-    private Long facultyId;
+    private long lectorId;
+    private long facultyId;
     @NotBlank
     @Size(min = 3, max = 50,
             message = "First name must be between 3 and 20 characters long")

@@ -4,7 +4,6 @@ import com.ua.foxminded.task_13.dao.LectorEntity;
 import com.ua.foxminded.task_13.model.Lector;
 import com.ua.foxminded.task_13.model.mapper.LectorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
@@ -20,9 +19,9 @@ public class LectorDaoImplEntity implements LectorEntity {
 
     private static final String SQL_FIND_LECTORS = "select * from lectors where lector_id = ?";
     private static final String SQL_DELETE_LECTORS = "delete from lectors where lector_id = ?";
-    private static final String SQL_UPDATE_LECTORS = "update lectors set first_name = ?, last_name = ? where lector_id = ?";
+    private static final String SQL_UPDATE_LECTORS = "update lectors set first_name = ?, last_name = ?,faculty_id=? where lector_id = ?";
     private static final String SQL_GET_ALL_LECTORS = "select * from lectors";
-    private static final String SQL_INSERT_LECTORS = "insert into lectors(first_name, last_name) values(?,?)";
+    private static final String SQL_INSERT_LECTORS = "insert into lectors(first_name, last_name,faculty_id) values(?,?,?)";
     private static final String SQL_GET_LESSONS_LECTORS = "select count(lesson_id)*2 as quantity from time_slots\n" +
             "where time_slots.start_lesson between ? and ?";
 

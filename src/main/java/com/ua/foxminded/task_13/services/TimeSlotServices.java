@@ -1,7 +1,13 @@
 package com.ua.foxminded.task_13.services;
 
+import com.ua.foxminded.task_13.dao.impl.GroupDaoImplEntity;
+import com.ua.foxminded.task_13.dao.impl.LessonDaoImpl;
 import com.ua.foxminded.task_13.dao.impl.TimeSlotDaoImpl;
+import com.ua.foxminded.task_13.dto.TimeSlotDto;
+import com.ua.foxminded.task_13.dto.TimeSlotMapperDto;
 import com.ua.foxminded.task_13.exceptions.ServiceException;
+import com.ua.foxminded.task_13.model.Group;
+import com.ua.foxminded.task_13.model.Lesson;
 import com.ua.foxminded.task_13.model.TimeSlot;
 import com.ua.foxminded.task_13.validation.ValidatorEntity;
 import org.slf4j.Logger;
@@ -20,14 +26,46 @@ public class TimeSlotServices {
 
     @Autowired
     private TimeSlotDaoImpl timeSlotDao;
-
+    @Autowired
+    private LessonDaoImpl lessonDao;
+    @Autowired
+    private GroupDaoImplEntity groupDao;
     @Autowired
     private ValidatorEntity<TimeSlot> validator;
+
+
+    private final TimeSlotMapperDto mapper;
 
     private static final Logger logger = LoggerFactory.getLogger(TimeSlotServices.class);
 
     private static final String MISSING_ID = "Missing id time slot.";
     private static final String NOT_EXIST_ENTITY = "Doesn't exist such time slot";
+
+    @Autowired
+    public TimeSlotServices(TimeSlotMapperDto mapper) {
+        this.mapper = mapper;
+    }
+
+
+    public TimeSlotDto getDTO(Long id) {
+        return mapper.toDto(timeSlotDao.getById(id));
+    }
+
+    public TimeSlotDto createDTO(long id) {
+        TimeSlot timeSlot = timeSlotDao.getById(id);
+        Lesson lesson = lessonDao.getById(timeSlot.getLessonId());
+        Group group = groupDao.getById(timeSlot.getGroupId());
+
+        TimeSlotDto timeSlotDto = new TimeSlotDto();
+
+        timeSlotDto.setTimeSlotId(timeSlot.getTimeSlotId());
+        timeSlotDto.setStartLesson(timeSlot.getStartLesson());
+        timeSlotDto.setEndLesson(timeSlot.getEndLesson());
+        timeSlotDto.setLesson(lesson);
+        timeSlotDto.setGroup(group);
+
+        return timeSlotDto;
+    }
 
 
     public List<TimeSlot> getAll() {

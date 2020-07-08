@@ -13,17 +13,17 @@ public class Lesson {
     @Pattern(regexp = "^[a-zA-Z0-9]+$",
             message = "Lesson name must be alphanumeric with no spaces")
     private String name;
-    private Lector lector;
+    private long lector;
 
     public Lesson() {
     }
 
-    public Lesson(String name, Lector lector) {
+    public Lesson(String name, long lector) {
         this.name = name;
         this.lector = lector;
     }
 
-    public Lesson(long lessonId, String name, Lector lector) {
+    public Lesson(long lessonId, String name, long lector) {
         this.lessonId = lessonId;
         this.name = name;
         this.lector = lector;
@@ -45,11 +45,11 @@ public class Lesson {
         this.name = name;
     }
 
-    public Lector getLector() {
+    public long getLector() {
         return lector;
     }
 
-    public void setLector(Lector lector) {
+    public void setLector(long lector) {
         this.lector = lector;
     }
 

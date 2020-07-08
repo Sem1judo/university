@@ -18,12 +18,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="timeSlot : ${timeSlots}">
-        <td th:text="${timeSlot.timeSlotId}"/>
-        <td th:text="${timeSlot.startLesson}"/>
-        <td th:text="${timeSlot.endLesson}"/>
-        <td th:text="${timeSlot.lector}"/>
-        <td th:text="${timeSlot.group}"/>
+    <tr th:each="timeSlot : ${dto}">
+        <td th:text="${timeSlot.getTimeSlotId()}"/>
+        <td th:text="${#temporals.format(timeSlot.getStartLesson(), 'dd-MM-yyyy, HH:mm')}"/>
+        <td th:text="${#temporals.format(timeSlot.getEndLesson(), 'dd-MM-yyyy, HH:mm')}"/>
+        <td th:text="${timeSlot.getLesson().getName()} ?: 'default value'"/>
+        <td th:text="${timeSlot.getGroup().getName()}  ?: 'default value'"/>
+
     </tr>
     </tbody>
 </table>

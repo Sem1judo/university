@@ -14,8 +14,8 @@ public class TimeSlot {
     @NotNull
     @Future
     private LocalDateTime endLesson;
-    private Group group;
-    private Lector lector;
+    private long groupId;
+    private long lessonId;
 
     public TimeSlot() {
     }
@@ -25,12 +25,19 @@ public class TimeSlot {
         this.endLesson = endLesson;
     }
 
-    public TimeSlot(long timeSlotId, LocalDateTime startLesson, LocalDateTime endLesson, Group group, Lector lector) {
+    public TimeSlot(@NotNull @Future LocalDateTime startLesson, @NotNull @Future LocalDateTime endLesson, long groupId, long lessonId) {
+        this.startLesson = startLesson;
+        this.endLesson = endLesson;
+        this.groupId = groupId;
+        this.lessonId = lessonId;
+    }
+
+    public TimeSlot(long timeSlotId, @NotNull @Future LocalDateTime startLesson, @NotNull @Future LocalDateTime endLesson, long groupId, long lessonId) {
         this.timeSlotId = timeSlotId;
         this.startLesson = startLesson;
         this.endLesson = endLesson;
-        this.group = group;
-        this.lector = lector;
+        this.groupId = groupId;
+        this.lessonId = lessonId;
     }
 
     public long getTimeSlotId() {
@@ -57,20 +64,20 @@ public class TimeSlot {
         this.endLesson = endLesson;
     }
 
-    public Group getGroup() {
-        return group;
+    public long getGroupId() {
+        return groupId;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setGroupId(long groupId) {
+        this.groupId = groupId;
     }
 
-    public Lector getLector() {
-        return lector;
+    public long getLessonId() {
+        return lessonId;
     }
 
-    public void setLector(Lector lector) {
-        this.lector = lector;
+    public void setLessonId(long lessonId) {
+        this.lessonId = lessonId;
     }
 
     @Override
@@ -81,13 +88,13 @@ public class TimeSlot {
         return timeSlotId == timeSlot.timeSlotId &&
                 Objects.equals(startLesson, timeSlot.startLesson) &&
                 Objects.equals(endLesson, timeSlot.endLesson) &&
-                Objects.equals(group, timeSlot.group) &&
-                Objects.equals(lector, timeSlot.lector);
+                Objects.equals(groupId, timeSlot.groupId) &&
+                Objects.equals(lessonId, timeSlot.lessonId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(timeSlotId, startLesson, endLesson, group, lector);
+        return Objects.hash(timeSlotId, startLesson, endLesson, groupId, lessonId);
     }
 
     @Override
@@ -96,8 +103,8 @@ public class TimeSlot {
                 "TimeSlotId=" + timeSlotId +
                 ", startLesson=" + startLesson +
                 ", endLesson=" + endLesson +
-                ", group=" + group +
-                ", lector=" + lector +
+                ", group=" + groupId +
+                ", lesson=" + lessonId +
                 '}';
     }
 }
