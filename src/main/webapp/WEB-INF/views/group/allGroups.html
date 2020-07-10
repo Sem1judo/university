@@ -24,7 +24,8 @@
     <tr th:each="group : ${groups}">
         <td th:text="${group.groupId}"></td>
         <td th:text="${group.name}"></td>
-        <td th:text="${group.facultyId}"></td>
+        <td>
+            <a href="/group/info/" th:text="${group.faculty.getName()}"/></td>
     </tr>
     </tbody>
 </table>

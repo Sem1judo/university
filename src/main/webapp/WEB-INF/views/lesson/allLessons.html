@@ -22,7 +22,9 @@
     <tr th:each="lesson : ${lessons}">
         <td th:text="${lesson.lessonId}"></td>
         <td th:text="${lesson.name}"></td>
-        <td th:text="${lesson.lector}"></td>
+        <td>
+            <a href="/lesson/profile/" th:text="${lesson.getLector().getFirstName()}+ ' '+
+            ${lesson.getLector().getLastName()}"/></td>
     </tr>
     </tbody>
 </table>

@@ -13,18 +13,21 @@
         <th scope="col">ID</th>
         <th scope="col">Start lesson</th>
         <th scope="col">End lesson</th>
-        <th scope="col">Lectors</th>
-        <th scope="col">Groups</th>
+        <th scope="col">Lesson</th>
+        <th scope="col">Group</th>
+        <th scope="col" >Lector</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="timeSlot : ${dto}">
+    <tr th:each="timeSlot : ${dtos}">
         <td th:text="${timeSlot.getTimeSlotId()}"/>
         <td th:text="${#temporals.format(timeSlot.getStartLesson(), 'dd-MM-yyyy, HH:mm')}"/>
         <td th:text="${#temporals.format(timeSlot.getEndLesson(), 'dd-MM-yyyy, HH:mm')}"/>
-        <td th:text="${timeSlot.getLesson().getName()} ?: 'default value'"/>
+        <td th:text="${timeSlot.getLessonDto().getName()} ?: 'default value'"/>
         <td th:text="${timeSlot.getGroup().getName()}  ?: 'default value'"/>
-
+        <td>
+            <a href="/timeSlot/profile" th:text="${timeSlot.getLessonDto().getLector().getFirstName()}+ ' '+
+            ${timeSlot.getLessonDto().getLector().getLastName()}"/></td>
     </tr>
     </tbody>
 </table>

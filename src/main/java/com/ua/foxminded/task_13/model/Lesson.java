@@ -13,20 +13,20 @@ public class Lesson {
     @Pattern(regexp = "^[a-zA-Z0-9]+$",
             message = "Lesson name must be alphanumeric with no spaces")
     private String name;
-    private long lector;
+    private long lectorId;
 
     public Lesson() {
     }
 
-    public Lesson(String name, long lector) {
+    public Lesson(String name, long lectorId) {
         this.name = name;
-        this.lector = lector;
+        this.lectorId = lectorId;
     }
 
-    public Lesson(long lessonId, String name, long lector) {
+    public Lesson(long lessonId, String name, long lectorId) {
         this.lessonId = lessonId;
         this.name = name;
-        this.lector = lector;
+        this.lectorId = lectorId;
     }
 
     public long getLessonId() {
@@ -45,12 +45,12 @@ public class Lesson {
         this.name = name;
     }
 
-    public long getLector() {
-        return lector;
+    public long getLectorId() {
+        return lectorId;
     }
 
-    public void setLector(long lector) {
-        this.lector = lector;
+    public void setLectorId(long lectorId) {
+        this.lectorId = lectorId;
     }
 
     @Override
@@ -60,12 +60,12 @@ public class Lesson {
         Lesson lesson = (Lesson) o;
         return lessonId == lesson.lessonId &&
                 Objects.equals(name, lesson.name) &&
-                Objects.equals(lector, lesson.lector);
+                Objects.equals(lectorId, lesson.lectorId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(lessonId, name, lector);
+        return Objects.hash(lessonId, name, lectorId);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class Lesson {
         return "Lesson{" +
                 "lesson_id=" + lessonId +
                 ", name='" + name + '\'' +
-                ", lector=" + lector +
+                ", lector=" + lectorId +
                 '}';
     }
 }

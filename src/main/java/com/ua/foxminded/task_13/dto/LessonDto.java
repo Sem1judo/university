@@ -1,0 +1,75 @@
+package com.ua.foxminded.task_13.dto;
+
+
+import com.ua.foxminded.task_13.model.Lector;
+
+import java.util.Objects;
+
+public class LessonDto {
+    private long lessonId;
+    private String name;
+    private Lector lector;
+
+    public LessonDto() {
+    }
+
+    public LessonDto(String name, Lector lector) {
+        this.name = name;
+        this.lector = lector;
+    }
+
+    public LessonDto(long lessonId, String name, Lector lector) {
+        this.lessonId = lessonId;
+        this.name = name;
+        this.lector = lector;
+    }
+
+    public long getLessonId() {
+        return lessonId;
+    }
+
+    public void setLessonId(long lessonId) {
+        this.lessonId = lessonId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Lector getLector() {
+        return lector;
+    }
+
+    public void setLector(Lector lector) {
+        this.lector = lector;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LessonDto lessonDto = (LessonDto) o;
+        return lessonId == lessonDto.lessonId &&
+                Objects.equals(name, lessonDto.name) &&
+                Objects.equals(lector, lessonDto.lector);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(lessonId, name, lector);
+    }
+
+    @Override
+    public String toString() {
+        return "LessonDto{" +
+                "lesson_id=" + lessonId +
+                ", name='" + name + '\'' +
+                ", lector=" + lector +
+                '}';
+    }
+}
+

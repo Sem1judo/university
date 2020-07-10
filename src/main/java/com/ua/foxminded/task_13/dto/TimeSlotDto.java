@@ -1,8 +1,6 @@
 package com.ua.foxminded.task_13.dto;
 
 import com.ua.foxminded.task_13.model.Group;
-import com.ua.foxminded.task_13.model.Lesson;
-import com.ua.foxminded.task_13.model.TimeSlot;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -13,32 +11,32 @@ public class TimeSlotDto {
     private Long timeSlotId;
     private LocalDateTime startLesson;
     private LocalDateTime endLesson;
-    private Lesson lesson;
+    private LessonDto lessonDto;
     private Group group;
 
 
     public TimeSlotDto() {
     }
 
-    public TimeSlotDto(Lesson lesson, Group group) {
-        this.lesson = lesson;
+    public TimeSlotDto(LessonDto lessonDto, Group group) {
+        this.lessonDto = lessonDto;
         this.group = group;
     }
 
 
-    public TimeSlotDto(LocalDateTime startLesson, LocalDateTime endLesson, Lesson lesson, Group group) {
+    public TimeSlotDto(LocalDateTime startLesson, LocalDateTime endLesson, LessonDto lessonDto, Group group) {
         this.startLesson = startLesson;
         this.endLesson = endLesson;
-        this.lesson = lesson;
+        this.lessonDto = lessonDto;
         this.group = group;
     }
 
 
-    public TimeSlotDto(Long timeSlotId, LocalDateTime startLesson, LocalDateTime endLesson, Lesson lesson, Group group) {
+    public TimeSlotDto(Long timeSlotId, LocalDateTime startLesson, LocalDateTime endLesson, LessonDto lessonDto, Group group) {
         this.timeSlotId = timeSlotId;
         this.startLesson = startLesson;
         this.endLesson = endLesson;
-        this.lesson = lesson;
+        this.lessonDto = lessonDto;
         this.group = group;
     }
 
@@ -67,12 +65,12 @@ public class TimeSlotDto {
         this.endLesson = endLesson;
     }
 
-    public Lesson getLesson() {
-        return lesson;
+    public LessonDto getLessonDto() {
+        return lessonDto;
     }
 
-    public void setLesson(Lesson lesson) {
-        this.lesson = lesson;
+    public void setLessonDto(LessonDto lessonDto) {
+        this.lessonDto = lessonDto;
     }
 
     public Group getGroup() {
@@ -91,12 +89,12 @@ public class TimeSlotDto {
         return Objects.equals(timeSlotId, that.timeSlotId) &&
                 Objects.equals(startLesson, that.startLesson) &&
                 Objects.equals(endLesson, that.endLesson) &&
-                Objects.equals(lesson, that.lesson) &&
+                Objects.equals(lessonDto, that.lessonDto) &&
                 Objects.equals(group, that.group);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(timeSlotId, startLesson, endLesson, lesson, group);
+        return Objects.hash(timeSlotId, startLesson, endLesson, lessonDto, group);
     }
 }

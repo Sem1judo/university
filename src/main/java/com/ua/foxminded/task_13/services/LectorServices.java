@@ -1,8 +1,15 @@
 package com.ua.foxminded.task_13.services;
 
+import com.ua.foxminded.task_13.dao.impl.FacultyDaoImpl;
 import com.ua.foxminded.task_13.dao.impl.LectorDaoImplEntity;
+import com.ua.foxminded.task_13.dto.GroupDto;
+import com.ua.foxminded.task_13.dto.LectorDto;
+import com.ua.foxminded.task_13.dto.LessonDto;
 import com.ua.foxminded.task_13.exceptions.ServiceException;
+import com.ua.foxminded.task_13.model.Faculty;
+import com.ua.foxminded.task_13.model.Group;
 import com.ua.foxminded.task_13.model.Lector;
+import com.ua.foxminded.task_13.model.Lesson;
 import com.ua.foxminded.task_13.validation.ValidatorEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.ejb.NoSuchEntityException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,12 +29,53 @@ public class LectorServices {
     @Autowired
     private LectorDaoImplEntity lectorDao;
     @Autowired
+    private FacultyDaoImpl facultyDao;
+    @Autowired
     private ValidatorEntity<Lector> validator;
 
     private static final Logger logger = LoggerFactory.getLogger(LectorServices.class);
 
     private static final String MISSING_ID = "Missing id lector.";
     private static final String NOT_EXIST_ENTITY = "Doesn't exist such lector";
+
+
+    public LectorDto getDTO(Long id) {
+
+        Lector lector = lectorDao.getById(id);
+        Faculty faculty = facultyDao.getById(lector.getLectorId());
+
+        LectorDto lectorDto = new LectorDto();
+        lectorDto.setLectorId(lector.getLectorId());
+        lectorDto.setFaculty(faculty);
+        lectorDto.setFirstName(lector.getFirstName());
+        lectorDto.setLastName(lector.getLastName());
+
+        return lectorDto;
+    }
+
+    public List<LectorDto> getAllDTO() {
+        List<Lector> lectors = lectorDao.getAll();
+        List<LectorDto> lectorDtos = new ArrayList<>();
+
+        LectorDto lectorDto;
+        Faculty faculty;
+
+        for (Lector lector : lectors) {
+
+            lector = lectorDao.getById(lector.getLectorId());
+            faculty = facultyDao.getById(lector.getLectorId());
+
+            lectorDto = new LectorDto();
+            lectorDto.setLectorId(lector.getLectorId());
+            lectorDto.setFaculty(faculty);
+            lectorDto.setFirstName(lector.getFirstName());
+            lectorDto.setLastName(lector.getLastName());
+
+            lectorDtos.add(lectorDto);
+        }
+
+        return lectorDtos;
+    }
 
     public List<Lector> getAll() {
         logger.debug("Trying to get all lectors");

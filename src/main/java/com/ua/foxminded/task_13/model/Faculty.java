@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class Faculty {
-
-
     private long facultyId;
     @NotBlank
     @Size(min=3, max=50,

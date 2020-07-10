@@ -1,12 +1,14 @@
 package com.ua.foxminded.task_13.services;
 
 import com.ua.foxminded.task_13.dao.impl.GroupDaoImplEntity;
+import com.ua.foxminded.task_13.dao.impl.LectorDaoImplEntity;
 import com.ua.foxminded.task_13.dao.impl.LessonDaoImpl;
 import com.ua.foxminded.task_13.dao.impl.TimeSlotDaoImpl;
+import com.ua.foxminded.task_13.dto.LessonDto;
 import com.ua.foxminded.task_13.dto.TimeSlotDto;
-import com.ua.foxminded.task_13.dto.TimeSlotMapperDto;
 import com.ua.foxminded.task_13.exceptions.ServiceException;
 import com.ua.foxminded.task_13.model.Group;
+import com.ua.foxminded.task_13.model.Lector;
 import com.ua.foxminded.task_13.model.Lesson;
 import com.ua.foxminded.task_13.model.TimeSlot;
 import com.ua.foxminded.task_13.validation.ValidatorEntity;
@@ -18,7 +20,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.ejb.NoSuchEntityException;
+import java.util.ArrayList;
 import java.util.List;
+
 
 
 @Service
@@ -31,42 +35,76 @@ public class TimeSlotServices {
     @Autowired
     private GroupDaoImplEntity groupDao;
     @Autowired
+    private LectorDaoImplEntity lectorDao;
+    @Autowired
     private ValidatorEntity<TimeSlot> validator;
 
-
-    private final TimeSlotMapperDto mapper;
 
     private static final Logger logger = LoggerFactory.getLogger(TimeSlotServices.class);
 
     private static final String MISSING_ID = "Missing id time slot.";
     private static final String NOT_EXIST_ENTITY = "Doesn't exist such time slot";
 
-    @Autowired
-    public TimeSlotServices(TimeSlotMapperDto mapper) {
-        this.mapper = mapper;
-    }
-
 
     public TimeSlotDto getDTO(Long id) {
-        return mapper.toDto(timeSlotDao.getById(id));
-    }
 
-    public TimeSlotDto createDTO(long id) {
         TimeSlot timeSlot = timeSlotDao.getById(id);
-        Lesson lesson = lessonDao.getById(timeSlot.getLessonId());
+
         Group group = groupDao.getById(timeSlot.getGroupId());
+        Lesson lesson = lessonDao.getById(timeSlot.getLessonId());
+        Lector lector = lectorDao.getById(lesson.getLectorId());
+
+        LessonDto lessonDto = new LessonDto();
+        lessonDto.setLessonId(lesson.getLessonId());
+        lessonDto.setName(lesson.getName());
+        lessonDto.setLector(lector);
 
         TimeSlotDto timeSlotDto = new TimeSlotDto();
 
         timeSlotDto.setTimeSlotId(timeSlot.getTimeSlotId());
         timeSlotDto.setStartLesson(timeSlot.getStartLesson());
         timeSlotDto.setEndLesson(timeSlot.getEndLesson());
-        timeSlotDto.setLesson(lesson);
+        timeSlotDto.setLessonDto(lessonDto);
         timeSlotDto.setGroup(group);
-
         return timeSlotDto;
     }
 
+    public List<TimeSlotDto> getAllDTO() {
+
+        List<TimeSlot> timeSlots = timeSlotDao.getAll();
+        List<TimeSlotDto> timeSlotDtos = new ArrayList<>();
+
+        TimeSlotDto timeSlotDto;
+
+        Group group;
+        Lesson lesson;
+        Lector lector;
+
+        LessonDto lessonDto;
+
+        for (TimeSlot timeSlot : timeSlots) {
+
+            group = groupDao.getById(timeSlot.getGroupId());
+            lesson = lessonDao.getById(timeSlot.getLessonId());
+            lector = lectorDao.getById(lesson.getLectorId());
+
+            lessonDto = new LessonDto();
+            lessonDto.setLessonId(lesson.getLessonId());
+            lessonDto.setName(lesson.getName());
+            lessonDto.setLector(lector);
+
+            timeSlotDto = new TimeSlotDto();
+            timeSlotDto.setTimeSlotId(timeSlot.getTimeSlotId());
+            timeSlotDto.setStartLesson(timeSlot.getStartLesson());
+            timeSlotDto.setEndLesson(timeSlot.getEndLesson());
+            timeSlotDto.setLessonDto(lessonDto);
+            timeSlotDto.setGroup(group);
+
+            timeSlotDtos.add(timeSlotDto);
+        }
+
+        return timeSlotDtos;
+    }
 
     public List<TimeSlot> getAll() {
         logger.debug("Trying to get all time slots");

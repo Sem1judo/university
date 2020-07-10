@@ -1,9 +1,15 @@
 package com.ua.foxminded.task_13.services;
 
 
+import com.ua.foxminded.task_13.dao.impl.LectorDaoImplEntity;
 import com.ua.foxminded.task_13.dao.impl.LessonDaoImpl;
+import com.ua.foxminded.task_13.dto.LessonDto;
+import com.ua.foxminded.task_13.dto.TimeSlotDto;
 import com.ua.foxminded.task_13.exceptions.ServiceException;
+import com.ua.foxminded.task_13.model.Group;
+import com.ua.foxminded.task_13.model.Lector;
 import com.ua.foxminded.task_13.model.Lesson;
+import com.ua.foxminded.task_13.model.TimeSlot;
 import com.ua.foxminded.task_13.validation.ValidatorEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +19,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.ejb.NoSuchEntityException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,12 +29,50 @@ public class LessonServices {
     @Autowired
     private LessonDaoImpl lessonDao;
     @Autowired
+    private LectorDaoImplEntity lectorDao;
+    @Autowired
     private ValidatorEntity<Lesson> validator;
 
     private static final Logger logger = LoggerFactory.getLogger(LessonServices.class);
 
     private static final String MISSING_ID = "Missing id lesson.";
     private static final String NOT_EXIST_ENTITY = "Doesn't exist such lesson";
+
+
+    public LessonDto getDTO(Long id) {
+
+        Lesson lesson = lessonDao.getById(id);
+        Lector lector = lectorDao.getById(lesson.getLectorId());
+
+        LessonDto lessonDto = new LessonDto();
+        lessonDto.setLessonId(lesson.getLessonId());
+        lessonDto.setName(lesson.getName());
+        lessonDto.setLector(lector);
+
+        return lessonDto;
+    }
+
+    public List<LessonDto> getAllDTO() {
+        List<Lesson> lessons = lessonDao.getAll();
+        List<LessonDto> lessonDtos = new ArrayList<>();
+
+        Lector lector;
+        LessonDto lessonDto;
+
+        for (Lesson lesson : lessons) {
+
+            lector = lectorDao.getById(lesson.getLectorId());
+
+            lessonDto = new LessonDto();
+            lessonDto.setLessonId(lesson.getLessonId());
+            lessonDto.setName(lesson.getName());
+            lessonDto.setLector(lector);
+
+            lessonDtos.add(lessonDto);
+        }
+
+        return lessonDtos;
+    }
 
     public List<Lesson> getAll() {
         logger.debug("Trying to get all lessons");

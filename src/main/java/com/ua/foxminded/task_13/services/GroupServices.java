@@ -2,9 +2,12 @@ package com.ua.foxminded.task_13.services;
 
 import com.ua.foxminded.task_13.dao.impl.FacultyDaoImpl;
 import com.ua.foxminded.task_13.dao.impl.GroupDaoImplEntity;
+import com.ua.foxminded.task_13.dto.GroupDto;
+import com.ua.foxminded.task_13.dto.LectorDto;
 import com.ua.foxminded.task_13.exceptions.ServiceException;
 import com.ua.foxminded.task_13.model.Faculty;
 import com.ua.foxminded.task_13.model.Group;
+import com.ua.foxminded.task_13.model.Lector;
 import com.ua.foxminded.task_13.validation.ValidatorEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +17,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.ejb.NoSuchEntityException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,7 +26,6 @@ public class GroupServices {
     private GroupDaoImplEntity groupDao;
     @Autowired
     private FacultyDaoImpl facultyDao;
-
     @Autowired
     private ValidatorEntity<Group> validator;
 
@@ -31,6 +34,42 @@ public class GroupServices {
     private static final String MISSING_ID = "Missing id group.";
     private static final String NOT_EXIST_ENTITY = "Doesn't exist such group";
 
+
+    public GroupDto getDTO(Long id) {
+
+        Group group = groupDao.getById(id);
+        Faculty faculty = facultyDao.getById(group.getGroupId());
+
+        GroupDto groupDto = new GroupDto();
+        groupDto.setGroupId(group.getGroupId());
+        groupDto.setFaculty(faculty);
+        groupDto.setName(group.getName());
+
+        return groupDto;
+    }
+
+    public List<GroupDto> getAllDTO() {
+        List<Group> groups = groupDao.getAll();
+        List<GroupDto> groupDtos = new ArrayList<>();
+
+        GroupDto groupDto;
+        Faculty faculty;
+
+        for (Group group : groups) {
+
+            group = groupDao.getById(group.getGroupId());
+            faculty = facultyDao.getById(group.getGroupId());
+
+            groupDto = new GroupDto();
+            groupDto.setGroupId(group.getGroupId());
+            groupDto.setFaculty(faculty);
+            groupDto.setName(group.getName());
+
+            groupDtos.add(groupDto);
+        }
+
+        return groupDtos;
+    }
 
     public List<Group> getAll() {
         logger.debug("Trying to get all groups");
