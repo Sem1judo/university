@@ -4,12 +4,9 @@ package com.ua.foxminded.task_13.services;
 import com.ua.foxminded.task_13.dao.impl.LectorDaoImplEntity;
 import com.ua.foxminded.task_13.dao.impl.LessonDaoImpl;
 import com.ua.foxminded.task_13.dto.LessonDto;
-import com.ua.foxminded.task_13.dto.TimeSlotDto;
 import com.ua.foxminded.task_13.exceptions.ServiceException;
-import com.ua.foxminded.task_13.model.Group;
 import com.ua.foxminded.task_13.model.Lector;
 import com.ua.foxminded.task_13.model.Lesson;
-import com.ua.foxminded.task_13.model.TimeSlot;
 import com.ua.foxminded.task_13.validation.ValidatorEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +36,7 @@ public class LessonServices {
     private static final String NOT_EXIST_ENTITY = "Doesn't exist such lesson";
 
 
-    public LessonDto getDTO(Long id) {
+    private LessonDto getDtoById(Long id) {
 
         Lesson lesson = lessonDao.getById(id);
         Lector lector = lectorDao.getById(lesson.getLectorId());
@@ -52,7 +49,7 @@ public class LessonServices {
         return lessonDto;
     }
 
-    public List<LessonDto> getAllDTO() {
+    private List<LessonDto> getAllDto() {
         List<Lesson> lessons = lessonDao.getAll();
         List<LessonDto> lessonDtos = new ArrayList<>();
 
@@ -74,7 +71,60 @@ public class LessonServices {
         return lessonDtos;
     }
 
-    public List<Lesson> getAll() {
+    public LessonDto getById(long id) {
+        logger.debug("Trying to get lesson with id={}", id);
+
+        if (id == 0) {
+            logger.warn(MISSING_ID);
+            throw new ServiceException(MISSING_ID);
+        }
+        LessonDto lesson;
+        try {
+            lesson = getDtoById(id);
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Not existing lesson with id={}", id);
+            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
+        } catch (DataAccessException e) {
+            logger.error("failed to retrieve lesson with id={}", id, e);
+            throw new ServiceException("Failed to retrieve lesson by id", e);
+        }
+        return lesson;
+    }
+    public List<LessonDto> getAll() {
+        logger.debug("Trying to get all lessons");
+
+        try {
+            return getAllDto();
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Lessons is not exist");
+            throw new NoSuchEntityException("Doesn't exist such lessons");
+        } catch (DataAccessException e) {
+            logger.error("Failed to get all lessons", e);
+            throw new ServiceException("Failed to get list of lessons", e);
+        }
+    }
+
+    public Lesson getByIdLight(long id) {
+        logger.debug("Trying to get lesson with id={}", id);
+
+        if (id == 0) {
+            logger.warn(MISSING_ID);
+            throw new ServiceException(MISSING_ID);
+        }
+        Lesson lesson;
+        try {
+            lesson = lessonDao.getById(id);
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Not existing lesson with id={}", id);
+            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
+        } catch (DataAccessException e) {
+            logger.error("failed to retrieve lesson with id={}", id, e);
+            throw new ServiceException("Failed to retrieve lesson by id", e);
+        }
+        return lesson;
+    }
+
+    public List<Lesson> getAllLight() {
         logger.debug("Trying to get all lessons");
 
         try {
@@ -118,27 +168,6 @@ public class LessonServices {
             logger.error("Failed to delete lesson with id={}", id, e);
             throw new ServiceException("Failed to delete lesson by id", e);
         }
-    }
-
-
-    public Lesson getById(long id) {
-        logger.debug("Trying to get lesson with id={}", id);
-
-        if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
-        }
-        Lesson lesson;
-        try {
-            lesson = lessonDao.getById(id);
-        } catch (EmptyResultDataAccessException e) {
-            logger.warn("Not existing lesson with id={}", id);
-            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
-        } catch (DataAccessException e) {
-            logger.error("failed to retrieve lesson with id={}", id, e);
-            throw new ServiceException("Failed to retrieve lesson by id", e);
-        }
-        return lesson;
     }
 
     public boolean update(Lesson lesson) {

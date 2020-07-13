@@ -49,7 +49,7 @@ class LessonServicesTest {
 
         when(lessonDao.getAll()).thenReturn(initialLessons);
 
-        List<Lesson> lessons = lessonServices.getAll();
+        List<Lesson> lessons = lessonServices.getAllLight();
 
         assertEquals(3, lessons.size());
         verify(lessonDao, times(1)).getAll();
@@ -59,7 +59,7 @@ class LessonServicesTest {
     public void shouldGetByIdLesson() {
         when(lessonDao.getById(1L)).thenReturn(new Lesson(1, "technology", 1));
 
-        Lesson lesson = lessonServices.getById(1L);
+        Lesson lesson = lessonServices.getByIdLight(1L);
 
         assertEquals("technology", lesson.getName());
         assertEquals(1, lesson.getLessonId());

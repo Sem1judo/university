@@ -3,11 +3,9 @@ package com.ua.foxminded.task_13.services;
 import com.ua.foxminded.task_13.dao.impl.FacultyDaoImpl;
 import com.ua.foxminded.task_13.dao.impl.GroupDaoImplEntity;
 import com.ua.foxminded.task_13.dto.GroupDto;
-import com.ua.foxminded.task_13.dto.LectorDto;
 import com.ua.foxminded.task_13.exceptions.ServiceException;
 import com.ua.foxminded.task_13.model.Faculty;
 import com.ua.foxminded.task_13.model.Group;
-import com.ua.foxminded.task_13.model.Lector;
 import com.ua.foxminded.task_13.validation.ValidatorEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +33,7 @@ public class GroupServices {
     private static final String NOT_EXIST_ENTITY = "Doesn't exist such group";
 
 
-    public GroupDto getDTO(Long id) {
+    private GroupDto getDtoById(Long id) {
 
         Group group = groupDao.getById(id);
         Faculty faculty = facultyDao.getById(group.getGroupId());
@@ -48,7 +46,7 @@ public class GroupServices {
         return groupDto;
     }
 
-    public List<GroupDto> getAllDTO() {
+    private List<GroupDto> getAllDto() {
         List<Group> groups = groupDao.getAll();
         List<GroupDto> groupDtos = new ArrayList<>();
 
@@ -70,8 +68,59 @@ public class GroupServices {
 
         return groupDtos;
     }
+    public List<GroupDto> getAll() {
+        logger.debug("Trying to get all groups");
 
-    public List<Group> getAll() {
+        try {
+            return getAllDto();
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Groups is not exist");
+            throw new NoSuchEntityException("Doesn't exist such groups");
+        } catch (DataAccessException e) {
+            logger.error("Failed to get all groups", e);
+            throw new ServiceException("Failed to get list of groups", e);
+        }
+    }
+    public GroupDto getById(long id) {
+        logger.debug("Trying to get group with id={}", id);
+
+        if (id == 0) {
+            logger.warn(MISSING_ID);
+            throw new ServiceException(MISSING_ID);
+        }
+        GroupDto group;
+        try {
+            group = getDtoById(id);
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Not existing group with id={}", id);
+            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
+        } catch (DataAccessException e) {
+            logger.error("Failed to retrieve group with id={}", id, e);
+            throw new ServiceException("Failed to retrieve group by id", e);
+        }
+        return group;
+    }
+    public Group getByIdLight(long id) {
+        logger.debug("Trying to get group with id={}", id);
+
+        if (id == 0) {
+            logger.warn(MISSING_ID);
+            throw new ServiceException(MISSING_ID);
+        }
+        Group group;
+        try {
+            group = groupDao.getById(id);
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Not existing group with id={}", id);
+            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
+        } catch (DataAccessException e) {
+            logger.error("Failed to retrieve group with id={}", id, e);
+            throw new ServiceException("Failed to retrieve group by id", e);
+        }
+        return group;
+    }
+
+    public List<Group> getAllLight() {
         logger.debug("Trying to get all groups");
 
         try {
@@ -114,25 +163,7 @@ public class GroupServices {
         }
     }
 
-    public Group getById(long id) {
-        logger.debug("Trying to get group with id={}", id);
 
-        if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
-        }
-        Group group;
-        try {
-            group = groupDao.getById(id);
-        } catch (EmptyResultDataAccessException e) {
-            logger.warn("Not existing group with id={}", id);
-            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
-        } catch (DataAccessException e) {
-            logger.error("Failed to retrieve group with id={}", id, e);
-            throw new ServiceException("Failed to retrieve group by id", e);
-        }
-        return group;
-    }
 
     public boolean update(Group group) {
         logger.debug("Trying to update group: {}", group);

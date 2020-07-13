@@ -13,10 +13,11 @@
 <div class="container-fluid well span6">
     <div class="row-fluid">
 
-        <div class="span8" th:object="${dto}">
-            <h3>Java lector</h3>
-            <h4 th:text="${dto.getLessonDto().getLector().getFirstName()}"/>
-            <h4 th:text="${dto.getLessonDto().getLector().getLastName()}"/>
+        <div class="span8" th:object="${timeSlot}">
+            <h3 th:text="${timeSlot.getLessonDto().getName()}"/>
+
+            <h4 th:text="${timeSlot.getLessonDto().getLector().getFirstName()}"/>
+            <h4 th:text="${timeSlot.getLessonDto().getLector().getLastName()}"/>
             <h5>Old experienced: 1 Year</h5>
             <h5><a href="https://www.java.com/ru/">More... </a></h5>
         </div>

@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 @Service
 public class TimeSlotServices {
 
@@ -46,7 +45,7 @@ public class TimeSlotServices {
     private static final String NOT_EXIST_ENTITY = "Doesn't exist such time slot";
 
 
-    public TimeSlotDto getDTO(Long id) {
+    private TimeSlotDto getDtoById(Long id) {
 
         TimeSlot timeSlot = timeSlotDao.getById(id);
 
@@ -69,7 +68,7 @@ public class TimeSlotServices {
         return timeSlotDto;
     }
 
-    public List<TimeSlotDto> getAllDTO() {
+    private List<TimeSlotDto> getAllDto() {
 
         List<TimeSlot> timeSlots = timeSlotDao.getAll();
         List<TimeSlotDto> timeSlotDtos = new ArrayList<>();
@@ -106,7 +105,60 @@ public class TimeSlotServices {
         return timeSlotDtos;
     }
 
-    public List<TimeSlot> getAll() {
+    public List<TimeSlotDto> getAll() {
+        logger.debug("Trying to get all time slots");
+        try {
+            return getAllDto();
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Time slots is not exist");
+            throw new NoSuchEntityException("Doesn't exist such time slots");
+        } catch (DataAccessException e) {
+            logger.error("Failed to get all time slots", e);
+            throw new ServiceException("Failed to get list of time slots", e);
+        }
+    }
+
+    public TimeSlotDto getById(long id) {
+        logger.debug("Trying to get time slot with id={}", id);
+
+        if (id == 0) {
+            logger.warn(MISSING_ID);
+            throw new ServiceException(MISSING_ID);
+        }
+        TimeSlotDto timeSlot;
+        try {
+            timeSlot = getDtoById(id);
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Not existing time slot with id={}", id);
+            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
+        } catch (DataAccessException e) {
+            logger.error("Failed to retrieve time slot with id={}", id, e);
+            throw new ServiceException("Failed to retrieve time slot by id", e);
+        }
+        return timeSlot;
+    }
+
+    public TimeSlot getByIdLight(long id) {
+        logger.debug("Trying to get time slot with id={}", id);
+
+        if (id == 0) {
+            logger.warn(MISSING_ID);
+            throw new ServiceException(MISSING_ID);
+        }
+        TimeSlot timeSlot;
+        try {
+            timeSlot = timeSlotDao.getById(id);
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Not existing time slot with id={}", id);
+            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
+        } catch (DataAccessException e) {
+            logger.error("Failed to retrieve time slot with id={}", id, e);
+            throw new ServiceException("Failed to retrieve time slot by id", e);
+        }
+        return timeSlot;
+    }
+
+    public List<TimeSlot> getAllLight() {
         logger.debug("Trying to get all time slots");
         try {
             return timeSlotDao.getAll();
@@ -147,26 +199,6 @@ public class TimeSlotServices {
             logger.error("Failed to delete lesson with id={}", id, e);
             throw new ServiceException("Failed to delete time slot by id", e);
         }
-    }
-
-    public TimeSlot getById(long id) {
-        logger.debug("Trying to get time slot with id={}", id);
-
-        if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
-        }
-        TimeSlot timeSlot;
-        try {
-            timeSlot = timeSlotDao.getById(id);
-        } catch (EmptyResultDataAccessException e) {
-            logger.warn("Not existing time slot with id={}", id);
-            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
-        } catch (DataAccessException e) {
-            logger.error("Failed to retrieve time slot with id={}", id, e);
-            throw new ServiceException("Failed to retrieve time slot by id", e);
-        }
-        return timeSlot;
     }
 
     public boolean update(TimeSlot timeSlot) {

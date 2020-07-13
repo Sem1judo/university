@@ -6,10 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/timeSlot")
 public class TimeSlotController {
 
     private final TimeSlotServices timeSlotServices;
@@ -21,19 +19,24 @@ public class TimeSlotController {
     }
 
     @GetMapping("/timeSlots")
-    public String allTimeSlots(Model model) {
+    public String getAllTimeSlots(Model model) {
 
-        model.addAttribute("dtos", timeSlotServices.getAllDTO());
+        model.addAttribute("timeslots", timeSlotServices.getAll());
         return "timeSlot/allTimeSlots";
     }
 
-    @GetMapping("/profile/{timeSlotId}")
-    public String getTimeSlot(@PathVariable("timeSlotId") Long id, Model model) {
+    @GetMapping("/timeSlotProfileLesson/{timeSlotId}")
+    public String getLesson(@PathVariable("timeSlotId") Long id, Model model) {
 
-        model.addAttribute("dto", timeSlotServices.getDTO(id));
-        return "lector/profileForTimeSlot";
+        model.addAttribute("timeSlot", timeSlotServices.getById(id));
+        return "/timeSlot/timeSlotProfileLesson";
     }
 
+    @GetMapping("/timeSlotProfileLector/{timeSlotId}")
+    public String getLector(@PathVariable("timeSlotId") Long id, Model model) {
+        model.addAttribute("timeSlot", timeSlotServices.getById(id));
+        return "/timeSlot/timeSlotProfileLector";
+    }
 
 }
 

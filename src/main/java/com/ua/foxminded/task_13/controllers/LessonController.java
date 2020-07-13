@@ -6,30 +6,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/lesson")
-public class LessonContoller {
+public class LessonController {
 
     private final LessonServices lessonServices;
 
     @Autowired
-    public LessonContoller(LessonServices lessonServices) {
+    public LessonController(LessonServices lessonServices) {
         this.lessonServices = lessonServices;
     }
 
     @GetMapping("/lessons")
-    public String allLessons(Model model) {
-        model.addAttribute("lessons", lessonServices.getAllDTO());
+    public String getAllLessons(Model model) {
+        model.addAttribute("lessons", lessonServices.getAll());
         return "lesson/allLessons";
     }
 
-    @GetMapping("/profile/{lessonId}")
+    @GetMapping("/lessonProfileLector/{lessonId}")
     public String getTimeSlot(@PathVariable("lessonId") Long id, Model model) {
 
-        model.addAttribute("dto", lessonServices.getDTO(id));
-        return "lector/profileForLesson";
+        model.addAttribute("lesson", lessonServices.getById(id));
+        return "lesson/lessonProfileLector";
     }
+
 
 }

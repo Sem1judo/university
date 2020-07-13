@@ -58,7 +58,7 @@ class TimeSlotServicesTest {
 
         when(timeSlotDao.getAll()).thenReturn(initialTimeSlots);
 
-        List<TimeSlot> timeSlots = timeSlotServices.getAll();
+        List<TimeSlot> timeSlots = timeSlotServices.getAllLight();
 
         assertEquals(3, timeSlots.size());
         verify(timeSlotDao, times(1)).getAll();
@@ -68,7 +68,7 @@ class TimeSlotServicesTest {
     public void shouldGetByIdTimeSlot() {
         when(timeSlotDao.getById(1L)).thenReturn(new TimeSlot(1, start, end, 1, 1));
 
-        TimeSlot timeSlot = timeSlotServices.getById(1L);
+        TimeSlot timeSlot = timeSlotServices.getByIdLight(1L);
 
         assertEquals(start.toString(), timeSlot.getStartLesson().toString());
         assertEquals(end.toString(), timeSlot.getEndLesson().toString());

@@ -11,11 +11,7 @@ public class LectorDto {
     private String firstName;
     private String lastName;
 
-    public LectorDto(long lectorId, Faculty faculty, String firstName, String lastName) {
-        this.lectorId = lectorId;
-        this.faculty = faculty;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public LectorDto() {
     }
 
     public LectorDto(String firstName, String lastName) {
@@ -23,8 +19,13 @@ public class LectorDto {
         this.lastName = lastName;
     }
 
-    public LectorDto() {
+    public LectorDto(long lectorId, Faculty faculty, String firstName, String lastName) {
+        this.lectorId = lectorId;
+        this.faculty = faculty;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
+
 
     public long getLectorId() {
         return lectorId;

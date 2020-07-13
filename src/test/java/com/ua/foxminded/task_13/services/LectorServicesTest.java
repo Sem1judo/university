@@ -47,7 +47,7 @@ class LectorServicesTest {
 
         when(lectorDao.getAll()).thenReturn(initialLectors);
 
-        List<Lector> lectors = lectorServices.getAll();
+        List<Lector> lectors = lectorServices.getAllLight();
 
         assertEquals(3, lectors.size());
         verify(lectorDao, times(1)).getAll();
@@ -57,7 +57,7 @@ class LectorServicesTest {
     public void shouldGetByIdLector() {
         when(lectorDao.getById(1L)).thenReturn(new Lector(1L, 1L, "Andrey", "Borisov"));
 
-        Lector lector = lectorServices.getById(1L);
+        Lector lector = lectorServices.getByIdLight(1L);
 
         assertEquals("Andrey", lector.getFirstName());
         assertEquals("Borisov", lector.getLastName());

@@ -6,10 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/lector")
 public class LectorController {
 
     private final LectorServices lectorServices;
@@ -20,16 +18,16 @@ public class LectorController {
     }
 
     @GetMapping("/lectors")
-    public String allLectors(Model model) {
-        model.addAttribute("lectors", lectorServices.getAllDTO());
+    public String getaAllLectors(Model model) {
+        model.addAttribute("lectors", lectorServices.getAll()   );
 
         return "lector/allLectors";
     }
 
-    @GetMapping("/info/{lectorId}")
+    @GetMapping("/lectorInfo/{lectorId}")
     public String getTimeSlot(@PathVariable("lectorId") Long id, Model model) {
 
-        model.addAttribute("dto", lectorServices.getDTO(id));
-        return "/faculty/info";
+        model.addAttribute("lectorFaculty", lectorServices.getById(id));
+        return "lector/lectorInfo";
     }
 }

@@ -2,14 +2,10 @@ package com.ua.foxminded.task_13.services;
 
 import com.ua.foxminded.task_13.dao.impl.FacultyDaoImpl;
 import com.ua.foxminded.task_13.dao.impl.LectorDaoImplEntity;
-import com.ua.foxminded.task_13.dto.GroupDto;
 import com.ua.foxminded.task_13.dto.LectorDto;
-import com.ua.foxminded.task_13.dto.LessonDto;
 import com.ua.foxminded.task_13.exceptions.ServiceException;
 import com.ua.foxminded.task_13.model.Faculty;
-import com.ua.foxminded.task_13.model.Group;
 import com.ua.foxminded.task_13.model.Lector;
-import com.ua.foxminded.task_13.model.Lesson;
 import com.ua.foxminded.task_13.validation.ValidatorEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +35,7 @@ public class LectorServices {
     private static final String NOT_EXIST_ENTITY = "Doesn't exist such lector";
 
 
-    public LectorDto getDTO(Long id) {
+    private LectorDto getDtoById(Long id) {
 
         Lector lector = lectorDao.getById(id);
         Faculty faculty = facultyDao.getById(lector.getLectorId());
@@ -53,7 +49,7 @@ public class LectorServices {
         return lectorDto;
     }
 
-    public List<LectorDto> getAllDTO() {
+    private List<LectorDto> getAllDto() {
         List<Lector> lectors = lectorDao.getAll();
         List<LectorDto> lectorDtos = new ArrayList<>();
 
@@ -76,8 +72,60 @@ public class LectorServices {
 
         return lectorDtos;
     }
+    public List<LectorDto> getAll() {
+        logger.debug("Trying to get all lectors");
+        try {
+            return getAllDto();
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Lectors is not exist");
+            throw new NoSuchEntityException("Doesn't exist such lectors");
+        } catch (DataAccessException e) {
+            logger.error("Failed to get all lectors", e);
+            throw new ServiceException("Failed to get list of lector", e);
+        }
+    }
+    public LectorDto getById(long id) {
+        logger.debug("Trying to get lector with id={}", id);
 
-    public List<Lector> getAll() {
+        if (id == 0) {
+            logger.warn(MISSING_ID);
+            throw new ServiceException(MISSING_ID);
+        }
+
+        LectorDto lector;
+        try {
+            lector = getDtoById(id);
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Not existing lector with id={}", id);
+            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
+        } catch (DataAccessException e) {
+            logger.error("failed to retrieve lector with id={}", id, e);
+            throw new ServiceException("Failed to retrieve lector by such id: ", e);
+        }
+        return lector;
+    }
+    public Lector getByIdLight(long id) {
+        logger.debug("Trying to get lector with id={}", id);
+
+        if (id == 0) {
+            logger.warn(MISSING_ID);
+            throw new ServiceException(MISSING_ID);
+        }
+
+        Lector lector;
+        try {
+            lector = lectorDao.getById(id);
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Not existing lector with id={}", id);
+            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
+        } catch (DataAccessException e) {
+            logger.error("failed to retrieve lector with id={}", id, e);
+            throw new ServiceException("Failed to retrieve lector by such id: ", e);
+        }
+        return lector;
+    }
+
+    public List<Lector> getAllLight() {
         logger.debug("Trying to get all lectors");
         try {
             return lectorDao.getAll();
@@ -120,27 +168,6 @@ public class LectorServices {
             logger.error("failed to delete lector with id={}", id, e);
             throw new ServiceException("Failed to delete lector by such id", e);
         }
-    }
-
-    public Lector getById(long id) {
-        logger.debug("Trying to get lector with id={}", id);
-
-        if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
-        }
-
-        Lector lector;
-        try {
-            lector = lectorDao.getById(id);
-        } catch (EmptyResultDataAccessException e) {
-            logger.warn("Not existing lector with id={}", id);
-            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
-        } catch (DataAccessException e) {
-            logger.error("failed to retrieve lector with id={}", id, e);
-            throw new ServiceException("Failed to retrieve lector by such id: ", e);
-        }
-        return lector;
     }
 
     public boolean update(Lector lector) {

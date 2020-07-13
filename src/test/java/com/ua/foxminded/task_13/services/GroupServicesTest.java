@@ -48,7 +48,7 @@ class GroupServicesTest {
 
         when(groupDao.getAll()).thenReturn(initialGroups);
 
-        List<Group> groups = groupServices.getAll();
+        List<Group> groups = groupServices.getAllLight();
 
         assertEquals(3, groups.size());
         verify(groupDao, times(1)).getAll();
@@ -58,7 +58,7 @@ class GroupServicesTest {
     public void shouldGetByIdGroup() {
         when(groupDao.getById(1L)).thenReturn(new Group(1, 1, "Fb-12"));
 
-        Group group = groupServices.getById(1L);
+        Group group = groupServices.getByIdLight(1L);
 
         assertEquals("Fb-12", group.getName());
         assertEquals(1, group.getGroupId());
