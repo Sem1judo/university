@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -33,10 +34,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {TestContext.class, AppConfig.class})
+@ContextConfiguration(classes = {TestContext.class, WebApplicationContext.class})
 @WebAppConfiguration
 class GroupControllerTest {
-
 
     private MockMvc mockMvc;
 
@@ -44,12 +44,12 @@ class GroupControllerTest {
     private GroupServices groupServices;
 
     @Autowired
-    private AppConfig appConfig;
+    private WebApplicationContext webApplicationContext;
 
     @BeforeEach
     void init() {
         Mockito.reset(groupServices);
-        mockMvc = MockMvcBuilders.webAppContextSetup((WebApplicationContext) appConfig).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
     }
 
