@@ -26,12 +26,10 @@ import java.util.Properties;
 public class WebAppContext implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
-
     @Autowired
     public WebAppContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
-
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -41,27 +39,6 @@ public class WebAppContext implements WebMvcConfigurer {
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
-    }
-
-    @Bean
-    public SimpleMappingExceptionResolver exceptionResolver() {
-        SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
-        Properties exceptionMappings = new Properties();
-
-        exceptionMappings.put("com.ua.foxminded.task_13", "error/404");
-        exceptionMappings.put("java.lang.Exception", "error/error");
-        exceptionMappings.put("java.lang.RuntimeException", "error/error");
-
-        exceptionResolver.setExceptionMappings(exceptionMappings);
-
-        Properties statusCodes = new Properties();
-
-        statusCodes.put("error/404", "404");
-        statusCodes.put("error/error", "500");
-
-        exceptionResolver.setStatusCodes(statusCodes);
-
-        return exceptionResolver;
     }
 
     @Bean
@@ -78,6 +55,7 @@ public class WebAppContext implements WebMvcConfigurer {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setTemplateEngine(templateEngineWithDate());
         registry.viewResolver(resolver);
+
     }
     private ISpringTemplateEngine templateEngineWithDate() {
         SpringTemplateEngine engine = new SpringTemplateEngine();

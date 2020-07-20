@@ -37,14 +37,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-//@ExtendWith(SpringExtension.class)
-@SpringBootTest@RunWith(SpringJUnit4ClassRunner.class)
+
+
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {TestContext.class, WebAppContext.class})
 @WebAppConfiguration
-
+//@SpringBootTest
 class FacultyControllerTest {
-
-
     private MockMvc mockMvc;
 
     @MockBean
@@ -63,9 +62,9 @@ class FacultyControllerTest {
 
     @Test
     public void findAll_ShouldAddTodoEntriesToModelAndRenderTodoListView() throws Exception {
-        Faculty first = new Faculty(1,"it_department",null,null);
+        Faculty first = new Faculty(1, "it_department", null, null);
 
-        Faculty second = new Faculty(2,"iIT-SCHOOL",null,null);
+        Faculty second = new Faculty(2, "iIT-SCHOOL", null, null);
 
         when(service.getAll()).thenReturn(Arrays.asList(first, second));
 
