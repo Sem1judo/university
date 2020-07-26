@@ -1,10 +1,13 @@
 package com.ua.foxminded.task_13.services;
 
 
+import com.ua.foxminded.task_13.dao.impl.FacultyDaoImpl;
 import com.ua.foxminded.task_13.dao.impl.LectorDaoImplEntity;
 import com.ua.foxminded.task_13.dao.impl.LessonDaoImpl;
+import com.ua.foxminded.task_13.dto.LectorDto;
 import com.ua.foxminded.task_13.dto.LessonDto;
 import com.ua.foxminded.task_13.exceptions.ServiceException;
+import com.ua.foxminded.task_13.model.Faculty;
 import com.ua.foxminded.task_13.model.Lector;
 import com.ua.foxminded.task_13.model.Lesson;
 import com.ua.foxminded.task_13.validation.ValidatorEntity;
@@ -28,6 +31,8 @@ public class LessonServices {
     @Autowired
     private LectorDaoImplEntity lectorDao;
     @Autowired
+    private FacultyDaoImpl facultyDao;
+    @Autowired
     private ValidatorEntity<Lesson> validator;
 
     private static final Logger logger = LoggerFactory.getLogger(LessonServices.class);
@@ -40,11 +45,18 @@ public class LessonServices {
 
         Lesson lesson = lessonDao.getById(id);
         Lector lector = lectorDao.getById(lesson.getLectorId());
+        Faculty faculty = facultyDao.getById(lector.getFacultyId());
+
+        LectorDto lectorDto = new LectorDto();
+        lectorDto.setLectorId(lector.getLectorId());
+        lectorDto.setFirstName(lector.getFirstName());
+        lectorDto.setLastName(lector.getLastName());
+        lectorDto.setFaculty(faculty);
 
         LessonDto lessonDto = new LessonDto();
         lessonDto.setLessonId(lesson.getLessonId());
         lessonDto.setName(lesson.getName());
-        lessonDto.setLector(lector);
+        lessonDto.setLector(lectorDto);
 
         return lessonDto;
     }
@@ -54,16 +66,26 @@ public class LessonServices {
         List<LessonDto> lessonDtos = new ArrayList<>();
 
         Lector lector;
+        Faculty faculty;
+
         LessonDto lessonDto;
+        LectorDto lectorDto;
 
         for (Lesson lesson : lessons) {
 
             lector = lectorDao.getById(lesson.getLectorId());
+            faculty = facultyDao.getById(lector.getFacultyId());
+
+            lectorDto = new LectorDto();
+            lectorDto.setLectorId(lector.getLectorId());
+            lectorDto.setFirstName(lector.getFirstName());
+            lectorDto.setLastName(lector.getLastName());
+            lectorDto.setFaculty(faculty);
 
             lessonDto = new LessonDto();
             lessonDto.setLessonId(lesson.getLessonId());
             lessonDto.setName(lesson.getName());
-            lessonDto.setLector(lector);
+            lessonDto.setLector(lectorDto);
 
             lessonDtos.add(lessonDto);
         }
@@ -90,6 +112,7 @@ public class LessonServices {
         }
         return lesson;
     }
+
     public List<LessonDto> getAll() {
         logger.debug("Trying to get all lessons");
 

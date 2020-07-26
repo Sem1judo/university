@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class LectorController {
@@ -18,16 +19,17 @@ public class LectorController {
     }
 
     @GetMapping("/lectors")
-    public String getaAllLectors(Model model) {
-        model.addAttribute("lectors", lectorServices.getAll()   );
+    public ModelAndView getaAllLectors(Model model) {
+        ModelAndView mav = new ModelAndView("lector/allLectors");
+        mav.addObject("lectors", lectorServices.getAll());
 
-        return "lector/allLectors";
+        return mav;
     }
 
     @GetMapping("/lectorInfo/{lectorId}")
-    public String getTimeSlot(@PathVariable("lectorId") Long id, Model model) {
-
-        model.addAttribute("lectorFaculty", lectorServices.getById(id));
-        return "lector/lectorInfo";
+    public ModelAndView getTimeSlot(@PathVariable("lectorId") Long id, Model model) {
+        ModelAndView mav = new ModelAndView("lector/lectorInfo");
+        mav.addObject("lectorFaculty", lectorServices.getById(id));
+        return mav;
     }
 }

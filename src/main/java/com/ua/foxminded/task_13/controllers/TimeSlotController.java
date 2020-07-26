@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class TimeSlotController {
@@ -19,23 +20,24 @@ public class TimeSlotController {
     }
 
     @GetMapping("/timeSlots")
-    public String getAllTimeSlots(Model model) {
-
-        model.addAttribute("timeslots", timeSlotServices.getAll());
-        return "timeSlot/allTimeSlots";
+    public ModelAndView getAllTimeSlots(Model model) {
+        ModelAndView mav = new ModelAndView("timeSlot/allTimeSlots");
+        mav.addObject("timeSlots", timeSlotServices.getAll());
+        return mav;
     }
 
     @GetMapping("/timeSlotProfileLesson/{timeSlotId}")
-    public String getLesson(@PathVariable("timeSlotId") Long id, Model model) {
-
-        model.addAttribute("timeSlot", timeSlotServices.getById(id));
-        return "/timeSlot/timeSlotProfileLesson";
+    public ModelAndView getLesson(@PathVariable("timeSlotId") Long id, Model model) {
+        ModelAndView mav = new ModelAndView("/timeSlot/timeSlotProfileLesson");
+        mav.addObject("timeSlot", timeSlotServices.getById(id));
+        return mav;
     }
 
     @GetMapping("/timeSlotProfileLector/{timeSlotId}")
-    public String getLector(@PathVariable("timeSlotId") Long id, Model model) {
-        model.addAttribute("timeSlot", timeSlotServices.getById(id));
-        return "/timeSlot/timeSlotProfileLector";
+    public ModelAndView getLector(@PathVariable("timeSlotId") Long id, Model model) {
+        ModelAndView mav = new ModelAndView("/timeSlot/timeSlotProfileLector");
+        mav.addObject("timeSlot", timeSlotServices.getById(id));
+        return mav;
     }
 
 }

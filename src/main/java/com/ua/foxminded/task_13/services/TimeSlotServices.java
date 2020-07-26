@@ -1,16 +1,11 @@
 package com.ua.foxminded.task_13.services;
 
-import com.ua.foxminded.task_13.dao.impl.GroupDaoImplEntity;
-import com.ua.foxminded.task_13.dao.impl.LectorDaoImplEntity;
-import com.ua.foxminded.task_13.dao.impl.LessonDaoImpl;
-import com.ua.foxminded.task_13.dao.impl.TimeSlotDaoImpl;
+import com.ua.foxminded.task_13.dao.impl.*;
+import com.ua.foxminded.task_13.dto.LectorDto;
 import com.ua.foxminded.task_13.dto.LessonDto;
 import com.ua.foxminded.task_13.dto.TimeSlotDto;
 import com.ua.foxminded.task_13.exceptions.ServiceException;
-import com.ua.foxminded.task_13.model.Group;
-import com.ua.foxminded.task_13.model.Lector;
-import com.ua.foxminded.task_13.model.Lesson;
-import com.ua.foxminded.task_13.model.TimeSlot;
+import com.ua.foxminded.task_13.model.*;
 import com.ua.foxminded.task_13.validation.ValidatorEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +31,8 @@ public class TimeSlotServices {
     @Autowired
     private LectorDaoImplEntity lectorDao;
     @Autowired
+    private FacultyDaoImpl facultyDao;
+    @Autowired
     private ValidatorEntity<TimeSlot> validator;
 
 
@@ -52,11 +49,18 @@ public class TimeSlotServices {
         Group group = groupDao.getById(timeSlot.getGroupId());
         Lesson lesson = lessonDao.getById(timeSlot.getLessonId());
         Lector lector = lectorDao.getById(lesson.getLectorId());
+        Faculty faculty = facultyDao.getById(lector.getFacultyId());
+
+        LectorDto lectorDto = new LectorDto();
+        lectorDto.setLectorId(lector.getLectorId());
+        lectorDto.setFirstName(lector.getFirstName());
+        lectorDto.setLastName(lector.getLastName());
+        lectorDto.setFaculty(faculty);
 
         LessonDto lessonDto = new LessonDto();
         lessonDto.setLessonId(lesson.getLessonId());
         lessonDto.setName(lesson.getName());
-        lessonDto.setLector(lector);
+        lessonDto.setLector(lectorDto);
 
         TimeSlotDto timeSlotDto = new TimeSlotDto();
 
@@ -73,24 +77,32 @@ public class TimeSlotServices {
         List<TimeSlot> timeSlots = timeSlotDao.getAll();
         List<TimeSlotDto> timeSlotDtos = new ArrayList<>();
 
-        TimeSlotDto timeSlotDto;
-
         Group group;
         Lesson lesson;
         Lector lector;
+        Faculty faculty;
 
+        TimeSlotDto timeSlotDto;
         LessonDto lessonDto;
+        LectorDto lectorDto;
 
         for (TimeSlot timeSlot : timeSlots) {
 
             group = groupDao.getById(timeSlot.getGroupId());
             lesson = lessonDao.getById(timeSlot.getLessonId());
             lector = lectorDao.getById(lesson.getLectorId());
+            faculty = facultyDao.getById(lector.getFacultyId());
+
+            lectorDto = new LectorDto();
+            lectorDto.setLectorId(lector.getLectorId());
+            lectorDto.setFirstName(lector.getFirstName());
+            lectorDto.setLastName(lector.getLastName());
+            lectorDto.setFaculty(faculty);
 
             lessonDto = new LessonDto();
             lessonDto.setLessonId(lesson.getLessonId());
             lessonDto.setName(lesson.getName());
-            lessonDto.setLector(lector);
+            lessonDto.setLector(lectorDto);
 
             timeSlotDto = new TimeSlotDto();
             timeSlotDto.setTimeSlotId(timeSlot.getTimeSlotId());

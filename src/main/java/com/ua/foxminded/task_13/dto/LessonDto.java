@@ -8,17 +8,17 @@ import java.util.Objects;
 public class LessonDto {
     private long lessonId;
     private String name;
-    private Lector lector;
+    private LectorDto lector;
 
     public LessonDto() {
     }
 
-    public LessonDto(String name, Lector lector) {
+    public LessonDto(String name, LectorDto lector) {
         this.name = name;
         this.lector = lector;
     }
 
-    public LessonDto(long lessonId, String name, Lector lector) {
+    public LessonDto(long lessonId, String name, LectorDto lector) {
         this.lessonId = lessonId;
         this.name = name;
         this.lector = lector;
@@ -40,11 +40,11 @@ public class LessonDto {
         this.name = name;
     }
 
-    public Lector getLector() {
+    public LectorDto getLector() {
         return lector;
     }
 
-    public void setLector(Lector lector) {
+    public void setLector(LectorDto lector) {
         this.lector = lector;
     }
 

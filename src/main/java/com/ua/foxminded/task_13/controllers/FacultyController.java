@@ -6,6 +6,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
@@ -22,8 +23,9 @@ public class FacultyController {
     }
 
     @GetMapping("/faculties")
-    public String getAllFaculties(Model model) {
-        model.addAttribute("faculties", facultyServices.getAll());
-        return "faculty/allFaculties";
+    public ModelAndView getAllFaculties(Model model) {
+        ModelAndView mav = new ModelAndView("faculty/allFaculties");
+        mav.addObject("faculties", facultyServices.getAll());
+        return mav;
     }
 }

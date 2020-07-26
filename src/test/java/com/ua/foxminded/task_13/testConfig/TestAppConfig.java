@@ -1,4 +1,5 @@
-package com.ua.foxminded.task_13.controllers.textContexts;
+package com.ua.foxminded.task_13.testConfig;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -23,11 +24,11 @@ import java.util.Properties;
 @ComponentScan(basePackages = {
         "com.ua.foxminded.task_13"
 })
-public class WebAppContext implements WebMvcConfigurer {
+public class TestAppConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
     @Autowired
-    public WebAppContext(ApplicationContext applicationContext) {
+    public TestAppConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
@@ -42,7 +43,7 @@ public class WebAppContext implements WebMvcConfigurer {
     }
 
     @Bean
-    public SpringResourceTemplateResolver templateResolver() {
+    public SpringResourceTemplateResolver templateResolver2() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(applicationContext);
         templateResolver.setPrefix("/WEB-INF/views/");
@@ -60,7 +61,7 @@ public class WebAppContext implements WebMvcConfigurer {
     private ISpringTemplateEngine templateEngineWithDate() {
         SpringTemplateEngine engine = new SpringTemplateEngine();
         engine.addDialect(new Java8TimeDialect());
-        engine.setTemplateResolver(templateResolver());
+        engine.setTemplateResolver(templateResolver2());
         return engine;
     }
 }

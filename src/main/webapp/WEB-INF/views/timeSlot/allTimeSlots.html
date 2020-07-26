@@ -19,7 +19,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="timeSlot : ${timeslots}">
+    <tr th:each="timeSlot : ${timeSlots}">
         <td th:text="${timeSlot.getTimeSlotId()}"/>
         <td th:text="${#temporals.format(timeSlot.getStartLesson(), 'dd-MM-yyyy, HH:mm')}"/>
         <td th:text="${#temporals.format(timeSlot.getEndLesson(), 'dd-MM-yyyy, HH:mm')}"/>
