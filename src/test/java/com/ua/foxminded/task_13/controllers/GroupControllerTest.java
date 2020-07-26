@@ -119,3 +119,4 @@ class GroupControllerTest {
         verifyNoMoreInteractions(groupServices);
     }
 }
+

@@ -100,5 +100,5 @@ class LectorControllerTest {
         verifyNoMoreInteractions(service);
     }
 
-
 }
+

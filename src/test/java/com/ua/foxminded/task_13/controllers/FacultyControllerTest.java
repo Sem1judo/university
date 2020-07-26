@@ -17,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
+
 import java.util.*;
 
 
@@ -26,7 +26,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.*;
 
 
 @ExtendWith(SpringExtension.class)
@@ -39,7 +38,6 @@ class FacultyControllerTest {
 
     @MockBean
     FacultyServices service;
-
 
     @Test
     public void findAll_ShouldAddFacultyEntriesToModelAndRenderFacultyListView() throws Exception {
@@ -80,9 +78,9 @@ class FacultyControllerTest {
                         )
                 )));
 
-
         verify(service, times(1)).getAll();
         verifyNoMoreInteractions(service);
     }
 
 }
+
