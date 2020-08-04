@@ -16,10 +16,8 @@ import org.thymeleaf.spring5.ISpringTemplateEngine;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
-
 import javax.sql.DataSource;
 import java.util.Objects;
-
 
 
 @Configuration
@@ -28,11 +26,9 @@ import java.util.Objects;
 @EnableWebMvc
 public class AppConfig implements WebMvcConfigurer {
 
-    // database
     @Autowired
     private Environment environment;
 
-    //Thymeleaf
     private final ApplicationContext applicationContext;
 
     private static final String URL = "url";
@@ -40,53 +36,48 @@ public class AppConfig implements WebMvcConfigurer {
     private static final String DRIVER = "driver";
     private static final String PASSWORD = "dbpassword";
 
-    //Thymeleaf
     @Autowired
     public AppConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
-    // database
     @Bean
     DataSource dataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+
         driverManagerDataSource.setUrl(environment.getProperty(URL));
         driverManagerDataSource.setUsername(environment.getProperty(USER));
         driverManagerDataSource.setPassword(environment.getProperty(PASSWORD));
         driverManagerDataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty(DRIVER)));
+
         return driverManagerDataSource;
     }
 
-    //Thymeleaf
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+
         templateResolver.setApplicationContext(applicationContext);
         templateResolver.setPrefix("/WEB-INF/views/");
         templateResolver.setSuffix(".html");
+
         return templateResolver;
     }
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
+
         resolver.setTemplateEngine(templateEngineWithDate());
         registry.viewResolver(resolver);
     }
 
-// new template with date
     private ISpringTemplateEngine templateEngineWithDate() {
         SpringTemplateEngine engine = new SpringTemplateEngine();
+
         engine.addDialect(new Java8TimeDialect());
         engine.setTemplateResolver(templateResolver());
+        
         return engine;
     }
-    //    @Bean
-//    public SpringTemplateEngine templateEngine() {
-//        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-//        templateEngine.setTemplateResolver(templateResolver());
-//        templateEngine.setEnableSpringELCompiler(true);
-//        return templateEngine;
-//    }
-
 }

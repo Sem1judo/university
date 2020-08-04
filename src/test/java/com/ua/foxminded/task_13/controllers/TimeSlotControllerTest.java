@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.is;
@@ -42,9 +43,8 @@ class TimeSlotControllerTest {
     @MockBean
     private TimeSlotServices service;
 
-
     @Test
-    public void getAll_ShouldAddTimeSlotEntriesToModelAndRenderTimeSlotListView() throws Exception {
+    public void findAll_ShouldAddTimeSlotEntriesToModelAndRenderTimeSlotListView() throws Exception {
         Faculty firstFaculty = new Faculty(1, "it_department", null, null);
         Faculty secondFaculty = new Faculty(2, "IT-SCHOOL", null, null);
 
@@ -57,16 +57,13 @@ class TimeSlotControllerTest {
         LessonDto java = new LessonDto(1L, "Java", first);
         LessonDto math = new LessonDto(2L, "Math", second);
 
-
         TimeSlotDto timeSlotDtoFirst = new TimeSlotDto(1L, LocalDateTime.of(2020, 11, 11, 11, 11, 11)
                 , LocalDateTime.of(2020, 11, 11, 13, 11, 11), java, fb_12);
 
         TimeSlotDto timeSlotDtoSecond = new TimeSlotDto(2L, LocalDateTime.of(2020, 11, 11, 11, 11, 11),
                 LocalDateTime.of(2020, 11, 11, 13, 11, 11), math, fb_15);
 
-
         when(service.getAll()).thenReturn(Arrays.asList(timeSlotDtoFirst, timeSlotDtoSecond));
-
 
         mockMvc.perform(get("/timeSlots"))
                 .andExpect(status().isOk())
@@ -98,7 +95,7 @@ class TimeSlotControllerTest {
     }
 
     @Test
-    public void getById_TimeSlotEntryFound_ShouldAddGroupEntryToModelAndRenderViewLessonEntryView() throws Exception {
+    public void getByIdShouldAddTimeSlotEntityToModelAndRenderTimeSlotForLessonView() throws Exception {
 
         Faculty firstFaculty = new Faculty(1, "it_department", null, null);
         LectorDto first = new LectorDto(1L, firstFaculty, "Bob", "Franlk");
@@ -126,7 +123,7 @@ class TimeSlotControllerTest {
         verifyNoMoreInteractions(service);
     }
     @Test
-    public void getById_TimeSlotEntryFound_ShouldAddGroupEntryToModelAndRenderViewLectorEntryView() throws Exception {
+    public void getByIdShouldAddTimeSlotEntityToModelAndRenderTimeSlotForLectorView() throws Exception {
 
         Faculty firstFaculty = new Faculty(1, "it_department", null, null);
         LectorDto first = new LectorDto(1L, firstFaculty, "Bob", "Franlk");
@@ -151,6 +148,51 @@ class TimeSlotControllerTest {
                 .andExpect(model().attribute("timeSlot", hasProperty("group", is(fb_12))));
 
         verify(service, times(1)).getById(1L);
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    public void getAllNotAddAnyLessonAndListIsEmpty() throws Exception {
+
+        when(service.getAll()).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(get("/timeSlots"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("timeSlot/allTimeSlots"))
+                .andExpect(model().attributeExists("timeSlots"))
+                .andExpect(content().string(containsString("No Time slot available")))
+                .andExpect(model().attribute("timeSlots",hasToString("[]")));
+
+        verify(service, times(1)).getAll();
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    public void getByIdNotAddAnyTimeSlotForLectorNotExistId() throws Exception {
+
+        when(service.getById(2L)).thenReturn(null);
+
+        mockMvc.perform(get("/timeSlotProfileLector/{timeSlotId}", 2L))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/timeSlot/timeSlotProfileLector"))
+                .andExpect(content().string(containsString("No such id")));
+
+
+        verify(service, times(1)).getById(2L);
+        verifyNoMoreInteractions(service);
+    }
+    @Test
+    public void getByIdNotAddAnyTimeSlotForLessonNotExistId() throws Exception {
+
+        when(service.getById(2L)).thenReturn(null);
+
+        mockMvc.perform(get("/timeSlotProfileLesson/{timeSlotId}", 2L))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/timeSlot/timeSlotProfileLesson"))
+                .andExpect(content().string(containsString("No such id")));
+
+
+        verify(service, times(1)).getById(2L);
         verifyNoMoreInteractions(service);
     }
 }

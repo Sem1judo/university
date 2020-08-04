@@ -19,6 +19,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.is;
@@ -35,16 +36,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {TestAppConfig.class})
 class LessonControllerTest {
 
-
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private LessonServices service;
 
-
     @Test
-    public void getAll_ShouldAddLessonEntriesToModelAndRenderLessonListView() throws Exception {
+    public void findAll_ShouldAddLessonEntriesToModelAndRenderLessonsListView() throws Exception {
         Faculty firstFaculty = new Faculty(1, "it_department", null, null);
 
         Faculty secondFaculty = new Faculty(2, "IT-SCHOOL", null, null);
@@ -53,13 +52,10 @@ class LessonControllerTest {
 
         LectorDto second = new LectorDto(2L, secondFaculty, "Anri", "Kuscher");
 
-
         LessonDto java = new LessonDto(1L, "Java", first);
         LessonDto math = new LessonDto(2L, "Math", second);
 
-
         when(service.getAll()).thenReturn(Arrays.asList(java, math));
-
 
         mockMvc.perform(get("/lessons"))
                 .andExpect(status().isOk())
@@ -87,7 +83,7 @@ class LessonControllerTest {
     }
 
     @Test
-    public void getById_LessonEntryFound_ShouldAddGroupEntryToModelAndRenderViewLessonEntryView() throws Exception {
+    public void getByIdShouldAddLessonEntityToModelAndRenderLessonView() throws Exception {
 
         Faculty secondFaculty = new Faculty(2, "IT-SCHOOL", null, null);
 
@@ -104,6 +100,37 @@ class LessonControllerTest {
                 .andExpect(model().attribute("lesson", hasProperty("lessonId", is(2L))))
                 .andExpect(model().attribute("lesson", hasProperty("name", is("Math"))))
                 .andExpect(model().attribute("lesson", hasProperty("lector", is(second))));
+
+        verify(service, times(1)).getById(2L);
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    public void getAllNotAddAnyLessonAndListIsEmpty() throws Exception {
+
+        when(service.getAll()).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(get("/lessons"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("lesson/allLessons"))
+                .andExpect(model().attributeExists("lessons"))
+                .andExpect(content().string(containsString("No Lessons available")))
+                .andExpect(model().attribute("lessons",hasToString("[]")));
+
+        verify(service, times(1)).getAll();
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    public void getByIdNotAddAnyFacultyNotExistId() throws Exception {
+
+        when(service.getById(2L)).thenReturn(null);
+
+        mockMvc.perform(get("/lessonProfileLector/{lessonId}", 2L))
+                .andExpect(status().isOk())
+                .andExpect(view().name("lesson/lessonProfileLector"))
+                .andExpect(content().string(containsString("No such id")));
+
 
         verify(service, times(1)).getById(2L);
         verifyNoMoreInteractions(service);

@@ -37,7 +37,7 @@ public class LessonServices {
 
     private static final Logger logger = LoggerFactory.getLogger(LessonServices.class);
 
-    private static final String MISSING_ID = "Missing id lesson.";
+    private static final String MISSING_ID_ERROR_MESSAGE = "Missing id lesson.";
     private static final String NOT_EXIST_ENTITY = "Doesn't exist such lesson";
 
 
@@ -97,8 +97,8 @@ public class LessonServices {
         logger.debug("Trying to get lesson with id={}", id);
 
         if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         LessonDto lesson;
         try {
@@ -131,8 +131,8 @@ public class LessonServices {
         logger.debug("Trying to get lesson with id={}", id);
 
         if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         Lesson lesson;
         try {
@@ -178,8 +178,8 @@ public class LessonServices {
         logger.debug("Trying to delete lesson with id={}", id);
 
         if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
 
         try {
@@ -197,8 +197,8 @@ public class LessonServices {
         logger.debug("Trying to update lesson: {}", lesson);
 
         if (lesson.getLessonId() == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         validator.validate(lesson);
         try {

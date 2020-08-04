@@ -9,17 +9,20 @@ public class Lector {
 
     private long lectorId;
     private long facultyId;
+
     @NotBlank
     @Size(min = 3, max = 50,
             message = "First name must be between 3 and 20 characters long")
     @Pattern(regexp = "^[a-zA-Z0-9]+$",
             message = "First name must be alphanumeric with no spaces")
     private String firstName;
+
     @NotBlank
     @Size(min = 3, max = 50,
             message = "Last name must be between 3 and 20 characters long")
     @Pattern(regexp = "^[a-zA-Z0-9]+$",
             message = "Last name must be alphanumeric with no spaces")
+
     private String lastName;
 
     public Lector() {

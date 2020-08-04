@@ -19,8 +19,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${faculties.empty}">
-        <td colspan="2"> No Faculty Available</td>
+    <tr th:if="${faculties == null or faculties.isEmpty()}">
+        <td colspan="2">No Faculties Available</td>
     </tr>
     <tr th:each="faculty : ${faculties}">
         <td th:text="${faculty.facultyId}"></td>

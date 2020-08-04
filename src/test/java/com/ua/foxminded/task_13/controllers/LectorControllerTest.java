@@ -19,6 +19,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,7 +41,7 @@ class LectorControllerTest {
 
 
     @Test
-    public void getAll_ShouldAddGroupEntriesToModelAndRenderLectorListView() throws Exception {
+    public void findAll_ShouldAddLectorEntriesToModelAndRenderLectorsListView() throws Exception {
         Faculty firstFaculty = new Faculty(1, "it_department", null, null);
 
         Faculty secondFaculty = new Faculty(2, "IT-SCHOOL", null, null);
@@ -79,11 +80,10 @@ class LectorControllerTest {
     }
 
     @Test
-    public void getById_LectorEntryFound_ShouldAddGroupEntryToModelAndRenderViewLectorEntryView() throws Exception {
+    public void getByIdShouldAddLectorEntityToModelAndRenderLectorView() throws Exception {
         Faculty firstFaculty = new Faculty(1, "it_department", null, null);
 
         LectorDto first = new LectorDto(1L, firstFaculty, "Boris", "Novikov");
-
 
         when(service.getById(1L)).thenReturn(first);
 
@@ -97,6 +97,37 @@ class LectorControllerTest {
                 .andExpect(model().attribute("lectorFaculty", hasProperty("faculty", is(firstFaculty))));
 
         verify(service, times(1)).getById(1L);
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    public void getAllNotAddAnyLectorAndListIsEmpty() throws Exception {
+
+        when(service.getAll()).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(get("/lectors"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("lector/allLectors"))
+                .andExpect(model().attributeExists("lectors"))
+                .andExpect(content().string(containsString("No Lectors available")))
+                .andExpect(model().attribute("lectors",hasToString("[]")));
+
+        verify(service, times(1)).getAll();
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    public void getByIdNotAddAnyLectorNotExistId() throws Exception {
+
+        when(service.getById(2L)).thenReturn(null);
+
+        mockMvc.perform(get("/lectorInfo/{lectorId}", 2L))
+                .andExpect(status().isOk())
+                .andExpect(view().name("lector/lectorInfo"))
+                .andExpect(content().string(containsString("No such id")));
+
+
+        verify(service, times(1)).getById(2L);
         verifyNoMoreInteractions(service);
     }
 

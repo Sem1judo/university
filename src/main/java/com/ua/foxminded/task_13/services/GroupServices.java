@@ -10,7 +10,6 @@ import com.ua.foxminded.task_13.validation.ValidatorEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class GroupServices {
 
     private static final Logger logger = LoggerFactory.getLogger(GroupServices.class);
 
-    private static final String MISSING_ID = "Missing id group.";
+    private static final String MISSING_ID_ERROR_MESSAGE = "Missing id group.";
     private static final String NOT_EXIST_ENTITY = "Doesn't exist such group";
 
 
@@ -86,8 +85,8 @@ public class GroupServices {
         logger.debug("Trying to get group with id={}", id);
 
         if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         GroupDto group;
         try {
@@ -105,8 +104,8 @@ public class GroupServices {
         logger.debug("Trying to get group with id={}", id);
 
         if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         Group group;
         try {
@@ -150,8 +149,8 @@ public class GroupServices {
         logger.debug("Trying to delete group with id={}", id);
 
         if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         try {
             return groupDao.delete(id);
@@ -170,8 +169,8 @@ public class GroupServices {
         logger.debug("Trying to update group: {}", group);
 
         if (group.getGroupId() == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         validator.validate(group);
         try {
@@ -195,8 +194,8 @@ public class GroupServices {
     public int getLessonsForGroup(Long id) {
         logger.debug("Trying to get lessons for group with id={}", id);
         if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         try {
             return groupDao.getLessonsById(id);

@@ -16,8 +16,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${lessons.empty}">
-        <td colspan="2"> No lessons available</td>
+    <tr th:if="${lessons.isEmpty()}">
+        <td colspan="2">No Lessons available</td>
     </tr>
     <tr th:each="lesson : ${lessons}">
         <td th:text="${lesson.lessonId}"></td>
@@ -39,3 +39,4 @@
         crossorigin="anonymous"></script>
 </body>
 </html>
+

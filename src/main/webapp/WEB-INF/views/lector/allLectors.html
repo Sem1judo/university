@@ -18,7 +18,7 @@
     </thead>
     <tbody>
     <tr th:if="${lectors.empty}">
-        <td colspan="2"> No lectors available</td>
+        <td colspan="2">No Lectors available</td>
     </tr>
     <tr th:each="lector : ${lectors}">
         <td th:text="${lector.lectorId}"></td>
@@ -41,3 +41,5 @@
         crossorigin="anonymous"></script>
 </body>
 </html>
+
+

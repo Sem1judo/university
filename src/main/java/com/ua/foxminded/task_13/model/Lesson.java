@@ -6,13 +6,16 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class Lesson {
+
     private long lessonId;
+
     @NotBlank
     @Size(min = 3, max = 50,
             message = "Lesson name must be between 3 and 20 characters long")
     @Pattern(regexp = "^[a-zA-Z0-9]+$",
             message = "Lesson name must be alphanumeric with no spaces")
     private String name;
+
     private long lectorId;
 
     public Lesson() {

@@ -8,12 +8,15 @@ import java.util.Objects;
 public class TimeSlot {
 
     private long timeSlotId;
+
     @NotNull
     @Future
     private LocalDateTime startLesson;
+
     @NotNull
     @Future
     private LocalDateTime endLesson;
+
     private long groupId;
     private long lessonId;
 

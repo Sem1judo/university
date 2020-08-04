@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Faculty {
+
     private long facultyId;
     @NotBlank
     @Size(min=3, max=50,
@@ -14,6 +15,7 @@ public class Faculty {
     @Pattern(regexp="^[a-zA-Z0-9]+$",
             message="Faculty name must be alphanumeric with no spaces")
     private String name;
+
     private List<Group> groups;
     private List<Lector> lectors;
 

@@ -1,6 +1,7 @@
 package com.ua.foxminded.task_13.controllers;
 
 
+import com.ua.foxminded.task_13.dto.GroupDto;
 import com.ua.foxminded.task_13.model.Faculty;
 import com.ua.foxminded.task_13.model.Group;
 import com.ua.foxminded.task_13.model.Lector;
@@ -74,11 +75,59 @@ class FacultyControllerTest {
                                 hasProperty("name", is("IT-SCHOOL")),
                                 hasProperty("groups", is(groups)),
                                 hasProperty("lectors", is(lectors))
-
                         )
                 )));
 
         verify(service, times(1)).getAll();
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    public void getByIdShouldAddFacultyEntityToModelAndRenderFacultyView() throws Exception {
+        Faculty itSchool = new Faculty("IT-SCHOOL");
+        itSchool.setFacultyId(2L);
+
+        when(service.getById(2L)).thenReturn(itSchool);
+
+        mockMvc.perform(get("/facultyInfo/{facultyId}", 2L))
+                .andExpect(status().isOk())
+                .andExpect(view().name("faculty/facultyInfo"))
+                .andExpect(model().attributeExists("faculty"))
+                .andExpect(model().attribute("faculty", hasProperty("facultyId", is(2L))))
+                .andExpect(model().attribute("faculty", hasProperty("name", is("IT-SCHOOL"))));
+
+        verify(service, times(1)).getById(2L);
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    public void getAllNotAddAnyFacultyAndListIsEmpty() throws Exception {
+
+        when(service.getAll()).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(get("/faculties"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("faculty/allFaculties"))
+                .andExpect(model().attributeExists("faculties"))
+                .andExpect(content().string(containsString("No Faculties Available")))
+                .andExpect(model().attribute("faculties",hasToString("[]")));
+
+        verify(service, times(1)).getAll();
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    public void getByIdNotAddAnyFacultyNotExistId() throws Exception {
+
+        when(service.getById(2L)).thenReturn(null);
+
+        mockMvc.perform(get("/facultyInfo/{facultyId}", 2L))
+                .andExpect(status().isOk())
+                .andExpect(view().name("faculty/facultyInfo"))
+                .andExpect(content().string(containsString("No such id")));
+
+
+        verify(service, times(1)).getById(2L);
         verifyNoMoreInteractions(service);
     }
 

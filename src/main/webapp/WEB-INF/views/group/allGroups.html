@@ -19,7 +19,7 @@
     </thead>
     <tbody>
     <tr th:if="${groups.isEmpty()}">
-        <td colspan="2"> No groups available</td>
+        <td colspan="2">No Groups available</td>
     </tr>
     <tr th:each="group : ${groups}">
         <td th:text="${group.groupId}"></td>

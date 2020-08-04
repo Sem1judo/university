@@ -14,14 +14,13 @@ import java.util.List;
 @Repository
 public class TimeSlotDaoImpl implements DaoEntity<TimeSlot> {
 
+    private static final String GET_TIME_SLOT_BY_ID_QUERY = "select * from time_slots where timeslot_id = ?";
+    private static final String DELETE_TIME_SLOT_BY_ID_QUERY = "delete from time_slots where timeslot_id = ?";
+    private static final String UPDATE_TIME_SLOT_BY_ID_QUERY = "update time_slots set start_lesson = ?, end_lesson = ?, group_id= ?, lesson_id= ? where timeslot_id = ?";
+    private static final String SELECT_FROM_TIME_SLOTS_QUERT = "select * from time_slots";
+    private static final String INSERT_TIME_SLOT_QUERY = "insert into time_slots(start_lesson, end_lesson, group_id, lesson_id) values(?,?,?,?)";
 
     private final JdbcTemplate jdbcTemplate;
-
-    private static final String SQL_FIND_TIMESLOT = "select * from time_slots where timeslot_id = ?";
-    private static final String SQL_DELETE_TIMESLOT = "delete from time_slots where timeslot_id = ?";
-    private static final String SQL_UPDATE_TIMESLOT = "update time_slots set start_lesson = ?, end_lesson = ?, group_id= ?, lesson_id= ? where timeslot_id = ?";
-    private static final String SQL_GET_ALL_TIMESLOT = "select * from time_slots";
-    private static final String SQL_INSERT_TIMESLOT = "insert into time_slots(start_lesson, end_lesson, group_id, lesson_id) values(?,?,?,?)";
 
     @Autowired
     public TimeSlotDaoImpl(DataSource dataSource) {
@@ -30,28 +29,28 @@ public class TimeSlotDaoImpl implements DaoEntity<TimeSlot> {
 
     @Override
     public TimeSlot getById(Long id) {
-        return jdbcTemplate.queryForObject(SQL_FIND_TIMESLOT, new Object[]{id}, new TimeSLotMapper());
+        return jdbcTemplate.queryForObject(GET_TIME_SLOT_BY_ID_QUERY, new Object[]{id}, new TimeSLotMapper());
     }
 
     @Override
     public List<TimeSlot> getAll() {
-        return jdbcTemplate.query(SQL_GET_ALL_TIMESLOT, new TimeSLotMapper());
+        return jdbcTemplate.query(SELECT_FROM_TIME_SLOTS_QUERT, new TimeSLotMapper());
     }
 
     @Override
     public boolean delete(Long id) {
-        return jdbcTemplate.update(SQL_DELETE_TIMESLOT, id) > 0;
+        return jdbcTemplate.update(DELETE_TIME_SLOT_BY_ID_QUERY, id) > 0;
     }
 
     @Override
     public boolean update(TimeSlot timeSlot) {
-        return jdbcTemplate.update(SQL_UPDATE_TIMESLOT, timeSlot.getStartLesson(), timeSlot.getEndLesson(),
+        return jdbcTemplate.update(UPDATE_TIME_SLOT_BY_ID_QUERY, timeSlot.getStartLesson(), timeSlot.getEndLesson(),
                 timeSlot.getTimeSlotId()) > 0;
     }
 
     @Override
     public boolean create(TimeSlot timeSlot) {
-        return jdbcTemplate.update(SQL_INSERT_TIMESLOT, timeSlot.getStartLesson(), timeSlot.getEndLesson()) > 0;
+        return jdbcTemplate.update(INSERT_TIME_SLOT_QUERY, timeSlot.getStartLesson(), timeSlot.getEndLesson()) > 0;
     }
 
 }

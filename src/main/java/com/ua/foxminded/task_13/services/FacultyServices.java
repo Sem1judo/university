@@ -26,7 +26,7 @@ public class FacultyServices {
 
     private static final Logger logger = LoggerFactory.getLogger(FacultyServices.class);
 
-    private static final String MISSING_ID = "Missing id faculty.";
+    private static final String MISSING_ID_ERROR_MESSAGE = "Missing id faculty.";
     private static final String NOT_EXIST_ENTITY = "Doesn't exist such faculty";
 
     public List<Faculty> getAll() {
@@ -59,8 +59,8 @@ public class FacultyServices {
         logger.debug("Trying to delete faculty with id={}", id);
 
         if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         try {
             return facultyDao.delete(id);
@@ -77,8 +77,8 @@ public class FacultyServices {
         logger.debug("Trying to get faculty with id={}", id);
 
         if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         Faculty faculty;
         try {
@@ -97,8 +97,8 @@ public class FacultyServices {
         logger.debug("Trying to update faculty: {}", faculty);
 
         if (faculty.getFacultyId() == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         validator.validate(faculty);
         try {

@@ -14,16 +14,16 @@ import java.util.List;
 @Repository
 public class LectorDaoImplEntity implements LectorEntity {
 
+    private static final String GET_LECTOR_BY_ID_QUERY = "select * from lectors where lector_id = ?";
+    private static final String DELETE_LECTOR_BY_ID_QUERY = "delete from lectors where lector_id = ?";
+    private static final String UPDATE_LECTOR_BY_ID_QUERY = "update lectors set first_name = ?, last_name = ?,faculty_id=? where lector_id = ?";
+    private static final String SELECT_LECTORS_QUERY = "select * from lectors";
+    private static final String INSERT_LECTOR_QUERY = "insert into lectors(first_name, last_name,faculty_id) values(?,?,?)";
+    private static final String GET_LESSONS_LECTORS_QUERY = "select count(lesson_id)*2 as quantity from time_slots\n" +
+            "where time_slots.start_lesson between ? and ?";
+
 
     private final JdbcTemplate jdbcTemplate;
-
-    private static final String SQL_FIND_LECTORS = "select * from lectors where lector_id = ?";
-    private static final String SQL_DELETE_LECTORS = "delete from lectors where lector_id = ?";
-    private static final String SQL_UPDATE_LECTORS = "update lectors set first_name = ?, last_name = ?,faculty_id=? where lector_id = ?";
-    private static final String SQL_GET_ALL_LECTORS = "select * from lectors";
-    private static final String SQL_INSERT_LECTORS = "insert into lectors(first_name, last_name,faculty_id) values(?,?,?)";
-    private static final String SQL_GET_LESSONS_LECTORS = "select count(lesson_id)*2 as quantity from time_slots\n" +
-            "where time_slots.start_lesson between ? and ?";
 
     @Autowired
     public LectorDaoImplEntity(DataSource dataSource) {
@@ -33,32 +33,32 @@ public class LectorDaoImplEntity implements LectorEntity {
 
     @Override
     public Lector getById(Long id) {
-        return jdbcTemplate.queryForObject(SQL_FIND_LECTORS, new Object[]{id}, new LectorMapper());
+        return jdbcTemplate.queryForObject(GET_LECTOR_BY_ID_QUERY, new Object[]{id}, new LectorMapper());
     }
 
     @Override
     public List<Lector> getAll() {
-        return jdbcTemplate.query(SQL_GET_ALL_LECTORS, new LectorMapper());
+        return jdbcTemplate.query(SELECT_LECTORS_QUERY, new LectorMapper());
     }
 
     @Override
     public boolean delete(Long id) {
-        return jdbcTemplate.update(SQL_DELETE_LECTORS, id) > 0;
+        return jdbcTemplate.update(DELETE_LECTOR_BY_ID_QUERY, id) > 0;
     }
 
     @Override
     public boolean update(Lector lector) {
-        return jdbcTemplate.update(SQL_UPDATE_LECTORS, lector.getFirstName(), lector.getLastName(),
+        return jdbcTemplate.update(UPDATE_LECTOR_BY_ID_QUERY, lector.getFirstName(), lector.getLastName(),
                 lector.getLectorId()) > 0;
     }
 
     @Override
     public boolean create(Lector lector) {
-        return jdbcTemplate.update(SQL_INSERT_LECTORS, lector.getFirstName(), lector.getLastName()) > 0;
+        return jdbcTemplate.update(INSERT_LECTOR_QUERY, lector.getFirstName(), lector.getLastName()) > 0;
     }
 
     @Override
     public int getLessonsByTime(LocalDateTime start, LocalDateTime end) {
-        return jdbcTemplate.queryForObject(SQL_GET_LESSONS_LECTORS, new Object[]{start, end}, Integer.class);
+        return jdbcTemplate.queryForObject(GET_LESSONS_LECTORS_QUERY, new Object[]{start, end}, Integer.class);
     }
 }

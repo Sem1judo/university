@@ -31,7 +31,7 @@ public class LectorServices {
 
     private static final Logger logger = LoggerFactory.getLogger(LectorServices.class);
 
-    private static final String MISSING_ID = "Missing id lector.";
+    private static final String MISSING_ID_ERROR_MESSAGE = "Missing id lector.";
     private static final String NOT_EXIST_ENTITY = "Doesn't exist such lector";
 
 
@@ -88,8 +88,8 @@ public class LectorServices {
         logger.debug("Trying to get lector with id={}", id);
 
         if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
 
         LectorDto lector;
@@ -108,8 +108,8 @@ public class LectorServices {
         logger.debug("Trying to get lector with id={}", id);
 
         if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
 
         Lector lector;
@@ -156,8 +156,8 @@ public class LectorServices {
         logger.debug("Trying to delete lector with id={}", id);
 
         if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         try {
             return lectorDao.delete(id);
@@ -174,8 +174,8 @@ public class LectorServices {
         logger.debug("Trying to update lector: {}", lector);
 
         if (lector.getLectorId() == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         validator.validate(lector);
         try {

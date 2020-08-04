@@ -38,7 +38,7 @@ public class TimeSlotServices {
 
     private static final Logger logger = LoggerFactory.getLogger(TimeSlotServices.class);
 
-    private static final String MISSING_ID = "Missing id time slot.";
+    private static final String MISSING_ID_ERROR_MESSAGE = "Missing id time slot.";
     private static final String NOT_EXIST_ENTITY = "Doesn't exist such time slot";
 
 
@@ -134,8 +134,8 @@ public class TimeSlotServices {
         logger.debug("Trying to get time slot with id={}", id);
 
         if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         TimeSlotDto timeSlot;
         try {
@@ -154,8 +154,8 @@ public class TimeSlotServices {
         logger.debug("Trying to get time slot with id={}", id);
 
         if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         TimeSlot timeSlot;
         try {
@@ -199,8 +199,8 @@ public class TimeSlotServices {
         logger.debug("Trying to delete time slot id={}", id);
 
         if (id == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         try {
             return timeSlotDao.delete(id);
@@ -217,8 +217,8 @@ public class TimeSlotServices {
         logger.debug("Trying to update time slot: {}", timeSlot);
 
         if (timeSlot.getTimeSlotId() == 0) {
-            logger.warn(MISSING_ID);
-            throw new ServiceException(MISSING_ID);
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         validator.validate(timeSlot);
         try {

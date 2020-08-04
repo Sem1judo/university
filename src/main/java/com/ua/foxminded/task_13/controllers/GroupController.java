@@ -23,17 +23,22 @@ public class GroupController {
         this.messageSource = messageSource;
         this.groupServices = groupServices;
     }
+
     @GetMapping("/groups")
     public ModelAndView getAllGroups(Model model) {
         ModelAndView mav = new ModelAndView("group/allGroups");
+
         mav.addObject("groups", groupServices.getAll());
+
         return mav;
     }
 
     @GetMapping("/groupInfo/{groupId}")
     public ModelAndView getTimeSlot(@PathVariable("groupId") Long id, Model model) {
         ModelAndView mav = new ModelAndView("group/groupInfo");
+
         mav.addObject("groupFaculty", groupServices.getById(id));
+
         return mav;
     }
 

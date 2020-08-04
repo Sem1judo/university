@@ -9,6 +9,9 @@
 <body>
 <table class="table table-striped">
     <thead>
+    <tr th:if="${timeSlots.isEmpty()}">
+        <td colspan="2">No Time slot available</td>
+    </tr>
     <tr>
         <th scope="col">ID</th>
         <th scope="col">Start lesson</th>
@@ -42,3 +45,4 @@
         crossorigin="anonymous"></script>
 </body>
 </html>
+

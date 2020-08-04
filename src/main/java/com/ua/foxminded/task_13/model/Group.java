@@ -9,12 +9,15 @@ public class Group {
 
     private long groupId;
     private long facultyId;
+
     @NotBlank
     @Size(min=3, max=50,
             message="Group name must be between 3 and 20 characters ")
     @Pattern(regexp="^[a-zA-Z0-9-]*$",
             message="Group name must be alphanumeric with no spaces")
+
     private String name;
+
 
     public Group() {
     }
