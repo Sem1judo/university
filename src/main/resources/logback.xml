@@ -19,7 +19,7 @@
         </encoder>
     </appender>
 
-    <logger name="java.com.ua.foxminded.task_13" level="debug" additivity="false">
+    <logger name="java.com.ua.foxminded.university" level="debug" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </logger>
