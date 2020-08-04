@@ -23,12 +23,8 @@ public class LessonDaoImpl implements DaoEntity<Lesson> {
     private static final String INSERT_LESSON_QUERY = "insert into lessons(lesson_name,lector_id) " +
             "values(?,?)";
 
-    private final JdbcTemplate jdbcTemplate;
-
     @Autowired
-    public LessonDaoImpl(DataSource dataSource) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
-    }
+    private  JdbcTemplate jdbcTemplate;
 
     @Override
     public Lesson getById(Long id) {

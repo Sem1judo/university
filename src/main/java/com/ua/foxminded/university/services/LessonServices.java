@@ -2,7 +2,7 @@ package com.ua.foxminded.university.services;
 
 
 import com.ua.foxminded.university.dao.impl.FacultyDaoImpl;
-import com.ua.foxminded.university.dao.impl.LectorDaoImplEntity;
+import com.ua.foxminded.university.dao.impl.LectorDaoImplDao;
 import com.ua.foxminded.university.dao.impl.LessonDaoImpl;
 import com.ua.foxminded.university.dto.LectorDto;
 import com.ua.foxminded.university.dto.LessonDto;
@@ -29,7 +29,7 @@ public class LessonServices {
     @Autowired
     private LessonDaoImpl lessonDao;
     @Autowired
-    private LectorDaoImplEntity lectorDao;
+    private LectorDaoImplDao lectorDao;
     @Autowired
     private FacultyDaoImpl facultyDao;
     @Autowired

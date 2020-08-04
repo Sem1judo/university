@@ -1,19 +1,17 @@
 package com.ua.foxminded.university.dao.impl;
 
 
-import com.ua.foxminded.university.dao.GroupEntity;
+import com.ua.foxminded.university.dao.GroupDao;
 import com.ua.foxminded.university.model.Group;
 import com.ua.foxminded.university.model.mapper.GroupMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-
 import java.util.List;
 
 @Repository
-public class GroupDaoImplEntity implements GroupEntity {
+public class GroupDaoImplDao implements GroupDao {
 
     private static final String GET_GROUP_BY_ID_QUERY = "select * from groups " +
             "where group_id = ?";
@@ -30,12 +28,9 @@ public class GroupDaoImplEntity implements GroupEntity {
             "where groups.group_id = ?\n" +
             "group by lessons.lesson_name";
 
-    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public GroupDaoImplEntity(DataSource dataSource) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
-    }
+    private  JdbcTemplate jdbcTemplate;
 
     @Override
     public Group getById(Long id) {

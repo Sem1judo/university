@@ -1,6 +1,6 @@
 package com.ua.foxminded.university.services;
 
-import com.ua.foxminded.university.dao.impl.LectorDaoImplEntity;
+import com.ua.foxminded.university.dao.impl.LectorDaoImplDao;
 import com.ua.foxminded.university.exceptions.ServiceException;
 import com.ua.foxminded.university.model.Lector;
 import com.ua.foxminded.university.validation.ValidatorEntity;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 
 class LectorServicesTest {
     @Mock
-    private LectorDaoImplEntity lectorDao;
+    private LectorDaoImplDao lectorDao;
 
     @InjectMocks
     private ValidatorEntity<Lector> validator;

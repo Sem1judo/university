@@ -23,12 +23,8 @@ public class TimeSlotDaoImpl implements DaoEntity<TimeSlot> {
     private static final String INSERT_TIME_SLOT_QUERY = "insert into time_slots(start_lesson, end_lesson, group_id, lesson_id) " +
             "values(?,?,?,?)";
 
-    private final JdbcTemplate jdbcTemplate;
-
     @Autowired
-    public TimeSlotDaoImpl(DataSource dataSource) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
-    }
+    private  JdbcTemplate jdbcTemplate;
 
     @Override
     public TimeSlot getById(Long id) {

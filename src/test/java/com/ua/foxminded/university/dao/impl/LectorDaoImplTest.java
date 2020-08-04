@@ -19,11 +19,15 @@ import static org.mockito.Mockito.when;
 
 class LectorDaoImplTest {
 
+    private final String UPDATE_SQL = "update lectors set first_name = ?, last_name = ? where lector_id = ?";
+    private final String CREATE_SQL = "insert into lectors(first_name, last_name) values(?,?)";
+    private final String DELETE_SQL = "delete from lectors where lector_id = ?";
+    private final String SELECT_SQL = "select * from lectors where lector_id = ?";
+
     @Mock
     private JdbcTemplate jdbcTemplate;
     @InjectMocks
-    private LectorDaoImplEntity lectorDao;
-
+    private LectorDaoImplDao lectorDao;
 
 
     @BeforeEach
@@ -35,7 +39,7 @@ class LectorDaoImplTest {
 
     @Test
     public void shouldCreateLessonWhenAddValues() {
-        when(jdbcTemplate.update(eq("insert into lectors(first_name, last_name) values(?,?)"), eq("testName"), eq("testSurname")))
+        when(jdbcTemplate.update(eq(CREATE_SQL), eq("testName"), eq("testSurname")))
                 .thenReturn(1);
 
         Lector lector = new Lector();
@@ -49,7 +53,7 @@ class LectorDaoImplTest {
     @Test
     public void shouldUpdatedLectorWhenAddValuesWithId() {
 
-        when(jdbcTemplate.update(eq("update lectors set first_name = ?, last_name = ? where lector_id = ?"),
+        when(jdbcTemplate.update(eq(UPDATE_SQL),
                 eq("testName"),
                 eq("testSurname"), eq(1L)))
                 .thenReturn(1);
@@ -66,7 +70,7 @@ class LectorDaoImplTest {
 
     @Test
     public void shouldDeleteLectorWhenInputId() {
-        when(jdbcTemplate.update(eq("delete from lectors where lector_id = ?"),
+        when(jdbcTemplate.update(eq(DELETE_SQL),
                 eq(1L))).
                 thenReturn(1);
 
@@ -77,7 +81,7 @@ class LectorDaoImplTest {
 
     @Test
     public void shouldReturnAppropriateFirstNameAndLastNameWhenInputId() {
-        when(jdbcTemplate.queryForObject(eq("select * from lectors where lector_id = ?")
+        when(jdbcTemplate.queryForObject(eq(SELECT_SQL)
                 , eq(new Object[]{100L})
                 , (LectorMapper) any())).thenReturn(getMeTestLector());
 

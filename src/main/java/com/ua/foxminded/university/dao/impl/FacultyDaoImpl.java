@@ -23,12 +23,8 @@ public class FacultyDaoImpl implements DaoEntity<Faculty> {
     private static final String INSERT_FACULTY_QUERY = "insert into faculties(faculty_name) " +
             "values(?)";
 
-    private final JdbcTemplate jdbcTemplate;
-
     @Autowired
-    public FacultyDaoImpl(DataSource dataSource) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
-    }
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public Faculty getById(Long id) {

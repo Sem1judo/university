@@ -4,7 +4,7 @@ import com.ua.foxminded.university.model.Lector;
 
 import java.time.LocalDateTime;
 
-public interface LectorEntity extends DaoEntity<Lector> {
+public interface LectorDao extends DaoEntity<Lector> {
 
      int getLessonsByTime(LocalDateTime start, LocalDateTime end);
 }

@@ -27,9 +27,9 @@ public class TimeSlotServices {
     @Autowired
     private LessonDaoImpl lessonDao;
     @Autowired
-    private GroupDaoImplEntity groupDao;
+    private GroupDaoImplDao groupDao;
     @Autowired
-    private LectorDaoImplEntity lectorDao;
+    private LectorDaoImplDao lectorDao;
     @Autowired
     private FacultyDaoImpl facultyDao;
     @Autowired

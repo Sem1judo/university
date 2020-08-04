@@ -19,6 +19,11 @@ import static org.mockito.Mockito.when;
 
 class TimeSlotDaoImplTest {
 
+    private final String CREATE_SQL = "insert into time_slots(start_lesson, end_lesson) values(?,?)";
+    private final String UPDATE_SQL = "update time_slots set start_lesson = ?, end_lesson = ? where timeslot_id = ?";
+    private final String DELETE_SQL = "delete from time_slots where timeslot_id = ?";
+    private final String SELECT_SQL = "select * from time_slots where timeslot_id = ?";
+
     @Mock
     JdbcTemplate jdbcTemplate;
     @InjectMocks
@@ -33,7 +38,7 @@ class TimeSlotDaoImplTest {
 
     @Test
     public void shouldCreateTimeSlotWhenAddValues() {
-        when(jdbcTemplate.update(eq("insert into time_slots(start_lesson, end_lesson) values(?,?)")
+        when(jdbcTemplate.update(eq(CREATE_SQL)
                 , eq(LocalDateTime.parse("2020-01-01T12:00:00")), eq(LocalDateTime.parse("2020-01-01T14:00:00"))))
                 .thenReturn(1);
 
@@ -48,7 +53,7 @@ class TimeSlotDaoImplTest {
 
     @Test
     public void shouldUpdatedTimeSlotWhenAddValuesWithId() {
-        when(jdbcTemplate.update(eq("update time_slots set start_lesson = ?, end_lesson = ? where timeslot_id = ?"),
+        when(jdbcTemplate.update(eq(UPDATE_SQL),
                 eq(LocalDateTime.of(2020, 12, 14, 10, 30)),
                 eq(LocalDateTime.of(2020, 12, 14, 12, 30)),
                 eq(1L)))
@@ -66,7 +71,7 @@ class TimeSlotDaoImplTest {
 
     @Test
     public void shouldDeleteTimeSLotWhenInputId() {
-        when(jdbcTemplate.update(eq("delete from time_slots where timeslot_id = ?"),
+        when(jdbcTemplate.update(eq(DELETE_SQL),
                 eq(1L))).
                 thenReturn(1);
 
@@ -77,7 +82,7 @@ class TimeSlotDaoImplTest {
 
     @Test
     public void shouldReturnAppropriateNameWhenInputDate() {
-        when(jdbcTemplate.queryForObject(eq("select * from time_slots where timeslot_id = ?"), eq(new Object[]{100L}), (TimeSLotMapper) any()))
+        when(jdbcTemplate.queryForObject(eq(SELECT_SQL), eq(new Object[]{100L}), (TimeSLotMapper) any()))
                 .thenReturn(getMeTestTimeSlot());
 
         TimeSlot timeSlot = timeSlotDao.getById(100L);

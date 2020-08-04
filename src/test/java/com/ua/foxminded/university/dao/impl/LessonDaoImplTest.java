@@ -18,6 +18,11 @@ import static org.mockito.Mockito.when;
 
 class LessonDaoImplTest {
 
+    private final String CREATE_SQL = "insert into lessons(lesson_name) values(?)";
+    private final String UPDATE_SQL = "update lessons set lesson_name = ? where lesson_id = ?";
+    private final String DELETE_SQL = "delete from lessons where lesson_id = ?";
+    private final String SELECT_SQL = "select * from lessons where lesson_id = ?";
+
     @Mock
     private JdbcTemplate jdbcTemplate;
     @InjectMocks
@@ -34,7 +39,7 @@ class LessonDaoImplTest {
 
     @Test
     public void shouldCreateLessonWhenAddValues() {
-        when(jdbcTemplate.update(eq("insert into lessons(lesson_name) values(?)"), eq("testName")))
+        when(jdbcTemplate.update(eq(CREATE_SQL), eq("testName")))
                 .thenReturn(1);
 
         Lesson lesson = new Lesson();
@@ -46,7 +51,7 @@ class LessonDaoImplTest {
 
     @Test
     public void shouldUpdatedLessonWhenAddValuesWithId() {
-        when(jdbcTemplate.update(eq("update lessons set lesson_name = ? where lesson_id = ?"),
+        when(jdbcTemplate.update(eq(UPDATE_SQL),
                 eq("testName"), eq(1L)))
                 .thenReturn(1);
 
@@ -60,7 +65,7 @@ class LessonDaoImplTest {
 
     @Test
     public void shouldDeleteLessonWhenInputId() {
-        when(jdbcTemplate.update(anyString(), eq(1L))).
+        when(jdbcTemplate.update(eq(DELETE_SQL), eq(1L))).
                 thenReturn(1);
 
         boolean isDeleted = lessonDao.delete(1L);
@@ -70,7 +75,7 @@ class LessonDaoImplTest {
 
     @Test
     public void shouldReturnAppropriateNameWhenInputId() {
-        when(jdbcTemplate.queryForObject(eq("select * from lessons where lesson_id = ?"), eq(new Object[]{100L}), (LessonMapper) any()))
+        when(jdbcTemplate.queryForObject(eq(SELECT_SQL), eq(new Object[]{100L}), (LessonMapper) any()))
                 .thenReturn(getMeTestLesson());
 
         Lesson lesson = lessonDao.getById(100L);

@@ -17,10 +17,16 @@ import static org.mockito.Mockito.when;
 
 class GroupDaoImplTest {
 
+    private final String UPDATE_SQL = "update groups set group_name where group_id = ?";
+    private final String CREATE_SQL = "insert into groups(group_name) values(?)";
+    private final String DELETE_SQL = "delete from groups where group_id = ?";
+    private final String SELECT_SQL = "select * from groups where group_id = ?";
+
     @Mock
     private JdbcTemplate jdbcTemplate;
     @InjectMocks
-    private GroupDaoImplEntity groupDao;
+    private GroupDaoImplDao groupDao;
+
 
     @BeforeEach
     void init() {
@@ -30,7 +36,7 @@ class GroupDaoImplTest {
 
     @Test
     public void shouldCreateGroupWhenAddValues() {
-        when(jdbcTemplate.update(eq("insert into groups(group_name) values(?)"),eq("testName")))
+        when(jdbcTemplate.update(eq(CREATE_SQL),eq("testName")))
                 .thenReturn(1);
 
         Group group = new Group();
@@ -42,7 +48,7 @@ class GroupDaoImplTest {
 
     @Test
     public void shouldUpdatedGroupWhenAddValuesWithId() {
-        when(jdbcTemplate.update(eq("update groups set group_name where group_id = ?"), eq("testName"), eq(1L)))
+        when(jdbcTemplate.update(eq(UPDATE_SQL), eq("testName"), eq(1L)))
                 .thenReturn(1);
 
         Group group = new Group();
@@ -55,7 +61,7 @@ class GroupDaoImplTest {
 
     @Test
     public void shouldDeleteGroupWhenInputId() {
-        when(jdbcTemplate.update(eq("delete from groups where group_id = ?"), eq(1L))).thenReturn(1);
+        when(jdbcTemplate.update(eq(DELETE_SQL), eq(1L))).thenReturn(1);
 
         boolean isDeleted = groupDao.delete(1L);
 
@@ -64,7 +70,7 @@ class GroupDaoImplTest {
 
     @Test
     public void shouldReturnAppropriateNameWhenInputId() {
-        when(jdbcTemplate.queryForObject(eq("select * from groups where group_id = ?"),eq(new Object[]{100L})
+        when(jdbcTemplate.queryForObject(eq(SELECT_SQL),eq(new Object[]{100L})
                 ,(GroupMapper) any())).thenReturn(getMeTestGroup());
 
         Group group = groupDao.getById(100L);

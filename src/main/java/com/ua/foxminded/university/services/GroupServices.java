@@ -1,7 +1,7 @@
 package com.ua.foxminded.university.services;
 
 import com.ua.foxminded.university.dao.impl.FacultyDaoImpl;
-import com.ua.foxminded.university.dao.impl.GroupDaoImplEntity;
+import com.ua.foxminded.university.dao.impl.GroupDaoImplDao;
 import com.ua.foxminded.university.dto.GroupDto;
 import com.ua.foxminded.university.exceptions.ServiceException;
 import com.ua.foxminded.university.model.Faculty;
@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 public class GroupServices {
     @Autowired
-    private GroupDaoImplEntity groupDao;
+    private GroupDaoImplDao groupDao;
     @Autowired
     private FacultyDaoImpl facultyDao;
     @Autowired

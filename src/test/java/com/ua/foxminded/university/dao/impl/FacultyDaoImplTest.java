@@ -17,6 +17,11 @@ import static org.mockito.Mockito.when;
 
 class FacultyDaoImplTest {
 
+    private final String UPDATE_SQL = "update faculties set faculty_name = ? where faculty_id = ?";
+    private final String CREATE_SQL = "insert into faculties(faculty_name) values(?)";
+    private final String DELETE_SQL = "delete from faculties where faculty_id = ?";
+    private final String SELECT_SQL ="select * from faculties where faculty_id = ?";
+
     @Mock
     private JdbcTemplate jdbcTemplate;
 
@@ -33,7 +38,7 @@ class FacultyDaoImplTest {
 
     @Test
     public void shouldCreateFacultyWhenAddValues() {
-        when(jdbcTemplate.update(eq("insert into faculties(faculty_name) values(?)"),
+        when(jdbcTemplate.update(eq(CREATE_SQL),
                 eq("testName")))
                 .thenReturn(1);
 
@@ -46,7 +51,7 @@ class FacultyDaoImplTest {
 
     @Test
     public void shouldUpdatedFacultyWhenAddValuesWithId() {
-        when(jdbcTemplate.update(eq("update faculties set faculty_name = ? where faculty_id = ?"), eq("testName"), eq(1L)))
+        when(jdbcTemplate.update(eq(UPDATE_SQL), eq("testName"), eq(1L)))
                 .thenReturn(1);
 
         Faculty faculty = new Faculty();
@@ -59,7 +64,7 @@ class FacultyDaoImplTest {
 
     @Test
     public void shouldDeleteFacultyWhenInputId() {
-        when(jdbcTemplate.update(eq("delete from faculties where faculty_id = ?"), eq(1L))).
+        when(jdbcTemplate.update(eq(DELETE_SQL), eq(1L))).
                 thenReturn(1);
 
         boolean isDeleted = facultyDao.delete(1L);
@@ -69,7 +74,7 @@ class FacultyDaoImplTest {
 
     @Test
     public void shouldReturnAppropriateNameWhenInputId() {
-        when(jdbcTemplate.queryForObject(eq("select * from faculties where faculty_id = ?"), eq(new Object[]{100L})
+        when(jdbcTemplate.queryForObject(eq(SELECT_SQL), eq(new Object[]{100L})
                 , (FacultyMapper) any())).thenReturn(getMeTestFaculty());
 
         Faculty faculty = facultyDao.getById(100L);

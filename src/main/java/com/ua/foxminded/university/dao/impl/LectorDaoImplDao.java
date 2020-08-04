@@ -1,18 +1,17 @@
 package com.ua.foxminded.university.dao.impl;
 
-import com.ua.foxminded.university.dao.LectorEntity;
+import com.ua.foxminded.university.dao.LectorDao;
 import com.ua.foxminded.university.model.Lector;
 import com.ua.foxminded.university.model.mapper.LectorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import javax.sql.DataSource;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public class LectorDaoImplEntity implements LectorEntity {
+public class LectorDaoImplDao implements LectorDao {
 
     private static final String GET_LECTOR_BY_ID_QUERY = "select * from lectors " +
             "where lector_id = ?";
@@ -27,13 +26,8 @@ public class LectorDaoImplEntity implements LectorEntity {
             "where time_slots.start_lesson between ? and ?";
 
 
-    private final JdbcTemplate jdbcTemplate;
-
     @Autowired
-    public LectorDaoImplEntity(DataSource dataSource) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
-    }
-
+    private  JdbcTemplate jdbcTemplate;
 
     @Override
     public Lector getById(Long id) {

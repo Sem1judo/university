@@ -1,6 +1,6 @@
 package com.ua.foxminded.university.services;
 
-import com.ua.foxminded.university.dao.impl.GroupDaoImplEntity;
+import com.ua.foxminded.university.dao.impl.GroupDaoImplDao;
 import com.ua.foxminded.university.exceptions.ServiceException;
 import com.ua.foxminded.university.model.Group;
 import com.ua.foxminded.university.validation.ValidatorEntity;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 
 class GroupServicesTest {
     @Mock
-    private GroupDaoImplEntity groupDao;
+    private GroupDaoImplDao groupDao;
 
     @InjectMocks
     private ValidatorEntity<Group> validator;

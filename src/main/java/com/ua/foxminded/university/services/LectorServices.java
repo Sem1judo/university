@@ -1,7 +1,7 @@
 package com.ua.foxminded.university.services;
 
 import com.ua.foxminded.university.dao.impl.FacultyDaoImpl;
-import com.ua.foxminded.university.dao.impl.LectorDaoImplEntity;
+import com.ua.foxminded.university.dao.impl.LectorDaoImplDao;
 import com.ua.foxminded.university.dto.LectorDto;
 import com.ua.foxminded.university.exceptions.ServiceException;
 import com.ua.foxminded.university.model.Faculty;
@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 public class LectorServices {
     @Autowired
-    private LectorDaoImplEntity lectorDao;
+    private LectorDaoImplDao lectorDao;
     @Autowired
     private FacultyDaoImpl facultyDao;
     @Autowired
