@@ -4,6 +4,7 @@ import com.ua.foxminded.university.dao.DaoEntity;
 import com.ua.foxminded.university.model.Lesson;
 import com.ua.foxminded.university.model.mapper.LessonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;

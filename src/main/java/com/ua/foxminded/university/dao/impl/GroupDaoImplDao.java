@@ -5,9 +5,11 @@ import com.ua.foxminded.university.dao.GroupDao;
 import com.ua.foxminded.university.model.Group;
 import com.ua.foxminded.university.model.mapper.GroupMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
@@ -28,9 +30,8 @@ public class GroupDaoImplDao implements GroupDao {
             "where groups.group_id = ?\n" +
             "group by lessons.lesson_name";
 
-
     @Autowired
-    private  JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public Group getById(Long id) {

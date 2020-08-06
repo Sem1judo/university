@@ -2,6 +2,7 @@ package com.ua.foxminded.university.controllers;
 
 import com.ua.foxminded.university.services.LectorServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class LectorController {
+
     @Autowired
+    @Qualifier("lectorServices")
     private  LectorServices lectorServices;
     @Autowired
     private  MessageSource messageSource;

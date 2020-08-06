@@ -2,6 +2,7 @@ package com.ua.foxminded.university.controllers;
 
 import com.ua.foxminded.university.services.GroupServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +13,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class GroupController {
+
     @Autowired
+    @Qualifier("groupServices")
     private  GroupServices groupServices;
     @Autowired
+    @Qualifier("messageSource")
     private  MessageSource messageSource;
 
     @GetMapping("/groups")

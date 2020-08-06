@@ -4,6 +4,8 @@ import com.ua.foxminded.university.dao.DaoEntity;
 import com.ua.foxminded.university.model.Faculty;
 import com.ua.foxminded.university.model.mapper.FacultyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -24,7 +26,7 @@ public class FacultyDaoImpl implements DaoEntity<Faculty> {
             "values(?)";
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private  JdbcTemplate jdbcTemplate;
 
     @Override
     public Faculty getById(Long id) {

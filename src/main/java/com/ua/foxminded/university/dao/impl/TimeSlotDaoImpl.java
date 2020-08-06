@@ -4,6 +4,7 @@ import com.ua.foxminded.university.dao.DaoEntity;
 import com.ua.foxminded.university.model.TimeSlot;
 import com.ua.foxminded.university.model.mapper.TimeSLotMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,7 @@ public class TimeSlotDaoImpl implements DaoEntity<TimeSlot> {
     private static final String SELECT_FROM_TIME_SLOTS_QUERT = "select * from time_slots";
     private static final String INSERT_TIME_SLOT_QUERY = "insert into time_slots(start_lesson, end_lesson, group_id, lesson_id) " +
             "values(?,?,?,?)";
+
 
     @Autowired
     private  JdbcTemplate jdbcTemplate;

@@ -1,7 +1,9 @@
 package com.ua.foxminded.university.controllers;
 
 import com.ua.foxminded.university.services.FacultyServices;
+import com.ua.foxminded.university.services.GroupServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class FacultyController {
+
     @Autowired
+    @Qualifier("facultyServices")
     private FacultyServices facultyServices;
     @Autowired
-    private MessageSource messageSource;
+    private  MessageSource messageSource;
 
     @GetMapping("/faculties")
     public ModelAndView getAllFaculties(Model model) {
