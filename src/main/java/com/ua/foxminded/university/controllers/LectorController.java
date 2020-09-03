@@ -19,7 +19,6 @@ public class LectorController {
     @Autowired
     private  MessageSource messageSource;
 
-
     @GetMapping("/lectors")
     public ModelAndView getaAllLectors(Model model) {
         ModelAndView mav = new ModelAndView("lector/allLectors");

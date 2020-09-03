@@ -19,7 +19,6 @@ public class LessonController {
     @Autowired
     private MessageSource messageSource;
 
-
     @GetMapping("/lessons")
     public ModelAndView getAllLessons(Model model) {
         ModelAndView mav = new ModelAndView("lesson/allLessons");
