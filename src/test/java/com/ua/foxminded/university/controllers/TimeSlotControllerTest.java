@@ -150,7 +150,7 @@ class TimeSlotControllerTest {
     }
 
     @Test
-    public void getAllNotAddAnyLessonAndListIsEmpty() throws Exception {
+    public void getAllNotAddAnyLessonWhenListIsEmpty() throws Exception {
 
         when(service.getAll()).thenReturn(Collections.emptyList());
 
@@ -166,7 +166,7 @@ class TimeSlotControllerTest {
     }
 
     @Test
-    public void getByIdNotAddAnyTimeSlotForLectorNotExistId() throws Exception {
+    public void getByIdNotAddAnyTimeSlotForLectorWhenLectorIdIsNotExist() throws Exception {
 
         when(service.getById(2L)).thenReturn(null);
 
@@ -180,7 +180,8 @@ class TimeSlotControllerTest {
         verifyNoMoreInteractions(service);
     }
     @Test
-    public void getByIdNotAddAnyTimeSlotForLessonNotExistId() throws Exception {
+    public void getByIdNotAddAnyTimeSlotForLessonWhenLessonIdIsNotExist() throws Exception {
+
 
         when(service.getById(2L)).thenReturn(null);
 

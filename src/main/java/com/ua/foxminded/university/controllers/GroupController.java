@@ -18,7 +18,6 @@ public class GroupController {
     @Qualifier("groupServices")
     private  GroupServices groupServices;
     @Autowired
-    @Qualifier("messageSource")
     private  MessageSource messageSource;
 
     @GetMapping("/groups")

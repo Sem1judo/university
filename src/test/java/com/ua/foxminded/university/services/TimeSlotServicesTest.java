@@ -43,7 +43,7 @@ class TimeSlotServicesTest {
     }
 
     @Test
-    public void shouldGetAllTimeSlots() {
+    public void getAllShouldGetAllTimeSlots() {
 
         List<TimeSlot> initialTimeSlots = new ArrayList<>();
         TimeSlot testTimeSLot1 = new TimeSlot(1, start, end, 1, 1);
@@ -63,7 +63,7 @@ class TimeSlotServicesTest {
     }
 
     @Test
-    public void shouldGetByIdTimeSlot() {
+    public void getByIdShouldGetByIdTimeSlot() {
         when(timeSlotDao.getById(1L)).thenReturn(new TimeSlot(1, start, end, 1, 1));
 
         TimeSlot timeSlot = timeSlotServices.getByIdLight(1L);
@@ -74,7 +74,7 @@ class TimeSlotServicesTest {
     }
 
     @Test
-    public void shouldCreateTimeSlot() {
+    public void createShouldCreateTimeSlot() {
         TimeSlot timeSlot = new TimeSlot(1, start, end, 1, 1);
 
         when(timeSlotDao.create(eq(timeSlot))).thenReturn(Boolean.TRUE);
@@ -85,7 +85,7 @@ class TimeSlotServicesTest {
     }
 
     @Test
-    public void shouldDeleteTimeSlot() {
+    public void deleteShouldDeleteTimeSlot() {
         when(timeSlotDao.delete(1L)).thenReturn(Boolean.TRUE);
 
         boolean isDeleted = timeSlotServices.delete(1L);
@@ -95,7 +95,7 @@ class TimeSlotServicesTest {
     }
 
     @Test
-    public void shouldUpdateTimeSlot() {
+    public void updateShouldUpdateTimeSlot() {
         TimeSlot timeSlot = new TimeSlot(1, start, end, 1,1);
 
         when(timeSlotDao.update(eq(timeSlot))).thenReturn(Boolean.TRUE);
@@ -107,7 +107,7 @@ class TimeSlotServicesTest {
     }
 
     @Test
-    public void shouldPassWhenFacultyDateValid() {
+    public void validateShouldPassWhenFacultyDateValid() {
         TimeSlot timeSlot = new TimeSlot(1L, LocalDateTime.of(2021, 6, 10, 10, 15),
                 LocalDateTime.of(2021, 6, 10, 12, 15),1,1);
 
@@ -118,7 +118,7 @@ class TimeSlotServicesTest {
 
 
     @Test
-    public void shouldThrowServiceExceptionWhenStartDateIsNull() {
+    public void createShouldThrowServiceExceptionWhenStartDateIsNull() {
         TimeSlot timeSlot = new TimeSlot(1L, null,
                 LocalDateTime.of(2021, 6, 10, 12, 15), 1, 1);
 
@@ -126,7 +126,7 @@ class TimeSlotServicesTest {
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenEndDateIsNull() {
+    public void createShouldThrowServiceExceptionWhenEndDateIsNull() {
         TimeSlot timeSlot = new TimeSlot(1L, LocalDateTime.of(2021, 6, 10, 12, 15),
                 null, 1, 1);
 
@@ -134,7 +134,7 @@ class TimeSlotServicesTest {
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenStartDateIsAlreadyPass() {
+    public void createShouldThrowServiceExceptionWhenStartDateIsAlreadyPass() {
         TimeSlot timeSlot = new TimeSlot(1L, LocalDateTime.of(2019, 6, 10, 10, 15),
                 LocalDateTime.of(2029, 6, 10, 12, 15), 1, 1);
 
@@ -142,7 +142,7 @@ class TimeSlotServicesTest {
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenEndDateIsAlreadyPass() {
+    public void createShouldThrowServiceExceptionWhenEndDateIsAlreadyPass() {
         TimeSlot timeSlot = new TimeSlot(1L, LocalDateTime.of(2021, 6, 10, 10, 15),
                 LocalDateTime.of(2015, 6, 10, 12, 15), 1, 1);
 
@@ -150,7 +150,7 @@ class TimeSlotServicesTest {
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenIdZero() {
+    public void updateShouldThrowServiceExceptionWhenIdZero() {
         TimeSlot timeSlot = new TimeSlot(0L, LocalDateTime.of(2021, 6, 10, 10, 15),
                 LocalDateTime.of(2015, 6, 10, 12, 15), 1,1);
 

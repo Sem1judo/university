@@ -97,7 +97,7 @@ class LectorControllerTest {
     }
 
     @Test
-    public void getAllNotAddAnyLectorAndListIsEmpty() throws Exception {
+    public void getAllNotAddAnyLectorWhenListIsEmpty() throws Exception {
 
         when(service.getAll()).thenReturn(Collections.emptyList());
 
@@ -113,7 +113,7 @@ class LectorControllerTest {
     }
 
     @Test
-    public void getByIdNotAddAnyLectorNotExistId() throws Exception {
+    public void getByIdShouldNotAddAnyLectorWhenLectorIdIsNotExist() throws Exception {
 
         when(service.getById(2L)).thenReturn(null);
 

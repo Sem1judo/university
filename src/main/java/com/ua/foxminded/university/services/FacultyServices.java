@@ -31,7 +31,6 @@ public class FacultyServices {
 
     public List<Faculty> getAll() {
         logger.debug("Trying to get all faculties");
-
         try {
             return facultyDao.getAll();
         } catch (EmptyResultDataAccessException e) {

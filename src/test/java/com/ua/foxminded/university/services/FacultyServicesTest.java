@@ -38,7 +38,7 @@ class FacultyServicesTest {
 
 
     @Test
-    public void shouldGetAllFaculties() {
+    public void getAllShouldGetAllFaculties() {
         List<Faculty> initialFaculties = new ArrayList<>();
         Faculty testFaculty1 = new Faculty(1, "Biology", new ArrayList<>(), new ArrayList<>());
         Faculty testFaculty2 = new Faculty(2, "Math", new ArrayList<>(), new ArrayList<>());
@@ -57,7 +57,7 @@ class FacultyServicesTest {
     }
 
     @Test
-    public void shouldGetByIdFaculty() {
+    public void getByIdShouldGetByIdFaculty() {
         when(facultyDao.getById(1L)).thenReturn(new Faculty(1, "Biology", new ArrayList<>(), new ArrayList<>()));
 
         Faculty faculty = facultyServices.getById(1L);
@@ -67,7 +67,7 @@ class FacultyServicesTest {
     }
 
     @Test
-    public void shouldCreateFaculty() {
+    public void createShouldCreateFaculty() {
         Faculty faculty = new Faculty(1, "Biology", new ArrayList<>(), new ArrayList<>());
 
         when(facultyDao.create(eq(faculty))).thenReturn(Boolean.TRUE);
@@ -79,7 +79,7 @@ class FacultyServicesTest {
     }
 
     @Test
-    public void shouldDeleteFaculty() {
+    public void deleteShouldDeleteFaculty() {
 
         when(facultyDao.delete(eq(1L))).thenReturn(Boolean.TRUE);
         boolean isDeleted = facultyServices.delete(1L);
@@ -89,7 +89,7 @@ class FacultyServicesTest {
     }
 
     @Test
-    public void shouldUpdateFaculty() {
+    public void updateShouldUpdateFaculty() {
         Faculty faculty = new Faculty(1, "Math", new ArrayList<>(), new ArrayList<>());
 
         when(facultyDao.update(eq(faculty))).thenReturn(Boolean.TRUE);
@@ -101,32 +101,32 @@ class FacultyServicesTest {
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameIsNull() {
+    public void createShouldThrowServiceExceptionWhenNameIsNull() {
         Faculty faculty = new Faculty(1, null, new ArrayList<>(), new ArrayList<>());
         assertThrows(ServiceException.class, () -> facultyServices.create(faculty));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameTooShort() {
+    public void createShouldThrowServiceExceptionWhenNameTooShort() {
         Faculty faculty = new Faculty(1, "D", new ArrayList<>(), new ArrayList<>());
         assertThrows(ServiceException.class, () -> facultyServices.create(faculty));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenIdZero() {
+    public void updateShouldThrowServiceExceptionWhenIdZero() {
         Faculty faculty = new Faculty(0, "Normal", new ArrayList<>(), new ArrayList<>());
         assertThrows(ServiceException.class, () -> facultyServices.update(faculty));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameHaveForbiddenSymbol() {
+    public void updateShouldThrowServiceExceptionWhenNameHaveForbiddenSymbol() {
         Faculty faculty = new Faculty(1, "Nam_e"
                 , new ArrayList<>(), new ArrayList<>());
         assertThrows(ServiceException.class, () -> facultyServices.update(faculty));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameIsTooLong() {
+    public void updateShouldThrowServiceExceptionWhenNameIsTooLong() {
         Faculty faculty = new Faculty(1, "verybignamewhichcantbethereaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                 , new ArrayList<>(), new ArrayList<>());
         assertThrows(ServiceException.class, () -> facultyServices.update(faculty));

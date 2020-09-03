@@ -106,7 +106,7 @@ class GroupControllerTest {
     }
 
     @Test
-    public void getAllNotAddAnyGroupAndListIsEmpty() throws Exception {
+    public void getAllNotAddAnyGroupWhenListIsEmpty() throws Exception {
 
         when(service.getAll()).thenReturn(Collections.emptyList());
 
@@ -122,7 +122,8 @@ class GroupControllerTest {
     }
 
     @Test
-    public void getByIdNotAddAnyGroupNotExistId() throws Exception {
+    public void getByIdShouldNotAddAnyGroupWhenGroupIdIsNotExist() throws Exception {
+
 
         when(service.getById(2L)).thenReturn(null);
 

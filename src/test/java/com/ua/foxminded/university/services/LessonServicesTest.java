@@ -36,7 +36,7 @@ class LessonServicesTest {
     }
 
     @Test
-    public void shouldGetAllLessons() {
+    public void getAllShouldGetAllLessons() {
         List<Lesson> initialLessons = new ArrayList<>();
         Lesson testLesson1 = new Lesson(1, "technology", 1);
         Lesson testLesson2 = new Lesson(1, "technology", 1);
@@ -55,7 +55,7 @@ class LessonServicesTest {
     }
 
     @Test
-    public void shouldGetByIdLesson() {
+    public void getByIdShouldGetByIdLesson() {
         when(lessonDao.getById(1L)).thenReturn(new Lesson(1, "technology", 1));
 
         Lesson lesson = lessonServices.getByIdLight(1L);
@@ -65,7 +65,7 @@ class LessonServicesTest {
     }
 
     @Test
-    public void shouldCreateLesson() {
+    public void createShouldCreateLesson() {
         Lesson lesson = new Lesson(1, "technology", 1);
 
         when(lessonDao.create(eq(lesson))).thenReturn(Boolean.TRUE);
@@ -77,7 +77,7 @@ class LessonServicesTest {
     }
 
     @Test
-    public void shouldDeleteLesson() {
+    public void deleteShouldDeleteLesson() {
 
         when(lessonDao.delete(1L)).thenReturn(Boolean.TRUE);
         boolean isDeleted = lessonServices.delete(1L);
@@ -87,7 +87,7 @@ class LessonServicesTest {
     }
 
     @Test
-    public void shouldUpdateLesson() {
+    public void updateShouldUpdateLesson() {
         Lesson lesson = new Lesson(1, "technology",1);
         when(lessonDao.update(eq(lesson))).thenReturn(Boolean.TRUE);
 
@@ -97,34 +97,34 @@ class LessonServicesTest {
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameIsNull() {
+    public void createShouldThrowServiceExceptionWhenNameIsNull() {
         Lesson lesson = new Lesson(1L, null, 1);
         assertThrows(ServiceException.class, () -> lessonServices.create(lesson));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameTooShort() {
+    public void createShouldThrowServiceExceptionWhenNameTooShort() {
         Lesson lesson = new Lesson(1L, "V",1);
         assertThrows(ServiceException.class, () -> lessonServices.create(lesson));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenIdZero() {
+    public void updateShouldThrowServiceExceptionWhenIdZero() {
         Lesson lesson = new Lesson(0, "Vansss", 1);
         assertThrows(ServiceException.class, () -> lessonServices.update(lesson));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameHaveForbiddenSymbol() {
+    public void createShouldThrowServiceExceptionWhenNameHaveForbiddenSymbol() {
         Lesson lesson = new Lesson(0L, "Va!nss^s", 1);
         assertThrows(ServiceException.class, () -> lessonServices.create(lesson));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameIsTooLong() {
+    public void createShouldThrowServiceExceptionWhenNameIsTooLong() {
         Lesson lesson = new Lesson(0L, "Vaaaaaaaaaaansssssssssssssssssssssssssssssssssssssssssss", 1);
         assertThrows(ServiceException.class, () -> lessonServices.create(lesson));
     }
 
-
 }
+

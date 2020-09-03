@@ -100,7 +100,7 @@ class FacultyControllerTest {
     }
 
     @Test
-    public void getAllNotAddAnyFacultyAndListIsEmpty() throws Exception {
+    public void getAllNotAddAnyFacultyWhenListIsEmpty() throws Exception {
 
         when(service.getAll()).thenReturn(Collections.emptyList());
 
@@ -116,7 +116,7 @@ class FacultyControllerTest {
     }
 
     @Test
-    public void getByIdNotAddAnyFacultyNotExistId() throws Exception {
+    public void getByIdShouldNotAddAnyFacultyWhenFacultyIdIsNotExist() throws Exception {
 
         when(service.getById(2L)).thenReturn(null);
 

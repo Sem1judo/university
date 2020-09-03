@@ -104,7 +104,7 @@ class LessonControllerTest {
     }
 
     @Test
-    public void getAllNotAddAnyLessonAndListIsEmpty() throws Exception {
+    public void getAllNotAddAnyLessonWhenListIsEmpty() throws Exception {
 
         when(service.getAll()).thenReturn(Collections.emptyList());
 
@@ -120,7 +120,7 @@ class LessonControllerTest {
     }
 
     @Test
-    public void getByIdNotAddAnyFacultyNotExistId() throws Exception {
+    public void getByIdShouldNotAddAnyLessonWhenLessonIdIsNotExist() throws Exception {
 
         when(service.getById(2L)).thenReturn(null);
 

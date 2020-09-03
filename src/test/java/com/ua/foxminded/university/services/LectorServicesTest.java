@@ -35,7 +35,7 @@ class LectorServicesTest {
     }
 
     @Test
-    public void shouldGetAllLectors() {
+    public void getAllShouldGetAllLectors() {
         List<Lector> initialLectors = new ArrayList<>();
         Lector testLector1 = new Lector(1L, 1L, "Andrey", "Borisov");
         Lector testLector2 = new Lector(2L, 2L, "Boris", "Andeyes");
@@ -54,7 +54,7 @@ class LectorServicesTest {
     }
 
     @Test
-    public void shouldGetByIdLector() {
+    public void getByIdShouldGetByIdLector() {
         when(lectorDao.getById(1L)).thenReturn(new Lector(1L, 1L, "Andrey", "Borisov"));
 
         Lector lector = lectorServices.getByIdLight(1L);
@@ -65,7 +65,7 @@ class LectorServicesTest {
     }
 
     @Test
-    public void shouldCreateLector() {
+    public void createShouldCreateLector() {
         Lector lector = (new Lector(1L, 1L, "Andrey", "Borisov"));
 
         when(lectorDao.create(eq(lector))).thenReturn(Boolean.TRUE);
@@ -77,7 +77,7 @@ class LectorServicesTest {
     }
 
     @Test
-    public void shouldDeleteLector() {
+    public void deleteShouldDeleteLector() {
 
         when(lectorDao.delete(eq(1L))).thenReturn(Boolean.TRUE);
 
@@ -88,7 +88,7 @@ class LectorServicesTest {
     }
 
     @Test
-    public void shouldUpdateLector() {
+    public void updateShouldUpdateLector() {
         Lector lector = (new Lector(1L, 1L, "Andrey", "Borisov"));
         when(lectorDao.update(eq(lector))).thenReturn(Boolean.TRUE);
 
@@ -99,59 +99,59 @@ class LectorServicesTest {
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameNull() {
+    public void createShouldThrowServiceExceptionWhenNameNull() {
         Lector lector = new Lector(1L, null, "Barabas");
 
         assertThrows(ServiceException.class, () -> lectorServices.create(lector));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenSurnameNull() {
+    public void createShouldThrowServiceExceptionWhenSurnameNull() {
         Lector lector = new Lector(1L, "Ivan", null);
 
         assertThrows(ServiceException.class, () -> lectorServices.create(lector));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameTooShort() {
+    public void createShouldThrowServiceExceptionWhenNameTooShort() {
         Lector lector = new Lector(1L, "V", "Vasiko");
 
         assertThrows(ServiceException.class, () -> lectorServices.create(lector));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenSurnameTooShort() {
+    public void createShouldThrowServiceExceptionWhenSurnameTooShort() {
         Lector lector = new Lector(1L, "Saas", "V");
 
         assertThrows(ServiceException.class, () -> lectorServices.create(lector));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenIdZero() {
+    public void updateShouldThrowServiceExceptionWhenIdZero() {
         Lector lector = new Lector(0L, "Saass", "Vaaas");
         assertThrows(ServiceException.class, () -> lectorServices.update(lector));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameHaveForbiddenSymbol() {
+    public void updateShouldThrowServiceExceptionWhenNameHaveForbiddenSymbol() {
         Lector lector = new Lector(0L, "Saass_", "Vaaas");
         assertThrows(ServiceException.class, () -> lectorServices.update(lector));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenSurnameNameHaveForbiddenSymbol() {
+    public void updateShouldThrowServiceExceptionWhenSurnameNameHaveForbiddenSymbol() {
         Lector lector = new Lector(0L, "Saass", "Vaa*as");
         assertThrows(ServiceException.class, () -> lectorServices.update(lector));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameIsTooLong() {
+    public void updateShouldThrowServiceExceptionWhenNameIsTooLong() {
         Lector lector = new Lector(0L, "Saasssssssssssssssssssssssssssssssssssssssssssssss", "Vaaass");
         assertThrows(ServiceException.class, () -> lectorServices.update(lector));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenSurnameIsTooLong() {
+    public void updateShouldThrowServiceExceptionWhenSurnameIsTooLong() {
         Lector lector = new Lector(0L, "Saass", "Vaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas");
         assertThrows(ServiceException.class, () -> lectorServices.update(lector));
     }

@@ -36,7 +36,7 @@ class GroupServicesTest {
     }
 
     @Test
-    public void shouldGetAllGroups() {
+    public void getAllShouldGetAllGroups() {
         List<Group> initialGroups = new ArrayList<>();
         Group testGroup1 = new Group(1, 1, "Fb-12");
         Group testGroup2 = new Group(2, 2, "IT-22");
@@ -55,7 +55,7 @@ class GroupServicesTest {
     }
 
     @Test
-    public void shouldGetByIdGroup() {
+    public void getByIdShouldGetByIdGroup() {
         when(groupDao.getById(1L)).thenReturn(new Group(1, 1, "Fb-12"));
 
         Group group = groupServices.getByIdLight(1L);
@@ -65,7 +65,7 @@ class GroupServicesTest {
     }
 
     @Test
-    public void shouldCreateGroup() {
+    public void createShouldCreateGroup() {
         Group group = new Group(1, 1, "Fb-12");
 
         when(groupDao.create(eq(group))).thenReturn(Boolean.TRUE);
@@ -77,7 +77,7 @@ class GroupServicesTest {
     }
 
     @Test
-    public void shouldDeleteGroup() {
+    public void deleteShouldDeleteGroup() {
         when(groupDao.delete(eq(1L))).thenReturn(Boolean.TRUE);
 
         boolean isDeleted = groupServices.delete(1L);
@@ -87,7 +87,7 @@ class GroupServicesTest {
     }
 
     @Test
-    public void shouldUpdateGroup() {
+    public void updateShouldUpdateGroup() {
         Group group = new Group(1, 1, "Fb-12");
 
         when(groupDao.update(eq(group))).thenReturn(Boolean.TRUE);
@@ -99,31 +99,31 @@ class GroupServicesTest {
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameIsNull() {
+    public void createShouldThrowServiceExceptionWhenNameIsNull() {
         Group group = new Group(1, 1, null);
         assertThrows(ServiceException.class, () -> groupServices.create(group));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameTooShort() {
+    public void createShouldThrowServiceExceptionWhenNameTooShort() {
         Group group = new Group(1, 1, "Fb");
         assertThrows(ServiceException.class, () -> groupServices.create(group));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenIdZero() {
+    public void updateShouldThrowServiceExceptionWhenIdZero() {
         Group group = new Group(0, 1, "Fb-12");
         assertThrows(ServiceException.class, () -> groupServices.update(group));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameHaveForbiddenSymbol() {
+    public void createShouldThrowServiceExceptionWhenNameHaveForbiddenSymbol() {
         Group group = new Group(1, 1, "Fb_12");
         assertThrows(ServiceException.class, () -> groupServices.create(group));
     }
 
     @Test
-    public void shouldThrowServiceExceptionWhenNameIsTooLong() {
+    public void createShouldThrowServiceExceptionWhenNameIsTooLong() {
         Group group = new Group(1, 1, "aaaaaaaaaaFbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         assertThrows(ServiceException.class, () -> groupServices.create(group));
     }
