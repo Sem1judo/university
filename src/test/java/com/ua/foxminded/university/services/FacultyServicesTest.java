@@ -68,7 +68,7 @@ class FacultyServicesTest {
 
     @Test
     public void createShouldCreateFaculty() {
-        Faculty faculty = new Faculty(1, "Biology", new ArrayList<>(), new ArrayList<>());
+        Faculty faculty = new Faculty("Biology", new ArrayList<>(), new ArrayList<>());
 
         when(facultyDao.create(eq(faculty))).thenReturn(Boolean.TRUE);
 

@@ -3,6 +3,7 @@ package com.ua.foxminded.university.model;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +29,12 @@ public class Faculty {
 
     public Faculty(long facultyId, String name, List<Group> groups, List<Lector> lectors) {
         this.facultyId = facultyId;
+        this.name = name;
+        this.groups = groups;
+        this.lectors = lectors;
+    }
+
+    public Faculty(String name, List<Group> groups, List<Lector> lectors) {
         this.name = name;
         this.groups = groups;
         this.lectors = lectors;

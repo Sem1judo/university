@@ -43,6 +43,7 @@ class FacultyDaoImplTest {
                 .thenReturn(1);
 
         Faculty faculty = new Faculty();
+        faculty.setFacultyId(1212L);
         faculty.setName("testName");
 
         boolean isCreated = facultyDao.create(faculty);

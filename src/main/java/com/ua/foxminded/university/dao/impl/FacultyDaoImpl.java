@@ -26,7 +26,7 @@ public class FacultyDaoImpl implements DaoEntity<Faculty> {
             "values(?)";
 
     @Autowired
-    private  JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public Faculty getById(Long id) {
