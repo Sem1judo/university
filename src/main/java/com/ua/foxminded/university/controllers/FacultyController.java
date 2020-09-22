@@ -1,7 +1,6 @@
 package com.ua.foxminded.university.controllers;
 
 import com.ua.foxminded.university.model.Faculty;
-import com.ua.foxminded.university.model.Group;
 import com.ua.foxminded.university.services.FacultyServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,10 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 
 @Controller
 public class FacultyController {
@@ -49,7 +44,7 @@ public class FacultyController {
     public ModelAndView createFacultyForm(Model model) {
         ModelAndView mav = new ModelAndView("faculty/createFacultyForm");
 
-        model.addAttribute("faculty", new Faculty());
+        mav.addObject("faculty", new Faculty());
 
         return mav;
     }
@@ -58,7 +53,43 @@ public class FacultyController {
     public ModelAndView addFaculty(@ModelAttribute Faculty faculty) {
         ModelAndView mav = new ModelAndView("faculty/addFaculty");
 
-        facultyServices.create(faculty);
+        mav.addObject("faculty", facultyServices.create(faculty));
+
+        return mav;
+    }
+
+    @GetMapping(value = "/deleteFaculty/{facultyId}")
+    public ModelAndView deleteFaculty(@PathVariable("facultyId") long facultyId,Model model) {
+
+        ModelAndView mav = new ModelAndView("faculty/allFaculties");
+
+        facultyServices.delete(facultyId);
+
+        mav.addObject("faculties", facultyServices.getAll());
+
+        return mav;
+    }
+
+    @GetMapping("/edit/{facultyId}")
+    ModelAndView showUpdateForm(@PathVariable("facultyId") Long facultyId, Model model) {
+
+        ModelAndView mav = new ModelAndView("faculty/editFaculty");
+
+        Faculty faculty = facultyServices.getById(facultyId);
+
+        mav.addObject("faculty",faculty );
+
+        return mav;
+    }
+
+    @PostMapping("/updateFaculty/{facultyId}")
+    public ModelAndView updateFaculty(@PathVariable("facultyId") Long facultyId, Faculty faculty, Model model) {
+
+        ModelAndView mav = new ModelAndView("faculty/deleteFaculty");
+
+        facultyServices.update(faculty);
+
+        mav.addObject("faculties", facultyServices.getAll());
 
         return mav;
     }

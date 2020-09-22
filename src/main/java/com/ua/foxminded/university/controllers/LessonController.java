@@ -1,5 +1,7 @@
 package com.ua.foxminded.university.controllers;
 
+import com.ua.foxminded.university.model.Lector;
+import com.ua.foxminded.university.model.Lesson;
 import com.ua.foxminded.university.services.LessonServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -7,7 +9,9 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -29,7 +33,7 @@ public class LessonController {
     }
 
     @GetMapping("/lessonProfileLector/{lessonId}")
-    public ModelAndView getTimeSlot(@PathVariable("lessonId") Long id, Model model) {
+    public ModelAndView getLesson(@PathVariable("lessonId") Long id, Model model) {
         ModelAndView mav = new ModelAndView("lesson/lessonProfileLector");
 
         mav.addObject("lesson", lessonServices.getById(id));
@@ -37,5 +41,22 @@ public class LessonController {
         return mav;
     }
 
+    @GetMapping("/createLessonForm")
+    public ModelAndView createLessonForm(Model model) {
+        ModelAndView mav = new ModelAndView("lesson/createLessonForm");
+
+        mav.addObject("lesson", new Lesson());
+
+        return mav;
+    }
+
+    @PostMapping("addLesson")
+    public ModelAndView addLesson(@ModelAttribute Lesson lesson) {
+        ModelAndView mav = new ModelAndView("lesson/addLesson");
+
+        mav.addObject("lesson", lessonServices.create(lesson));
+
+        return mav;
+    }
 
 }
