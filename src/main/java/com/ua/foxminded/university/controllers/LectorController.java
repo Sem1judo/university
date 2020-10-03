@@ -70,8 +70,8 @@ public class LectorController {
     @PostMapping("/greeting")
     public ModelAndView greetingSubmit(@ModelAttribute Lector lector, Model model) {
         ModelAndView mav = new ModelAndView("lector/result");
-
-        mav.addObject("lector", lectorServices.create(lector));
+        lectorServices.create(lector);
+        mav.addObject("lector", lectorServices.getById(lector.getFacultyId()));
 
         return mav;
     }

@@ -53,7 +53,8 @@ public class FacultyController {
     public ModelAndView addFaculty(@ModelAttribute Faculty faculty) {
         ModelAndView mav = new ModelAndView("faculty/addFaculty");
 
-        mav.addObject("faculty", facultyServices.create(faculty));
+        facultyServices.create(faculty);
+        mav.addObject("faculty", facultyServices.getById(faculty.getFacultyId()));
 
         return mav;
     }
