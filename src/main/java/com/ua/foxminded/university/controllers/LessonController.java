@@ -54,7 +54,9 @@ public class LessonController {
     public ModelAndView addLesson(@ModelAttribute Lesson lesson) {
         ModelAndView mav = new ModelAndView("lesson/addLesson");
 
-        mav.addObject("lesson", lessonServices.create(lesson));
+        lessonServices.create(lesson);
+
+        mav.addObject("lesson", lessonServices.getById(lesson.getLessonId()));
 
         return mav;
     }

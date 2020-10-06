@@ -23,7 +23,7 @@ public class FacultyController {
     private MessageSource messageSource;
 
     @GetMapping("/faculties")
-    public ModelAndView getAllFaculties(Model model) {
+    public ModelAndView getAllFaculties() {
         ModelAndView mav = new ModelAndView("faculty/allFaculties");
 
         mav.addObject("faculties", facultyServices.getAll());
@@ -32,7 +32,7 @@ public class FacultyController {
     }
 
     @GetMapping("/facultyInfo/{facultyId}")
-    public ModelAndView getFaculty(@PathVariable("facultyId") Long id, Model model) {
+    public ModelAndView getFaculty(@PathVariable("facultyId") Long id) {
         ModelAndView mav = new ModelAndView("faculty/getFaculty");
 
         mav.addObject("faculty", facultyServices.getById(id));
@@ -41,7 +41,7 @@ public class FacultyController {
     }
 
     @GetMapping("/createFacultyForm")
-    public ModelAndView createFacultyForm(Model model) {
+    public ModelAndView createFacultyForm(){
         ModelAndView mav = new ModelAndView("faculty/createFacultyForm");
 
         mav.addObject("faculty", new Faculty());
@@ -54,6 +54,7 @@ public class FacultyController {
         ModelAndView mav = new ModelAndView("faculty/addFaculty");
 
         facultyServices.create(faculty);
+
         mav.addObject("faculty", facultyServices.getById(faculty.getFacultyId()));
 
         return mav;

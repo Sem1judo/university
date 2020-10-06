@@ -41,37 +41,21 @@ public class LectorController {
         return mav;
     }
 
-//    @GetMapping("/createLectorForm")
-//    public ModelAndView createLectorForm(Model model) {
-//        ModelAndView mav = new ModelAndView("lector/createLectorForm");
-//
-//        mav.addObject("lector", new Lector());
-//
-//        return mav;
-//    }
-//
-//    @PostMapping("addLector")
-//    public ModelAndView addLector(@ModelAttribute Lector lector) {
-//        ModelAndView mav = new ModelAndView("lector/addLector");
-//
-//        mav.addObject("lector", lectorServices.create(lector));
-//
-//        return mav;
-//    }
-
-    @GetMapping("/greeting")
-    public ModelAndView greetingForm(Model model) {
-        ModelAndView mav = new ModelAndView("lector/greeting");
+    @GetMapping("/createLectorForm")
+    public ModelAndView createLectorForm(Model model) {
+        ModelAndView mav = new ModelAndView("lector/createLectorForm");
 
         mav.addObject("lector", new Lector());
+
         return mav;
     }
 
-    @PostMapping("/greeting")
-    public ModelAndView greetingSubmit(@ModelAttribute Lector lector, Model model) {
-        ModelAndView mav = new ModelAndView("lector/result");
+    @PostMapping("addLector")
+    public ModelAndView addLector(@ModelAttribute Lector lector) {
+        ModelAndView mav = new ModelAndView("lector/addLector");
+
         lectorServices.create(lector);
-        mav.addObject("lector", lectorServices.getById(lector.getFacultyId()));
+        mav.addObject("lector", lectorServices.getById(lector.getLectorId()));
 
         return mav;
     }

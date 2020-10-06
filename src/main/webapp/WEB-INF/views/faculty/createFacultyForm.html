@@ -13,16 +13,18 @@
 </head>
 <body>
 
+<h1>Form</h1>
 
 <form th:action="@{/addFaculty}" th:object="${faculty}" method="post">
     <div class="form-group">
         <label for="facultyId">Id</label>
         <input type="text" class="form-control"
-               th:value="${faculty.facultyId}" id="facultyId" name="facultyId"/>
+               id="facultyId" th:field="*{facultyId}" placeholder="Id"/>
     </div>
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Name">
+        <input type="text" class="form-control"
+               id="name" th:field="*{name}" placeholder="Name">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

@@ -1,14 +1,20 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Getting Started: Handing Form Submission</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet"
+          id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 <body>
 <h1>Result</h1>
-<p th:text="'id: ' + ${lesson.lessonId}" />
-<p th:text="'id: ' + ${lesson.lectorId}" />
+<p th:text="'id lesson: ' + ${lesson.lessonId}" />
+<p th:text="'id lector: ' + ${lesson.lector.lectorId}" />
 <p th:text="'name: ' + ${lesson.name}" />
-<a href="/addFaculty">Submit</a>
+<a href="/addLesson">Submit</a>
 </body>
 </html>
+
