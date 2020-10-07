@@ -1,5 +1,6 @@
 package com.ua.foxminded.university.controllers;
 
+
 import com.ua.foxminded.university.model.Group;
 import com.ua.foxminded.university.services.GroupServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,8 @@ public class GroupController {
         ModelAndView mav = new ModelAndView("group/addGroup");
 
         groupServices.create(group);
+
+        group = groupServices.getAllLight().get(groupServices.getAllLight().size() - 1);
 
         mav.addObject("group", groupServices.getById(group.getGroupId()));
 

@@ -17,9 +17,8 @@
 
 <form th:action="@{/addLesson}" th:object="${lesson}" method="post">
     <div class="form-group">
-        <label for="lessonId">Lesson ID</label>
-        <input type="text" class="form-control"
-               id="lessonId" th:field="*{lessonId}" placeholder="Lesson ID"/>
+        <input type="text" class="form-control" hidden
+               id="lessonId" name="lessonId"  th:value="-1"  placeholder="id"/>
     </div>
     <div class="form-group">
         <label for="lectorId">Lector ID</label>

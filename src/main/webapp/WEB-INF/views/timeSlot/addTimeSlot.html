@@ -1,14 +1,21 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Getting Started: Handing Form Submission</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet"
+          id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 <body>
 <h1>Result</h1>
-<p th:text="'id: ' + ${timeSlot.timeSlotId}" />
-<p th:text="'id: ' + ${timeSlot.startLesson}" />
-<p th:text="'name: ' + ${timeSlot.endLesson}" />
-<a href="/addFaculty">Submit</a>
+<p th:text="${#temporals.format(timeSlot.getStartLesson(), 'dd-MM-yyyy, HH:mm')}"></p>
+<p th:text="${#temporals.format(timeSlot.getEndLesson(), 'dd-MM-yyyy, HH:mm')}"></p>
+<p th:text="'Id lesson: ' + ${timeSlot.getLessonDto().getLessonId()}" />
+<p th:text="'Id group: ' + ${timeSlot.getGroup().getGroupId()}" />
+<a href="/addLesson">Submit</a>
 </body>
 </html>
+

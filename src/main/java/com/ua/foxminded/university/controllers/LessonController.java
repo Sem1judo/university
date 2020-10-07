@@ -50,11 +50,13 @@ public class LessonController {
         return mav;
     }
 
-    @PostMapping("addLesson")
+    @PostMapping("/addLesson")
     public ModelAndView addLesson(@ModelAttribute Lesson lesson) {
         ModelAndView mav = new ModelAndView("lesson/addLesson");
 
         lessonServices.create(lesson);
+
+        lesson = lessonServices.getAllLight().get(lessonServices.getAllLight().size() - 1);
 
         mav.addObject("lesson", lessonServices.getById(lesson.getLessonId()));
 

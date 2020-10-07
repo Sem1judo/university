@@ -55,6 +55,8 @@ public class FacultyController {
 
         facultyServices.create(faculty);
 
+        faculty = facultyServices.getAll().get(facultyServices.getAll().size() - 1);
+
         mav.addObject("faculty", facultyServices.getById(faculty.getFacultyId()));
 
         return mav;

@@ -17,14 +17,13 @@
 
 <form th:action="@{/addLector}" th:object="${lector}" method="post">
     <div class="form-group">
-        <label for="facultyId">Faculty ID</label>
-        <input type="text" class="form-control"
-               id="facultyId" th:field="*{facultyId}" placeholder="Faculty ID"/>
+        <input type="text" class="form-control" hidden
+               id="lectorId" name="lectorId"  th:value="-1"  placeholder="id"/>
     </div>
     <div class="form-group">
-        <label for="groupId">Lector ID</label>
+        <label for="facultyId">Faculty ID</label>
         <input type="text" class="form-control"
-               id="groupId" th:field="*{lectorId}" placeholder="Lector ID"/>
+               id="facultyId" th:field="*{facultyId}" placeholder="Lector ID"/>
     </div>
     <div class="form-group">
         <label for="firstName">FirstName</label>

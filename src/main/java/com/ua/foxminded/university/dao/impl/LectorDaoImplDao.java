@@ -1,16 +1,21 @@
 package com.ua.foxminded.university.dao.impl;
 
 import com.ua.foxminded.university.dao.LectorDao;
+import com.ua.foxminded.university.model.Group;
 import com.ua.foxminded.university.model.Lector;
 import com.ua.foxminded.university.model.mapper.LectorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class LectorDaoImplDao implements LectorDao {
@@ -47,13 +52,23 @@ public class LectorDaoImplDao implements LectorDao {
 
     @Override
     public boolean update(Lector lector) {
-        return jdbcTemplate.update(UPDATE_LECTOR_BY_ID_QUERY, lector.getFirstName(), lector.getLastName(),
+        return jdbcTemplate.update(UPDATE_LECTOR_BY_ID_QUERY, lector.getFirstName(), lector.getLastName(),lector.getFacultyId(),
                 lector.getLectorId()) > 0;
     }
 
     @Override
     public boolean create(Lector lector) {
-        return jdbcTemplate.update(INSERT_LECTOR_QUERY, lector.getFirstName(), lector.getLastName()) > 0;
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(INSERT_LECTOR_QUERY,
+                    new String[]{"lector_id"});
+            ps.setString(1, lector.getFirstName());
+            ps.setString(2,lector.getLastName());
+            ps.setLong(3,lector.getFacultyId());
+            return ps;
+        }, keyHolder);
+
+        return Objects.requireNonNull(keyHolder.getKey()).intValue() > 0;
     }
 
     @Override

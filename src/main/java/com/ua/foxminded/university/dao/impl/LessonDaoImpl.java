@@ -1,15 +1,20 @@
 package com.ua.foxminded.university.dao.impl;
 
 import com.ua.foxminded.university.dao.DaoEntity;
+import com.ua.foxminded.university.model.Group;
 import com.ua.foxminded.university.model.Lesson;
 import com.ua.foxminded.university.model.mapper.LessonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 
+import java.sql.PreparedStatement;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class LessonDaoImpl implements DaoEntity<Lesson> {
@@ -45,12 +50,21 @@ public class LessonDaoImpl implements DaoEntity<Lesson> {
     @Override
     public boolean update(Lesson lesson) {
         return jdbcTemplate.update(UPDATE_LESSON_BY_ID_QUERY, lesson.getName(),
-                lesson.getLessonId()) > 0;
+                lesson.getLessonId(), lesson.getLectorId()) > 0;
     }
 
     @Override
     public boolean create(Lesson lesson) {
-        return jdbcTemplate.update(INSERT_LESSON_QUERY, lesson.getName()) > 0;
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(INSERT_LESSON_QUERY,
+                    new String[]{"lesson_id"});
+            ps.setString(1, lesson.getName());
+            ps.setLong(2,lesson.getLectorId());
+            return ps;
+        }, keyHolder);
+
+        return Objects.requireNonNull(keyHolder.getKey()).intValue() > 0;
     }
 
 }

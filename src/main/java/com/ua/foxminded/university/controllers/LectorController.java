@@ -50,11 +50,14 @@ public class LectorController {
         return mav;
     }
 
-    @PostMapping("addLector")
+    @PostMapping("/addLector")
     public ModelAndView addLector(@ModelAttribute Lector lector) {
         ModelAndView mav = new ModelAndView("lector/addLector");
 
         lectorServices.create(lector);
+
+        lector = lectorServices.getAllLight().get(lectorServices.getAllLight().size() - 1);
+
         mav.addObject("lector", lectorServices.getById(lector.getLectorId()));
 
         return mav;

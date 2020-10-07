@@ -2,15 +2,20 @@ package com.ua.foxminded.university.dao.impl;
 
 
 import com.ua.foxminded.university.dao.GroupDao;
+import com.ua.foxminded.university.model.Faculty;
 import com.ua.foxminded.university.model.Group;
 import com.ua.foxminded.university.model.mapper.GroupMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class GroupDaoImplDao implements GroupDao {
@@ -50,13 +55,27 @@ public class GroupDaoImplDao implements GroupDao {
 
     @Override
     public boolean update(Group group) {
-        return jdbcTemplate.update(UPDATE_GROUP_BY_ID_QUERY, group.getName(),
+        return jdbcTemplate.update(UPDATE_GROUP_BY_ID_QUERY, group.getName(),group.getFacultyId(),
                 group.getGroupId()) > 0;
     }
 
+//    @Override
+//    public boolean create(Group group) {
+//        return jdbcTemplate.update(INSERT_GROUP_QUERY, group.getName(),group.getFacultyId()) > 0;
+//    }
+
     @Override
     public boolean create(Group group) {
-        return jdbcTemplate.update(INSERT_GROUP_QUERY, group.getName()) > 0;
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(INSERT_GROUP_QUERY,
+                    new String[]{"group_id"});
+            ps.setString(1, group.getName());
+            ps.setLong(2,group.getFacultyId());
+            return ps;
+        }, keyHolder);
+
+        return Objects.requireNonNull(keyHolder.getKey()).intValue() > 0;
     }
 
     @Override
