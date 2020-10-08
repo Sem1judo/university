@@ -1,5 +1,7 @@
 package com.ua.foxminded.university.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -11,10 +13,12 @@ public class TimeSlot {
 
     @NotNull
     @Future
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startLesson;
 
     @NotNull
     @Future
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endLesson;
 
     private long groupId;

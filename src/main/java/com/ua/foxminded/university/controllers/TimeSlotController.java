@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
 
+
 @Controller
 public class TimeSlotController {
 
@@ -60,14 +61,14 @@ public class TimeSlotController {
     public ModelAndView createTimeSlotForm() {
         ModelAndView mav = new ModelAndView("timeSlot/createTimeSlotForm");
 
-        mav.addObject("timeSlot", new TimeSlot(LocalDateTime.now().plusDays(1),LocalDateTime.now().plusDays(2),1,1 ));
+        mav.addObject("timeSlot", new TimeSlot());
 
         return mav;
     }
 
     @PostMapping("/addTimeSlot")
     public ModelAndView addTimeSlot(@ModelAttribute TimeSlot timeSlot){
-        ModelAndView mav = new ModelAndView("timeSlot/addTimeSLot");
+        ModelAndView mav = new ModelAndView("timeSlot/addTimeSlot");
 
         timeSlotServices.create(timeSlot);
 

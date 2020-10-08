@@ -66,7 +66,10 @@ class TimeSlotServicesTest {
     public void getByIdShouldGetByIdTimeSlot() {
         when(timeSlotDao.getById(1L)).thenReturn(new TimeSlot(1, start, end, 1, 1));
 
+
         TimeSlot timeSlot = timeSlotServices.getByIdLight(1L);
+        System.out.println(timeSlot.getStartLesson());
+        System.out.println(timeSlot.getStartLesson());
 
         assertEquals(start.toString(), timeSlot.getStartLesson().toString());
         assertEquals(end.toString(), timeSlot.getEndLesson().toString());
