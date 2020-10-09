@@ -28,7 +28,8 @@
         <td th:text="${group.groupId}"></td>
         <td th:text="${group.name}"></td>
         <td th:text="${group.faculty.name}"></td>
-        <td> <a href="/groupInfo/" th:text="${group.faculty.facultyId}"></a></td>
+        <td> <a th:href="@{/groupInfo/{groupId}(groupId=${group.groupId})}"
+                th:text="${group.faculty.getName()}"></a></td>
         <td><a th:href="@{/editGroup/{groupId}(groupId=${group.groupId})}">Edit</a></td>
         <td><a th:href="@{/deleteGroup/{groupId}(groupId=${group.groupId})}">Delete</a></td>
     </tr>

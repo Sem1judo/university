@@ -23,8 +23,9 @@
         <td th:text="${lesson.lessonId}"></td>
         <td th:text="${lesson.name}"></td>
         <td>
-            <a href="/lectorInfo/" th:text="${lesson.getLector().getFirstName()}+ ' '+
-            ${lesson.getLector().getLastName()}"/></td>
+            <a th:href="@{/lectorInfo/{lessonId}(lessonId=${lesson.lessonId})}"
+               th:text="${lesson.getLector().getFirstName()}+ ' '+
+            ${lesson.getLector().getLastName()}"></a></td>
         <td><a th:href="@{/editLesson/{lessonId}(lessonId=${lesson.lessonId})}">Edit</a></td>
         <td><a th:href="@{/deleteLesson/{lessonId}(lessonId=${lesson.lessonId})}">Delete</a></td>
     </tr>

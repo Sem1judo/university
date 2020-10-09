@@ -28,7 +28,8 @@
         <td th:text="${lector.firstName}"></td>
         <td th:text="${lector.lastName}"></td>
         <td>
-            <a href="/lectorInfo/" th:text="${lector.getFaculty().getName()}"></a>
+            <a th:href="@{/lectorInfo/{lectorId}(lectorId=${lector.lectorId})}"
+               th:text="${lector.getFaculty().getName()}"></a>
         </td>
         <td>
             <a th:href="@{/editLector/{lectorId}(lectorId=${lector.lectorId})}">Edit</a>
