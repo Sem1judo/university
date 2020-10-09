@@ -11,21 +11,31 @@
     <thead>
     <tr>
         <th scope="col">ID</th>
-        <th scope="col">First name</th>
-        <th scope="col">Last name</th>
-        <th scope="col">Faculty</th>>
+        <th scope="col">Name</th>
+        <th scope="col">Surname </th>
+        <th scope="col">Faculty</th>
+        <th scope="col">Surname</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${lectors.empty}">
-        <td colspan="2">No Lectors available</td>
+    <tr th:if="${lectors.isEmpty()}">
+        <td colspan="2">No lectors available</td>
     </tr>
     <tr th:each="lector : ${lectors}">
         <td th:text="${lector.lectorId}"></td>
         <td th:text="${lector.firstName}"></td>
         <td th:text="${lector.lastName}"></td>
         <td>
-            <a href="/lectorInfo/" th:text="${lector.getFaculty().getName()}"/></td>
+            <a href="/lectorInfo/" th:text="${lector.getFaculty().getName()}"></a>
+        </td>
+        <td>
+            <a th:href="@{/editLector/{lectorId}(lectorId=${lector.lectorId})}">Edit</a>
+        </td>
+        <td>
+            <a th:href="@{/deleteLector/{lectorId}(lectorId=${lector.lectorId})}">Delete</a>
+        </td>
     </tr>
     </tbody>
 </table>
@@ -40,5 +50,4 @@
         crossorigin="anonymous"></script>
 </body>
 </html>
-
 

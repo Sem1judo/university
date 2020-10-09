@@ -56,7 +56,7 @@ public class GroupServices {
         for (Group group : groups) {
 
             group = groupDao.getById(group.getGroupId());
-            faculty = facultyDao.getById(group.getGroupId());
+            faculty = facultyDao.getById(group.getFacultyId());
 
             groupDto = new GroupDto();
             groupDto.setGroupId(group.getGroupId());

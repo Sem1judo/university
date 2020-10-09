@@ -50,7 +50,7 @@ public class LessonDaoImpl implements DaoEntity<Lesson> {
     @Override
     public boolean update(Lesson lesson) {
         return jdbcTemplate.update(UPDATE_LESSON_BY_ID_QUERY, lesson.getName(),
-                lesson.getLessonId(), lesson.getLectorId()) > 0;
+                lesson.getLectorId(), lesson.getLessonId()) > 0;
     }
 
     @Override

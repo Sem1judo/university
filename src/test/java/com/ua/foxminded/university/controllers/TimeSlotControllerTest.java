@@ -1,5 +1,6 @@
 package com.ua.foxminded.university.controllers;
 
+import com.ua.foxminded.university.dto.GroupDto;
 import com.ua.foxminded.university.dto.LectorDto;
 import com.ua.foxminded.university.dto.LessonDto;
 import com.ua.foxminded.university.dto.TimeSlotDto;
@@ -49,8 +50,8 @@ class TimeSlotControllerTest {
         LectorDto first = new LectorDto(1L, firstFaculty, "Bob", "Franlk");
         LectorDto second = new LectorDto(2L, secondFaculty, "Anri", "Kuscher");
 
-        Group fb_12 = new Group("fb-12");
-        Group fb_15 = new Group("fb-15");
+        GroupDto fb_12 = new GroupDto("fb-12");
+        GroupDto fb_15 = new GroupDto("fb-15");
 
         LessonDto java = new LessonDto(1L, "Java", first);
         LessonDto math = new LessonDto(2L, "Math", second);
@@ -74,7 +75,7 @@ class TimeSlotControllerTest {
                                 hasProperty("startLesson", is(LocalDateTime.of(2020, 11, 11, 11, 11, 11))),
                                 hasProperty("endLesson", is(LocalDateTime.of(2020, 11, 11, 13, 11, 11))),
                                 hasProperty("lessonDto", is(java)),
-                                hasProperty("group", is(fb_12))
+                                hasProperty("groupDto", is(fb_12))
                         )
                 )))
                 .andExpect(model().attribute("timeSlots", hasItem(
@@ -83,7 +84,7 @@ class TimeSlotControllerTest {
                                 hasProperty("startLesson", is(LocalDateTime.of(2020, 11, 11, 11, 11, 11))),
                                 hasProperty("endLesson", is(LocalDateTime.of(2020, 11, 11, 13, 11, 11))),
                                 hasProperty("lessonDto", is(math)),
-                                hasProperty("group", is(fb_15))
+                                hasProperty("groupDto", is(fb_15))
                         )
                 )));
 
@@ -98,7 +99,7 @@ class TimeSlotControllerTest {
         Faculty firstFaculty = new Faculty(1, "it_department", null, null);
         LectorDto first = new LectorDto(1L, firstFaculty, "Bob", "Franlk");
 
-        Group fb_12 = new Group("fb-12");
+        GroupDto fb_12 = new GroupDto("fb-12");
 
         LessonDto java = new LessonDto(1L, "Java", first);
 
@@ -115,7 +116,7 @@ class TimeSlotControllerTest {
                 .andExpect(model().attribute("timeSlot", hasProperty("startLesson", is(LocalDateTime.of(2020, 11, 11, 11, 11, 11)))))
                 .andExpect(model().attribute("timeSlot", hasProperty("endLesson", is(LocalDateTime.of(2020, 11, 11, 13, 11, 11)))))
                 .andExpect(model().attribute("timeSlot", hasProperty("lessonDto", is(java))))
-                .andExpect(model().attribute("timeSlot", hasProperty("group", is(fb_12))));
+                .andExpect(model().attribute("timeSlot", hasProperty("groupDto", is(fb_12))));
 
         verify(service, times(1)).getById(1L);
         verifyNoMoreInteractions(service);
@@ -126,7 +127,7 @@ class TimeSlotControllerTest {
         Faculty firstFaculty = new Faculty(1, "it_department", null, null);
         LectorDto first = new LectorDto(1L, firstFaculty, "Bob", "Franlk");
 
-        Group fb_12 = new Group("fb-12");
+        GroupDto fb_12 = new GroupDto("fb-12");
 
         LessonDto java = new LessonDto(1L, "Java", first);
 
@@ -143,7 +144,7 @@ class TimeSlotControllerTest {
                 .andExpect(model().attribute("timeSlot", hasProperty("startLesson", is(LocalDateTime.of(2020, 11, 11, 11, 11, 11)))))
                 .andExpect(model().attribute("timeSlot", hasProperty("endLesson", is(LocalDateTime.of(2020, 11, 11, 13, 11, 11)))))
                 .andExpect(model().attribute("timeSlot", hasProperty("lessonDto", is(java))))
-                .andExpect(model().attribute("timeSlot", hasProperty("group", is(fb_12))));
+                .andExpect(model().attribute("timeSlot", hasProperty("groupDto", is(fb_12))));
 
         verify(service, times(1)).getById(1L);
         verifyNoMoreInteractions(service);

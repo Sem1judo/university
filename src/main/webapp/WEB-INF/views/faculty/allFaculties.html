@@ -27,8 +27,8 @@
         <td th:text="${faculty.name}"></td>
         <td th:text="${faculty.groups}"></td>
         <td th:text="${faculty.lectors}"></td>
-        <td><a th:href="@{/edit/{facultyId}(id=${faculty.facultyId})}">Edit</a></td>
-        <td><a th:href="@{/delete/{facultyId}(id=${faculty.facultyId})}">Delete</a></td>
+        <td><a th:href="@{/editFaculty/{facultyId}(facultyId=${faculty.facultyId})}">Edit</a></td>
+        <td><a th:href="@{/deleteFaculty/{facultyId}(facultyId=${faculty.facultyId})}">Delete</a></td>
     </tr>
     </tbody>
 </table>

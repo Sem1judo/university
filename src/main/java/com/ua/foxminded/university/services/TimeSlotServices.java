@@ -1,6 +1,7 @@
 package com.ua.foxminded.university.services;
 
 import com.ua.foxminded.university.dao.impl.*;
+import com.ua.foxminded.university.dto.GroupDto;
 import com.ua.foxminded.university.dto.LectorDto;
 import com.ua.foxminded.university.dto.LessonDto;
 import com.ua.foxminded.university.dto.TimeSlotDto;
@@ -51,6 +52,11 @@ public class TimeSlotServices {
         Lector lector = lectorDao.getById(lesson.getLectorId());
         Faculty faculty = facultyDao.getById(lector.getFacultyId());
 
+        GroupDto groupDto = new GroupDto();
+        groupDto.setGroupId(group.getGroupId());
+        groupDto.setName(group.getName());
+        groupDto.setFaculty(faculty);
+
         LectorDto lectorDto = new LectorDto();
         lectorDto.setLectorId(lector.getLectorId());
         lectorDto.setFirstName(lector.getFirstName());
@@ -68,7 +74,7 @@ public class TimeSlotServices {
         timeSlotDto.setStartLesson(timeSlot.getStartLesson());
         timeSlotDto.setEndLesson(timeSlot.getEndLesson());
         timeSlotDto.setLessonDto(lessonDto);
-        timeSlotDto.setGroup(group);
+        timeSlotDto.setGroupDto(groupDto);
         return timeSlotDto;
     }
 
@@ -85,6 +91,7 @@ public class TimeSlotServices {
         TimeSlotDto timeSlotDto;
         LessonDto lessonDto;
         LectorDto lectorDto;
+        GroupDto groupDto;
 
         for (TimeSlot timeSlot : timeSlots) {
 
@@ -92,6 +99,11 @@ public class TimeSlotServices {
             lesson = lessonDao.getById(timeSlot.getLessonId());
             lector = lectorDao.getById(lesson.getLectorId());
             faculty = facultyDao.getById(lector.getFacultyId());
+
+            groupDto = new GroupDto();
+            groupDto.setGroupId(group.getGroupId());
+            groupDto.setName(group.getName());
+            groupDto.setFaculty(faculty);
 
             lectorDto = new LectorDto();
             lectorDto.setLectorId(lector.getLectorId());
@@ -109,7 +121,7 @@ public class TimeSlotServices {
             timeSlotDto.setStartLesson(timeSlot.getStartLesson());
             timeSlotDto.setEndLesson(timeSlot.getEndLesson());
             timeSlotDto.setLessonDto(lessonDto);
-            timeSlotDto.setGroup(group);
+            timeSlotDto.setGroupDto(groupDto);
 
             timeSlotDtos.add(timeSlotDto);
         }

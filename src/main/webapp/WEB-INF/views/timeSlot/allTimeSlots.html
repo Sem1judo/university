@@ -9,28 +9,38 @@
 <body>
 <table class="table table-striped">
     <thead>
-    <tr th:if="${timeSlots.isEmpty()}">
-        <td colspan="2">No Time slot available</td>
-    </tr>
     <tr>
         <th scope="col">ID</th>
-        <th scope="col">Start lesson</th>
-        <th scope="col">End lesson</th>
+        <th scope="col">Start</th>
+        <th scope="col">End</th>
         <th scope="col">Lesson</th>
         <th scope="col">Group</th>
         <th scope="col">Lector</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
     </tr>
     </thead>
     <tbody>
+    <tr th:if="${timeSlots == null or timeSlots.isEmpty()}">
+        <td colspan="2">No timeSlots Available</td>
+    </tr>
     <tr th:each="timeSlot : ${timeSlots}">
         <td th:text="${timeSlot.getTimeSlotId()}"/>
         <td th:text="${#temporals.format(timeSlot.getStartLesson(), 'dd-MM-yyyy, HH:mm')}"/>
         <td th:text="${#temporals.format(timeSlot.getEndLesson(), 'dd-MM-yyyy, HH:mm')}"/>
-        <td><a href="/timeSlotProfileLesson/" th:text="${timeSlot.getLessonDto().getName()}"/></td>
-        <td th:text="${timeSlot.getGroup().getName()}  ?: 'default value'"/>
         <td>
-            <a href="/timeSlotProfileLector/" th:text="${timeSlot.getLessonDto().getLector().getFirstName()}+ ' '+
-            ${timeSlot.getLessonDto().getLector().getLastName()}"/></td>
+            <a th:href="@{/timeSlotProfileLesson/{timeSlotId}(timeSlotId=${timeSlot.timeSlotId})}"
+               th:text="${timeSlot.getLessonDto().getName()}  ?: 'default value'"></a>
+        </td>
+        <td><a th:href="@{/timeSlotProfileGroup/{timeSlotId}(timeSlotId=${timeSlot.timeSlotId})}"
+               th:text="${timeSlot.getGroupDto().getName()}  ?: 'default value'"></a>
+        <td>
+        <a th:href="@{/timeSlotProfileLector/{timeSlotId}(timeSlotId=${timeSlot.timeSlotId})}"
+           th:text="${timeSlot.getLessonDto().getLector().getFirstName()}+ ' '
+           +${timeSlot.getLessonDto().getLector().getLastName()}  ?: 'default value'" ></a></td>
+
+        <td><a th:href="@{/editTimeSlot/{timeSlotId}(timeSlotId=${timeSlot.timeSlotId})}">Edit</a></td>
+        <td><a th:href="@{/deleteTimeSlot/{timeSlotId}(timeSlotId=${timeSlot.timeSlotId})}">Delete</a></td>
     </tr>
     </tbody>
 </table>

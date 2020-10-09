@@ -1,5 +1,6 @@
 package com.ua.foxminded.university.controllers;
 
+import com.ua.foxminded.university.model.Faculty;
 import com.ua.foxminded.university.model.TimeSlot;
 import com.ua.foxminded.university.services.TimeSlotServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,14 @@ public class TimeSlotController {
 
         return mav;
     }
+    @GetMapping("/timeSlotProfileGroup/{timeSlotId}")
+    public ModelAndView getGroup(@PathVariable("timeSlotId") Long id) {
+        ModelAndView mav = new ModelAndView("/timeSlot/timeSlotProfileGroup");
+
+        mav.addObject("timeSlot", timeSlotServices.getById(id));
+
+        return mav;
+    }
 
     @GetMapping("/createTimeSlotForm")
     public ModelAndView createTimeSlotForm() {
@@ -75,6 +84,41 @@ public class TimeSlotController {
         timeSlot = timeSlotServices.getAllLight().get(timeSlotServices.getAllLight().size() - 1);
 
         mav.addObject("timeSlot",timeSlotServices.getById(timeSlot.getTimeSlotId()));
+
+        return mav;
+    }
+    @GetMapping(value = "/deleteTimeSlot/{timeSlotId}")
+    public ModelAndView deleteTimeSlot(@PathVariable("timeSlotId") long timeSlotId) {
+
+        ModelAndView mav = new ModelAndView("timeSlot/allTimeSlots");
+
+        timeSlotServices.delete(timeSlotId);
+
+        mav.addObject("timeSlots", timeSlotServices.getAll());
+
+        return mav;
+    }
+
+    @GetMapping("/editTimeSlot/{timeSlotId}")
+    public ModelAndView showUpdateForm(@PathVariable("timeSlotId") Long timeSlotId) {
+
+        ModelAndView mav = new ModelAndView("timeSlot/updateTimeSlotForm");
+
+        TimeSlot timeSlot = timeSlotServices.getByIdLight(timeSlotId);
+
+        mav.addObject("timeSlot", timeSlot);
+
+        return mav;
+    }
+
+    @PostMapping("/updateTimeSlot/{timeSlotId}")
+    public ModelAndView updateTimeSlot(@PathVariable("timeSlotId") Long timeSlotId, TimeSlot timeSlot) {
+
+        ModelAndView mav = new ModelAndView("timeSlot/allTimeSlots");
+
+        timeSlotServices.update(timeSlot);
+
+        mav.addObject("timeSlots", timeSlotServices.getAll());
 
         return mav;
     }

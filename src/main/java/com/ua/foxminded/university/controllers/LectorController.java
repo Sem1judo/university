@@ -56,9 +56,40 @@ public class LectorController {
 
         lectorServices.create(lector);
 
-        lector = lectorServices.getAllLight().get(lectorServices.getAllLight().size() - 1);
-
         mav.addObject("lector", lectorServices.getById(lector.getLectorId()));
+
+        return mav;
+    }
+    @GetMapping(value = "/deleteLector/{lectorId}")
+    public ModelAndView deleteLector(@PathVariable("lectorId") long lectorId) {
+        ModelAndView mav = new ModelAndView("lector/allLectors");
+
+        lectorServices.delete(lectorId);
+
+        mav.addObject("lectors", lectorServices.getAll());
+
+        return mav;
+    }
+
+    @GetMapping("/editLector/{lectorId}")
+    ModelAndView showUpdateForm(@PathVariable("lectorId") Long lectorId) {
+
+        ModelAndView mav = new ModelAndView("lector/updateLectorForm");
+
+        Lector lector = lectorServices.getByIdLight(lectorId);
+
+        mav.addObject("lector", lector);
+
+        return mav;
+    }
+
+    @PostMapping("/updateLector/{lectorId}")
+    public ModelAndView updateLector(@PathVariable("lectorId") Long groupId, Lector lector) {
+        ModelAndView mav = new ModelAndView("lector/allLectors");
+
+        lectorServices.update(lector);
+
+        mav.addObject("lectors", lectorServices.getAll());
 
         return mav;
     }

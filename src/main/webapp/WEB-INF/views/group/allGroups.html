@@ -14,18 +14,23 @@
     <tr>
         <th scope="col">ID</th>
         <th scope="col">Name</th>
-        <th scope="col">Faculty ID</th>
+        <th scope="col">Faculty</th>
+        <th scope="col">Faculty id</th>
+        <th scope="col">Delete</th>
+        <th scope="col">Edit</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${groups.isEmpty()}">
-        <td colspan="2">No Groups available</td>
+    <tr th:if="${groups == null or groups.isEmpty()}">
+        <td colspan="2">No groups Available</td>
     </tr>
     <tr th:each="group : ${groups}">
         <td th:text="${group.groupId}"></td>
         <td th:text="${group.name}"></td>
-        <td>
-            <a href="/groupInfo/" th:text="${group.faculty.getName()}"/></td>
+        <td th:text="${group.faculty.name}"></td>
+        <td> <a href="/groupInfo/" th:text="${group.faculty.facultyId}"></a></td>
+        <td><a th:href="@{/editGroup/{groupId}(groupId=${group.groupId})}">Edit</a></td>
+        <td><a th:href="@{/deleteGroup/{groupId}(groupId=${group.groupId})}">Delete</a></td>
     </tr>
     </tbody>
 </table>

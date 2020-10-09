@@ -1,5 +1,6 @@
 package com.ua.foxminded.university.controllers;
 
+import com.ua.foxminded.university.model.Group;
 import com.ua.foxminded.university.model.Lector;
 import com.ua.foxminded.university.model.Lesson;
 import com.ua.foxminded.university.services.LessonServices;
@@ -59,6 +60,41 @@ public class LessonController {
         lesson = lessonServices.getAllLight().get(lessonServices.getAllLight().size() - 1);
 
         mav.addObject("lesson", lessonServices.getById(lesson.getLessonId()));
+
+        return mav;
+    }
+    @GetMapping(value = "/deleteLesson/{lessonId}")
+    public ModelAndView deleteLesson(@PathVariable("lessonId") long lessonId) {
+
+        ModelAndView mav = new ModelAndView("lesson/allLessons");
+
+        lessonServices.delete(lessonId);
+
+        mav.addObject("lessons",  lessonServices.getAll());
+
+        return mav;
+    }
+
+    @GetMapping("/editLesson/{lessonId}")
+    ModelAndView showUpdateForm(@PathVariable("lessonId") Long lessonId) {
+
+        ModelAndView mav = new ModelAndView("lesson/updateLessonForm");
+
+        Lesson lesson = lessonServices.getByIdLight(lessonId);
+        System.out.println(lesson+" 1111");
+        mav.addObject("lesson", lesson);
+
+        return mav;
+    }
+
+    @PostMapping("/updateLesson/{lessonId}")
+    public ModelAndView updateLesson(@PathVariable("lessonId") Long lessonId, Lesson lesson) {
+
+        ModelAndView mav = new ModelAndView("lesson/allLessons");
+        System.out.println(lesson+" 2");
+        lessonServices.update(lesson);
+        System.out.println(lesson+" 3");
+        mav.addObject("lessons", lessonServices.getAll());
 
         return mav;
     }

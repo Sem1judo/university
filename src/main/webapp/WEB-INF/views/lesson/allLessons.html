@@ -25,6 +25,8 @@
         <td>
             <a href="/lectorInfo/" th:text="${lesson.getLector().getFirstName()}+ ' '+
             ${lesson.getLector().getLastName()}"/></td>
+        <td><a th:href="@{/editLesson/{lessonId}(lessonId=${lesson.lessonId})}">Edit</a></td>
+        <td><a th:href="@{/deleteLesson/{lessonId}(lessonId=${lesson.lessonId})}">Delete</a></td>
     </tr>
     </tbody>
 </table>

@@ -14,10 +14,13 @@
 <body>
 
 
-<form th:action="@{/updateFaculty/{facultyId}(facultyId=${faculty.facultyId})}" th:object="${faculty}" method="post">
-    <label for="name">Name</label>
-    <input type="text" th:field="*{name}" id="name" placeholder="Name">
-    <input type="submit" value="Update Faculty">
+<form th:action="@{/updateTimeSlot/{timeSlotId}(timeSlotId=${timeSlot.timeSlotId})}" th:object="${timeSlot}" method="post">
+    <label for="startLesson">tIMEsLOT</label>
+    <input type="text" th:field="*{startLesson}" id="startLesson" placeholder="Name">
+    <input type="text" th:field="*{endLesson}" id="endLesson" placeholder="Name">
+    <input type="text" th:field="*{groupId}" id="group" placeholder="Name">
+    <input type="text" th:field="*{lessonId}" id="lesson" placeholder="Name">
+    <input type="submit" value="Update Lector">
 </form>
 
 

@@ -88,7 +88,7 @@ class LessonServicesTest {
 
     @Test
     public void updateShouldUpdateLesson() {
-        Lesson lesson = new Lesson(1, "technology",1);
+        Lesson lesson = new Lesson(5, "technology",1);
         when(lessonDao.update(eq(lesson))).thenReturn(Boolean.TRUE);
 
         boolean isUpdated = lessonServices.update(lesson);

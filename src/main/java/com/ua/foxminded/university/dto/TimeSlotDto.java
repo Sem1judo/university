@@ -12,32 +12,32 @@ public class TimeSlotDto {
     private LocalDateTime startLesson;
     private LocalDateTime endLesson;
     private LessonDto lessonDto;
-    private Group group;
+    private GroupDto groupDto;
 
 
     public TimeSlotDto() {
     }
 
-    public TimeSlotDto(LessonDto lessonDto, Group group) {
+    public TimeSlotDto(LessonDto lessonDto, GroupDto groupDto) {
         this.lessonDto = lessonDto;
-        this.group = group;
+        this.groupDto = groupDto;
     }
 
 
-    public TimeSlotDto(LocalDateTime startLesson, LocalDateTime endLesson, LessonDto lessonDto, Group group) {
+    public TimeSlotDto(LocalDateTime startLesson, LocalDateTime endLesson, LessonDto lessonDto, GroupDto groupDto) {
         this.startLesson = startLesson;
         this.endLesson = endLesson;
         this.lessonDto = lessonDto;
-        this.group = group;
+        this.groupDto = groupDto;
     }
 
 
-    public TimeSlotDto(Long timeSlotId, LocalDateTime startLesson, LocalDateTime endLesson, LessonDto lessonDto, Group group) {
+    public TimeSlotDto(Long timeSlotId, LocalDateTime startLesson, LocalDateTime endLesson, LessonDto lessonDto, GroupDto groupDto) {
         this.timeSlotId = timeSlotId;
         this.startLesson = startLesson;
         this.endLesson = endLesson;
         this.lessonDto = lessonDto;
-        this.group = group;
+        this.groupDto = groupDto;
     }
 
 
@@ -73,12 +73,12 @@ public class TimeSlotDto {
         this.lessonDto = lessonDto;
     }
 
-    public Group getGroup() {
-        return group;
+    public GroupDto getGroupDto() {
+        return groupDto;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setGroupDto(GroupDto groupDto) {
+        this.groupDto = groupDto;
     }
 
     @Override
@@ -90,11 +90,11 @@ public class TimeSlotDto {
                 Objects.equals(startLesson, that.startLesson) &&
                 Objects.equals(endLesson, that.endLesson) &&
                 Objects.equals(lessonDto, that.lessonDto) &&
-                Objects.equals(group, that.group);
+                Objects.equals(groupDto, that.groupDto);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(timeSlotId, startLesson, endLesson, lessonDto, group);
+        return Objects.hash(timeSlotId, startLesson, endLesson, lessonDto, groupDto);
     }
 }

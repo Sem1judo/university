@@ -38,7 +38,7 @@ public class LectorServices {
     private LectorDto getDtoById(Long id) {
 
         Lector lector = lectorDao.getById(id);
-        Faculty faculty = facultyDao.getById(lector.getLectorId());
+        Faculty faculty = facultyDao.getById(lector.getFacultyId());
 
         LectorDto lectorDto = new LectorDto();
         lectorDto.setLectorId(lector.getLectorId());
@@ -59,7 +59,7 @@ public class LectorServices {
         for (Lector lector : lectors) {
 
             lector = lectorDao.getById(lector.getLectorId());
-            faculty = facultyDao.getById(lector.getLectorId());
+            faculty = facultyDao.getById(lector.getFacultyId());
 
             lectorDto = new LectorDto();
             lectorDto.setLectorId(lector.getLectorId());

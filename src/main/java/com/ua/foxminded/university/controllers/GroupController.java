@@ -1,6 +1,8 @@
 package com.ua.foxminded.university.controllers;
 
 
+import com.ua.foxminded.university.dto.GroupDto;
+import com.ua.foxminded.university.model.Faculty;
 import com.ua.foxminded.university.model.Group;
 import com.ua.foxminded.university.services.GroupServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +53,7 @@ public class GroupController {
     }
 
     @PostMapping("/addGroup")
-    public ModelAndView addFaculty(@ModelAttribute Group group) {
+    public ModelAndView addGroup(@ModelAttribute Group group) {
         ModelAndView mav = new ModelAndView("group/addGroup");
 
         groupServices.create(group);
@@ -59,6 +61,41 @@ public class GroupController {
         group = groupServices.getAllLight().get(groupServices.getAllLight().size() - 1);
 
         mav.addObject("group", groupServices.getById(group.getGroupId()));
+
+        return mav;
+    }
+    @GetMapping(value = "/deleteGroup/{groupId}")
+    public ModelAndView deleteGroup(@PathVariable("groupId") long groupId) {
+
+        ModelAndView mav = new ModelAndView("group/allGroups");
+
+        groupServices.delete(groupId);
+
+        mav.addObject("groups",  groupServices.getAll());
+
+        return mav;
+    }
+
+    @GetMapping("/editGroup/{groupId}")
+    ModelAndView showUpdateForm(@PathVariable("groupId") Long groupId) {
+
+        ModelAndView mav = new ModelAndView("group/updateGroupForm");
+
+        Group group = groupServices.getByIdLight(groupId);
+
+        mav.addObject("group", group);
+
+        return mav;
+    }
+
+    @PostMapping("/updateGroup/{groupId}")
+    public ModelAndView updateGroup(@PathVariable("groupId") Long groupId, Group group) {
+
+        ModelAndView mav = new ModelAndView("group/allGroups");
+
+        groupServices.update(group);
+
+        mav.addObject("groups", groupServices.getAll());
 
         return mav;
     }
