@@ -13,8 +13,8 @@
 <h1>Result</h1>
 <p th:text="${#temporals.format(timeSlot.getStartLesson(), 'dd-MM-yyyy, HH:mm')}"></p>
 <p th:text="${#temporals.format(timeSlot.getEndLesson(), 'dd-MM-yyyy, HH:mm')}"></p>
-<p th:text="'Id lesson: ' + ${timeSlot.getLessonDto().getLessonId()}" />
-<p th:text="'Id group: ' + ${timeSlot.getGroup().getGroupId()}" />
+<p th:text="'Id lesson: ' + ${timeSlot.getLessonDto().getName()}" />
+<p th:text="'Id group: ' + ${timeSlot.getGroupDto().getName()}" />
 <a href="/addLesson">Submit</a>
 </body>
 </html>

@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDateTime;
-
-
 @Controller
 public class TimeSlotController {
 
@@ -25,11 +22,6 @@ public class TimeSlotController {
     @Autowired
     private  MessageSource messageSource;
 
-    @Autowired
-    public TimeSlotController(TimeSlotServices timeSlotServices, MessageSource messageSource) {
-        this.timeSlotServices = timeSlotServices;
-        this.messageSource = messageSource;
-    }
 
     @GetMapping("/timeSlots")
     public ModelAndView getAllTimeSlots() {
@@ -71,19 +63,18 @@ public class TimeSlotController {
         ModelAndView mav = new ModelAndView("timeSlot/createTimeSlotForm");
 
         mav.addObject("timeSlot", new TimeSlot());
+        // 2020-10-13, 15:39
 
         return mav;
     }
 
     @PostMapping("/addTimeSlot")
     public ModelAndView addTimeSlot(@ModelAttribute TimeSlot timeSlot){
-        ModelAndView mav = new ModelAndView("timeSlot/addTimeSlot");
+        ModelAndView mav = new ModelAndView("timeSlot/allTimeSlots");
 
         timeSlotServices.create(timeSlot);
 
-        timeSlot = timeSlotServices.getAllLight().get(timeSlotServices.getAllLight().size() - 1);
-
-        mav.addObject("timeSlot",timeSlotServices.getById(timeSlot.getTimeSlotId()));
+        mav.addObject("timeSlots", timeSlotServices.getAll());
 
         return mav;
     }

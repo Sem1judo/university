@@ -54,13 +54,11 @@ public class GroupController {
 
     @PostMapping("/addGroup")
     public ModelAndView addGroup(@ModelAttribute Group group) {
-        ModelAndView mav = new ModelAndView("group/addGroup");
+        ModelAndView mav = new ModelAndView("group/allGroups");
 
         groupServices.create(group);
 
-        group = groupServices.getAllLight().get(groupServices.getAllLight().size() - 1);
-
-        mav.addObject("group", groupServices.getById(group.getGroupId()));
+        mav.addObject("groups", groupServices.getAll());
 
         return mav;
     }

@@ -7,6 +7,8 @@
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
+<h3><a href="/createTimeSlotForm">Add a new time slot</a></h3>
+
 <table class="table table-striped">
     <thead>
     <tr>
@@ -35,9 +37,9 @@
         <td><a th:href="@{/timeSlotProfileGroup/{timeSlotId}(timeSlotId=${timeSlot.timeSlotId})}"
                th:text="${timeSlot.getGroupDto().getName()}  ?: 'default value'"></a>
         <td>
-        <a th:href="@{/timeSlotProfileLector/{timeSlotId}(timeSlotId=${timeSlot.timeSlotId})}"
-           th:text="${timeSlot.getLessonDto().getLector().getFirstName()}+ ' '
-           +${timeSlot.getLessonDto().getLector().getLastName()}  ?: 'default value'" ></a></td>
+            <a th:href="@{/timeSlotProfileLector/{timeSlotId}(timeSlotId=${timeSlot.timeSlotId})}"
+               th:text="${timeSlot.getLessonDto().getLector().getFirstName()}+ ' '
+           +${timeSlot.getLessonDto().getLector().getLastName()}  ?: 'default value'"></a></td>
 
         <td><a th:href="@{/editTimeSlot/{timeSlotId}(timeSlotId=${timeSlot.timeSlotId})}">Edit</a></td>
         <td><a th:href="@{/deleteTimeSlot/{timeSlotId}(timeSlotId=${timeSlot.timeSlotId})}">Delete</a></td>

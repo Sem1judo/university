@@ -13,12 +13,12 @@ public class TimeSlot {
 
     @NotNull
     @Future
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd, HH:mm")
     private LocalDateTime startLesson;
 
     @NotNull
     @Future
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd, HH:mm")
     private LocalDateTime endLesson;
 
     private long groupId;
@@ -107,11 +107,11 @@ public class TimeSlot {
     @Override
     public String toString() {
         return "TimeSlot{" +
-                "TimeSlotId=" + timeSlotId +
+                "timeSlotId=" + timeSlotId +
                 ", startLesson=" + startLesson +
                 ", endLesson=" + endLesson +
-                ", group=" + groupId +
-                ", lesson=" + lessonId +
+                ", groupId=" + groupId +
+                ", lessonId=" + lessonId +
                 '}';
     }
 }

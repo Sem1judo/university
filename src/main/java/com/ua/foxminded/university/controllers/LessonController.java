@@ -53,13 +53,11 @@ public class LessonController {
 
     @PostMapping("/addLesson")
     public ModelAndView addLesson(@ModelAttribute Lesson lesson) {
-        ModelAndView mav = new ModelAndView("lesson/addLesson");
+        ModelAndView mav = new ModelAndView("lesson/allLessons");
 
         lessonServices.create(lesson);
 
-        lesson = lessonServices.getAllLight().get(lessonServices.getAllLight().size() - 1);
-
-        mav.addObject("lesson", lessonServices.getById(lesson.getLessonId()));
+        mav.addObject("lessons", lessonServices.getAll());
 
         return mav;
     }
@@ -81,7 +79,7 @@ public class LessonController {
         ModelAndView mav = new ModelAndView("lesson/updateLessonForm");
 
         Lesson lesson = lessonServices.getByIdLight(lessonId);
-        System.out.println(lesson+" 1111");
+
         mav.addObject("lesson", lesson);
 
         return mav;
@@ -91,9 +89,9 @@ public class LessonController {
     public ModelAndView updateLesson(@PathVariable("lessonId") Long lessonId, Lesson lesson) {
 
         ModelAndView mav = new ModelAndView("lesson/allLessons");
-        System.out.println(lesson+" 2");
+
         lessonServices.update(lesson);
-        System.out.println(lesson+" 3");
+
         mav.addObject("lessons", lessonServices.getAll());
 
         return mav;

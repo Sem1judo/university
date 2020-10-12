@@ -52,13 +52,12 @@ public class FacultyController {
 
     @PostMapping("/addFaculty")
     public ModelAndView addFaculty(@ModelAttribute Faculty faculty) {
-        ModelAndView mav = new ModelAndView("faculty/addFaculty");
+        ModelAndView mav = new ModelAndView("faculty/allFaculties");
 
         facultyServices.create(faculty);
 
-        faculty = facultyServices.getAll().get(facultyServices.getAll().size() - 1);
+        mav.addObject("faculties", facultyServices.getAll());
 
-        mav.addObject("faculty", facultyServices.getById(faculty.getFacultyId()));
 
         return mav;
     }
