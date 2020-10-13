@@ -74,7 +74,7 @@ public class LessonController {
     }
 
     @GetMapping("/editLesson/{lessonId}")
-    ModelAndView showUpdateForm(@PathVariable("lessonId") Long lessonId) {
+   public ModelAndView showUpdateForm(@PathVariable("lessonId") Long lessonId) {
 
         ModelAndView mav = new ModelAndView("lesson/updateLessonForm");
 

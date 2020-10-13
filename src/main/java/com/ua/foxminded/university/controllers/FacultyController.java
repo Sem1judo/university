@@ -75,7 +75,7 @@ public class FacultyController {
     }
 
     @GetMapping("/editFaculty/{facultyId}")
-    ModelAndView showUpdateForm(@PathVariable("facultyId") Long facultyId) {
+    public ModelAndView showUpdateForm(@PathVariable("facultyId") Long facultyId) {
 
         ModelAndView mav = new ModelAndView("faculty/updateFacultyForm");
 

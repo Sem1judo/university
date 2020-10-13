@@ -71,7 +71,7 @@ public class LectorController {
     }
 
     @GetMapping("/editLector/{lectorId}")
-    ModelAndView showUpdateForm(@PathVariable("lectorId") Long lectorId) {
+   public ModelAndView showUpdateForm(@PathVariable("lectorId") Long lectorId) {
 
         ModelAndView mav = new ModelAndView("lector/updateLectorForm");
 

@@ -73,7 +73,7 @@ public class GroupController {
     }
 
     @GetMapping("/editGroup/{groupId}")
-    ModelAndView showUpdateForm(@PathVariable("groupId") Long groupId) {
+    public ModelAndView showUpdateForm(@PathVariable("groupId") Long groupId) {
 
         ModelAndView mav = new ModelAndView("group/updateGroupForm");
 
