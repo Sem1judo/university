@@ -1,8 +1,6 @@
 package com.ua.foxminded.university.controllers;
 
 
-import com.ua.foxminded.university.dto.GroupDto;
-import com.ua.foxminded.university.model.Faculty;
 import com.ua.foxminded.university.model.Group;
 import com.ua.foxminded.university.services.GroupServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +34,7 @@ public class GroupController {
 
     @GetMapping("/groupInfo/{groupId}")
     public ModelAndView getGroup(@PathVariable("groupId") Long id) {
-        ModelAndView mav = new ModelAndView("group/groupInfo");
+        ModelAndView mav = new ModelAndView("group/getGroup");
 
         mav.addObject("groupFaculty", groupServices.getById(id));
 

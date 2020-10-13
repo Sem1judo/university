@@ -1,6 +1,5 @@
 package com.ua.foxminded.university.controllers;
 
-import com.ua.foxminded.university.model.Group;
 import com.ua.foxminded.university.model.Lector;
 import com.ua.foxminded.university.services.LectorServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,7 @@ public class LectorController {
 
     @GetMapping("/lectorInfo/{lectorId}")
     public ModelAndView getLector(@PathVariable("lectorId") Long id, Model model) {
-        ModelAndView mav = new ModelAndView("lector/lectorInfo");
+        ModelAndView mav = new ModelAndView("lector/getLector");
 
         mav.addObject("lectorFaculty", lectorServices.getById(id));
 
