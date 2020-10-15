@@ -10,6 +10,8 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jndi.JndiTemplate;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -19,11 +21,13 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.util.Objects;
 
 
 @Configuration
+@EnableTransactionManagement
 @ComponentScan("com.ua.foxminded.university")
 @PropertySource("classpath:database.properties")
 @EnableWebMvc
@@ -34,25 +38,15 @@ public class AppConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
 
-    private static final String URL = "url";
-    private static final String USER = "dbuser";
-    private static final String DRIVER = "driver";
-    private static final String PASSWORD = "dbpassword";
-
     @Autowired
     public AppConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
-    @Bean
-    DataSource dataSource() {
-        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-        driverManagerDataSource.setUrl(environment.getProperty(URL));
-        driverManagerDataSource.setUsername(environment.getProperty(USER));
-        driverManagerDataSource.setPassword(environment.getProperty(PASSWORD));
-        driverManagerDataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty(DRIVER)));
 
-        return driverManagerDataSource;
+    @Bean
+    public DataSource dataSource() throws NamingException {
+        return (DataSource) new JndiTemplate().lookup(Objects.requireNonNull(environment.getProperty("jdbc.url")));
     }
 
     @Bean
@@ -89,14 +83,4 @@ public class AppConfig implements WebMvcConfigurer {
         return engine;
     }
 
-    /// for message resources
-//    @Bean
-//    public ResourceBundleMessageSource messageSource() {
-//
-//        var source = new ResourceBundleMessageSource();
-//        source.setBasenames("messages/label");
-//        source.setUseCodeAsDefaultMessage(true);
-//
-//        return source;
-//    }
 }
