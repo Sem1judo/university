@@ -1,7 +1,7 @@
 package com.ua.foxminded.university.services;
 
-import com.ua.foxminded.university.dao.impl.FacultyDaoImpl;
-import com.ua.foxminded.university.dao.impl.LectorDaoImplDao;
+import com.ua.foxminded.university.dao.DaoEntity;
+import com.ua.foxminded.university.dao.impl.DaoEntityImpl;
 import com.ua.foxminded.university.dto.LectorDto;
 import com.ua.foxminded.university.exceptions.ServiceException;
 import com.ua.foxminded.university.model.Faculty;
@@ -22,10 +22,11 @@ import java.util.List;
 
 @Service
 public class LectorServices {
+
     @Autowired
-    private LectorDaoImplDao lectorDao;
+    private DaoEntityImpl<Lector> lectorDao;
     @Autowired
-    private FacultyDaoImpl facultyDao;
+    private DaoEntityImpl<Faculty> facultyDao;
     @Autowired
     private ValidatorEntity<Lector> validator;
 
@@ -38,7 +39,7 @@ public class LectorServices {
     private LectorDto getDtoById(Long id) {
 
         Lector lector = lectorDao.getById(id);
-        Faculty faculty = facultyDao.getById(lector.getFacultyId());
+        Faculty faculty = facultyDao.getById(lector.getFaculty().getFacultyId());
 
         LectorDto lectorDto = new LectorDto();
         lectorDto.setLectorId(lector.getLectorId());
@@ -59,7 +60,7 @@ public class LectorServices {
         for (Lector lector : lectors) {
 
             lector = lectorDao.getById(lector.getLectorId());
-            faculty = facultyDao.getById(lector.getFacultyId());
+            faculty = facultyDao.getById(lector.getFaculty().getFacultyId());
 
             lectorDto = new LectorDto();
             lectorDto.setLectorId(lector.getLectorId());
@@ -72,6 +73,7 @@ public class LectorServices {
 
         return lectorDtos;
     }
+
     public List<LectorDto> getAll() {
         logger.debug("Trying to get all lectors");
         try {
@@ -84,6 +86,7 @@ public class LectorServices {
             throw new ServiceException("Failed to get list of lector", e);
         }
     }
+
     public LectorDto getById(long id) {
         logger.debug("Trying to get lector with id={}", id);
 
@@ -104,6 +107,7 @@ public class LectorServices {
         }
         return lector;
     }
+
     public Lector getByIdLight(long id) {
         logger.debug("Trying to get lector with id={}", id);
 
@@ -138,12 +142,12 @@ public class LectorServices {
         }
     }
 
-    public boolean create(Lector lector) {
+    public void create(Lector lector) {
         logger.debug("Trying to create lector: {}", lector);
 
         validator.validate(lector);
         try {
-            return lectorDao.create(lector);
+            lectorDao.create(lector);
         } catch (
                 DataAccessException e) {
             logger.error("failed to create lector: {}", lector, e);
@@ -152,7 +156,7 @@ public class LectorServices {
 
     }
 
-    public boolean delete(long id) {
+    public void deleteById(long id) {
         logger.debug("Trying to delete lector with id={}", id);
 
         if (id == 0) {
@@ -160,7 +164,7 @@ public class LectorServices {
             throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         try {
-            return lectorDao.delete(id);
+            lectorDao.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             logger.warn("Not existing lector with id={}", id);
             throw new NoSuchEntityException(NOT_EXIST_ENTITY);
@@ -170,7 +174,25 @@ public class LectorServices {
         }
     }
 
-    public boolean update(Lector lector) {
+    public void delete(Lector lector) {
+        logger.debug("Trying to delete lector ={}", lector);
+
+        if (lector == null) {
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
+        }
+        try {
+            lectorDao.delete(lector);
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Not existing lector ={}", lector);
+            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
+        } catch (DataAccessException e) {
+            logger.error("failed to delete lector ={}", lector, e);
+            throw new ServiceException("Failed to delete lector", e);
+        }
+    }
+
+    public void update(Lector lector) {
         logger.debug("Trying to update lector: {}", lector);
 
         if (lector.getLectorId() == 0) {
@@ -189,25 +211,25 @@ public class LectorServices {
         }
 
         try {
-            return lectorDao.update(lector);
+            lectorDao.update(lector);
         } catch (DataAccessException e) {
             logger.error("Failed to update lector: {}", lector, e);
             throw new ServiceException("Problem with updating lector");
         }
     }
 
-    public int getLessonsForLector(LocalDateTime start, LocalDateTime end) {
-        logger.debug("Trying to get lessons for lector with start time={} and end time={}", start, end);
-
-        try {
-            return lectorDao.getLessonsByTime(start, end);
-        } catch (EmptyResultDataAccessException e) {
-            logger.warn("Not existing lessons with such: start time={} and end time={}", start, end);
-            throw new NoSuchEntityException("Doesn't exist such lessons for lector");
-        } catch (DataAccessException e) {
-            logger.error("Failed to get lessons for lector with start time={} and end time={}", start, end, e);
-            throw new ServiceException("Failed to get lessons for lector by id", e);
-        }
-    }
+//    public int getLessonsForLector(LocalDateTime start, LocalDateTime end) {
+//        logger.debug("Trying to get lessons for lector with start time={} and end time={}", start, end);
+//
+//        try {
+//            return lectorDao.getLessonsByTime(start, end);
+//        } catch (EmptyResultDataAccessException e) {
+//            logger.warn("Not existing lessons with such: start time={} and end time={}", start, end);
+//            throw new NoSuchEntityException("Doesn't exist such lessons for lector");
+//        } catch (DataAccessException e) {
+//            logger.error("Failed to get lessons for lector with start time={} and end time={}", start, end, e);
+//            throw new ServiceException("Failed to get lessons for lector by id", e);
+//        }
+//}
 }
 

@@ -67,7 +67,7 @@ public class FacultyController {
 
         ModelAndView mav = new ModelAndView("faculty/allFaculties");
 
-        facultyServices.delete(facultyId);
+        facultyServices.deleteById(facultyId);
 
         mav.addObject("faculties", facultyServices.getAll());
 

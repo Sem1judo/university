@@ -83,7 +83,7 @@ public class TimeSlotController {
 
         ModelAndView mav = new ModelAndView("timeSlot/allTimeSlots");
 
-        timeSlotServices.delete(timeSlotId);
+        timeSlotServices.deleteById(timeSlotId);
 
         mav.addObject("timeSlots", timeSlotServices.getAll());
 

@@ -63,7 +63,7 @@ public class LectorController {
     public ModelAndView deleteLector(@PathVariable("lectorId") long lectorId) {
         ModelAndView mav = new ModelAndView("lector/allLectors");
 
-        lectorServices.delete(lectorId);
+        lectorServices.deleteById(lectorId);
 
         mav.addObject("lectors", lectorServices.getAll());
 

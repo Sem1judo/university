@@ -1,23 +1,31 @@
 package com.ua.foxminded.university.model;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name="faculties")
 public class Faculty {
 
+    @Id
+    @Column(name="faculty_id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long facultyId;
     @NotBlank
     @Size(min=3, max=50,
             message="Faculty name must be between 3 and 20 characters")
     @Pattern(regexp="^[a-zA-Z0-9]+$",
             message="Faculty name must be alphanumeric with no spaces")
+    @Column(name="faculty_name")
     private String name;
 
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="faculty")
     private List<Group> groups;
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="faculty")
     private List<Lector> lectors;
 
     public Faculty() {
@@ -98,3 +106,4 @@ public class Faculty {
                 '}';
     }
 }
+

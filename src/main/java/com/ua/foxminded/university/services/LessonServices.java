@@ -1,9 +1,8 @@
 package com.ua.foxminded.university.services;
 
 
-import com.ua.foxminded.university.dao.impl.FacultyDaoImpl;
-import com.ua.foxminded.university.dao.impl.LectorDaoImplDao;
-import com.ua.foxminded.university.dao.impl.LessonDaoImpl;
+import com.ua.foxminded.university.dao.DaoEntity;
+import com.ua.foxminded.university.dao.impl.DaoEntityImpl;
 import com.ua.foxminded.university.dto.LectorDto;
 import com.ua.foxminded.university.dto.LessonDto;
 import com.ua.foxminded.university.exceptions.ServiceException;
@@ -27,11 +26,11 @@ import java.util.List;
 public class LessonServices {
 
     @Autowired
-    private LessonDaoImpl lessonDao;
+    private DaoEntityImpl<Lesson> lessonDao;
     @Autowired
-    private LectorDaoImplDao lectorDao;
+    private DaoEntityImpl<Lector> lectorDao;
     @Autowired
-    private FacultyDaoImpl facultyDao;
+    private DaoEntityImpl<Faculty> facultyDao;
     @Autowired
     private ValidatorEntity<Lesson> validator;
 
@@ -44,8 +43,8 @@ public class LessonServices {
     private LessonDto getDtoById(Long id) {
 
         Lesson lesson = lessonDao.getById(id);
-        Lector lector = lectorDao.getById(lesson.getLectorId());
-        Faculty faculty = facultyDao.getById(lector.getFacultyId());
+        Lector lector = lectorDao.getById(lesson.getLector().getLectorId());
+        Faculty faculty = facultyDao.getById(lector.getFaculty().getFacultyId());
 
         LectorDto lectorDto = new LectorDto();
         lectorDto.setLectorId(lector.getLectorId());
@@ -73,8 +72,8 @@ public class LessonServices {
 
         for (Lesson lesson : lessons) {
 
-            lector = lectorDao.getById(lesson.getLectorId());
-            faculty = facultyDao.getById(lector.getFacultyId());
+            lector  = lectorDao.getById(lesson.getLector().getLectorId());
+            faculty  = facultyDao.getById(lector.getFaculty().getFacultyId());
 
             lectorDto = new LectorDto();
             lectorDto.setLectorId(lector.getLectorId());
@@ -162,19 +161,19 @@ public class LessonServices {
     }
 
 
-    public boolean create(Lesson lesson) {
+    public void create(Lesson lesson) {
         logger.debug("Trying to create lesson: {}", lesson);
 
         validator.validate(lesson);
         try {
-            return lessonDao.create(lesson);
+             lessonDao.create(lesson);
         } catch (DataAccessException e) {
             logger.error("Failed to create lesson: {}", lesson, e);
             throw new ServiceException("Failed to create lesson", e);
         }
     }
 
-    public boolean delete(long id) {
+    public void deleteById(long id) {
         logger.debug("Trying to delete lesson with id={}", id);
 
         if (id == 0) {
@@ -183,7 +182,7 @@ public class LessonServices {
         }
 
         try {
-            return lessonDao.delete(id);
+             lessonDao.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             logger.warn("Not existing lesson with id={}", id);
             throw new NoSuchEntityException(NOT_EXIST_ENTITY);
@@ -192,8 +191,26 @@ public class LessonServices {
             throw new ServiceException("Failed to delete lesson by id", e);
         }
     }
+    public void delete(Lesson lesson) {
+        logger.debug("Trying to delete lesson ={}", lesson);
 
-    public boolean update(Lesson lesson) {
+        if (lesson == null) {
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
+        }
+
+        try {
+             lessonDao.delete(lesson);
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Not existing lesson ={}", lesson);
+            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
+        } catch (DataAccessException e) {
+            logger.error("Failed to delete lesson ={}", lesson, e);
+            throw new ServiceException("Failed to delete lesson ", e);
+        }
+    }
+
+    public void update(Lesson lesson) {
         logger.debug("Trying to update lesson: {}", lesson);
 
         if (lesson.getLessonId() == 0) {
@@ -211,7 +228,7 @@ public class LessonServices {
             throw new ServiceException("Failed to retrieve lesson by id", e);
         }
         try {
-            return lessonDao.update(lesson);
+             lessonDao.update(lesson);
         } catch (DataAccessException e) {
             logger.error("failed to update lesson: {}", lesson, e);
             throw new ServiceException("Problem with updating lesson");

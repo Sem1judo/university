@@ -1,18 +1,19 @@
 package com.ua.foxminded.university.dao;
 
+
 import java.util.List;
 
 public interface DaoEntity<T> {
 
-    T getById(Long id);
+    T getById(final long id);
 
     List<T> getAll();
 
-    boolean delete(Long id);
+    void create(final T entity);
 
-    boolean update(T entity);
+    T update(final T entity);
 
-    boolean create(T entity);
+    void delete(final T entity);
 
-
+    void deleteById(final long entityId);
 }

@@ -1,21 +1,29 @@
 package com.ua.foxminded.university.model;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+@Entity
+@Table(name="groups")
 public class Group {
-
+    @Id
+    @Column(name="group_id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long groupId;
-    private long facultyId;
+
+    @ManyToOne
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
 
     @NotBlank
     @Size(min=3, max=50,
             message="Group name must be between 3 and 20 characters ")
     @Pattern(regexp="^[a-zA-Z0-9-]*$",
             message="Group name must be alphanumeric with no spaces")
-
+    @Column(name="group_name")
     private String name;
 
 
@@ -26,9 +34,18 @@ public class Group {
         this.name = name;
     }
 
-    public Group(long groupId, long facultyId, String name) {
+    public Group(Faculty faculty, @NotBlank @Size(min = 3, max = 50,
+            message = "Group name must be between 3 and 20 characters ") @Pattern(regexp = "^[a-zA-Z0-9-]*$",
+            message = "Group name must be alphanumeric with no spaces") String name) {
+        this.faculty = faculty;
+        this.name = name;
+    }
+
+    public Group(long groupId, Faculty faculty, @NotBlank @Size(min = 3, max = 50,
+            message = "Group name must be between 3 and 20 characters ") @Pattern(regexp = "^[a-zA-Z0-9-]*$",
+            message = "Group name must be alphanumeric with no spaces") String name) {
         this.groupId = groupId;
-        this.facultyId = facultyId;
+        this.faculty = faculty;
         this.name = name;
     }
 
@@ -40,12 +57,12 @@ public class Group {
         this.groupId = groupId;
     }
 
-    public long getFacultyId() {
-        return facultyId;
+    public Faculty getFaculty() {
+        return faculty;
     }
 
-    public void setFacultyId(long facultyId) {
-        this.facultyId = facultyId;
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 
     public String getName() {
@@ -62,21 +79,22 @@ public class Group {
         if (o == null || getClass() != o.getClass()) return false;
         Group group = (Group) o;
         return groupId == group.groupId &&
-                facultyId == group.facultyId &&
+                Objects.equals(faculty, group.faculty) &&
                 Objects.equals(name, group.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(groupId, facultyId, name);
+        return Objects.hash(groupId, faculty, name);
     }
 
     @Override
     public String toString() {
         return "Group{" +
                 "groupId=" + groupId +
-                ", facultyId=" + facultyId +
+                ", faculty=" + faculty +
                 ", name='" + name + '\'' +
                 '}';
     }
 }
+

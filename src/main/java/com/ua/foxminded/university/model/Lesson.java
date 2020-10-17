@@ -1,12 +1,18 @@
 package com.ua.foxminded.university.model;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+@Entity
+@Table(name="lessons")
 public class Lesson {
 
+    @Id
+    @Column(name="lesson_id")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private long lessonId;
 
     @NotBlank
@@ -14,22 +20,29 @@ public class Lesson {
             message = "Lesson name must be between 3 and 20 characters long")
     @Pattern(regexp = "^[a-zA-Z0-9]+$",
             message = "Lesson name must be alphanumeric with no spaces")
+    @Column(name="lesson_name")
     private String name;
 
-    private long lectorId;
+    @OneToOne
+    @JoinColumn(name = "lector_id")
+    private Lector lector;
 
     public Lesson() {
     }
 
-    public Lesson(String name, long lectorId) {
-        this.name = name;
-        this.lectorId = lectorId;
-    }
-
-    public Lesson(long lessonId, String name, long lectorId) {
+    public Lesson(long lessonId, @NotBlank @Size(min = 3, max = 50,
+            message = "Lesson name must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-Z0-9]+$",
+            message = "Lesson name must be alphanumeric with no spaces") String name) {
         this.lessonId = lessonId;
         this.name = name;
-        this.lectorId = lectorId;
+    }
+
+    public Lesson(long lessonId, @NotBlank @Size(min = 3, max = 50,
+            message = "Lesson name must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-Z0-9]+$",
+            message = "Lesson name must be alphanumeric with no spaces") String name, Lector lector) {
+        this.lessonId = lessonId;
+        this.name = name;
+        this.lector = lector;
     }
 
     public long getLessonId() {
@@ -48,12 +61,12 @@ public class Lesson {
         this.name = name;
     }
 
-    public long getLectorId() {
-        return lectorId;
+    public Lector getLector() {
+        return lector;
     }
 
-    public void setLectorId(long lectorId) {
-        this.lectorId = lectorId;
+    public void setLector(Lector lector) {
+        this.lector = lector;
     }
 
     @Override
@@ -63,20 +76,20 @@ public class Lesson {
         Lesson lesson = (Lesson) o;
         return lessonId == lesson.lessonId &&
                 Objects.equals(name, lesson.name) &&
-                Objects.equals(lectorId, lesson.lectorId);
+                Objects.equals(lector, lesson.lector);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(lessonId, name, lectorId);
+        return Objects.hash(lessonId, name, lector);
     }
 
     @Override
     public String toString() {
         return "Lesson{" +
-                "lesson_id=" + lessonId +
+                "lessonId=" + lessonId +
                 ", name='" + name + '\'' +
-                ", lector=" + lectorId +
+                ", lector=" + lector +
                 '}';
     }
 }

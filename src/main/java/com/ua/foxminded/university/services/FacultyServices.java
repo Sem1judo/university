@@ -1,6 +1,7 @@
 package com.ua.foxminded.university.services;
 
-import com.ua.foxminded.university.dao.impl.FacultyDaoImpl;
+import com.ua.foxminded.university.dao.DaoEntity;
+import com.ua.foxminded.university.dao.impl.DaoEntityImpl;
 import com.ua.foxminded.university.exceptions.ServiceException;
 import com.ua.foxminded.university.model.Faculty;
 import com.ua.foxminded.university.validation.ValidatorEntity;
@@ -19,7 +20,7 @@ import java.util.List;
 public class FacultyServices {
 
     @Autowired
-    private FacultyDaoImpl facultyDao;
+    private DaoEntityImpl<Faculty> facultyDao;
 
     @Autowired
     private ValidatorEntity<Faculty> validator;
@@ -42,19 +43,19 @@ public class FacultyServices {
         }
     }
 
-    public boolean create(Faculty faculty) {
+    public void create(Faculty faculty) {
         logger.debug("Trying to create faculty: {}", faculty);
 
         validator.validate(faculty);
         try {
-            return facultyDao.create(faculty);
+             facultyDao.create(faculty);
         } catch (DataAccessException e) {
             logger.error("Failed to create faculty: {}", faculty, e);
             throw new ServiceException("Failed to create faculty", e);
         }
     }
 
-    public boolean delete(long id) {
+    public void deleteById(long id) {
         logger.debug("Trying to delete faculty with id={}", id);
 
         if (id == 0) {
@@ -62,13 +63,30 @@ public class FacultyServices {
             throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         try {
-            return facultyDao.delete(id);
+             facultyDao.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             logger.warn("Not existing faculty with id={}", id);
             throw new NoSuchEntityException(NOT_EXIST_ENTITY);
         } catch (DataAccessException e) {
             logger.error("failed to delete faculty with id={}", id, e);
             throw new ServiceException("Failed to delete faculty by id", e);
+        }
+    }
+    public void delete(Faculty faculty) {
+        logger.debug("Trying to delete faculty = {}", faculty);
+
+        if (faculty == null) {
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
+        }
+        try {
+            facultyDao.delete(faculty);
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Not existing faculty = {}", faculty);
+            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
+        } catch (DataAccessException e) {
+            logger.error("failed to delete faculty = {}", faculty, e);
+            throw new ServiceException("Failed to delete faculty", e);
         }
     }
 
@@ -92,7 +110,7 @@ public class FacultyServices {
         return faculty;
     }
 
-    public boolean update(Faculty faculty) {
+    public void update(Faculty faculty) {
         logger.debug("Trying to update faculty: {}", faculty);
 
         if (faculty.getFacultyId() == 0) {
@@ -110,7 +128,7 @@ public class FacultyServices {
             throw new ServiceException("Failed to retrieve faculty: ", e);
         }
         try {
-            return facultyDao.update(faculty);
+             facultyDao.update(faculty);
         } catch (DataAccessException e) {
             logger.error("Failed to update faculty: {}", faculty);
             throw new ServiceException("Problem with updating faculty");

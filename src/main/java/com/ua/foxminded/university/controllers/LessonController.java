@@ -66,7 +66,7 @@ public class LessonController {
 
         ModelAndView mav = new ModelAndView("lesson/allLessons");
 
-        lessonServices.delete(lessonId);
+        lessonServices.deleteById(lessonId);
 
         mav.addObject("lessons",  lessonServices.getAll());
 

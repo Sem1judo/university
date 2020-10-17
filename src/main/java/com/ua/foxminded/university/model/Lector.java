@@ -1,20 +1,30 @@
 package com.ua.foxminded.university.model;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+
+@Entity
+@Table(name="lectors")
 public class Lector {
 
+    @Id
+    @Column(name="lector_id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long lectorId;
-    private long facultyId;
+    @ManyToOne
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
 
     @NotBlank
     @Size(min = 3, max = 50,
             message = "First name must be between 3 and 20 characters long")
     @Pattern(regexp = "^[a-zA-Z0-9]+$",
             message = "First name must be alphanumeric with no spaces")
+    @Column(name="first_name")
     private String firstName;
 
     @NotBlank
@@ -22,7 +32,7 @@ public class Lector {
             message = "Last name must be between 3 and 20 characters long")
     @Pattern(regexp = "^[a-zA-Z0-9]+$",
             message = "Last name must be alphanumeric with no spaces")
-
+    @Column(name="last_name")
     private String lastName;
 
     public Lector() {
@@ -39,9 +49,14 @@ public class Lector {
         this.lastName = lastName;
     }
 
-    public Lector(Long lectorId, Long facultyId, String firstName, String lastName) {
+
+    public Lector(long lectorId, Faculty faculty, @NotBlank @Size(min = 3, max = 50,
+            message = "First name must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-Z0-9]+$",
+            message = "First name must be alphanumeric with no spaces") String firstName, @NotBlank @Size(min = 3, max = 50,
+            message = "Last name must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-Z0-9]+$",
+            message = "Last name must be alphanumeric with no spaces") String lastName) {
         this.lectorId = lectorId;
-        this.facultyId = facultyId;
+        this.faculty = faculty;
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -71,36 +86,35 @@ public class Lector {
         this.lastName = lastName;
     }
 
-    public Long getFacultyId() {
-        return facultyId;
+    public Faculty getFaculty() {
+        return faculty;
     }
 
-    public void setFacultyId(Long facultyId) {
-        this.facultyId = facultyId;
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 
     @Override
     public boolean equals(Object o) {
-
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Lector lector = (Lector) o;
-        return Objects.equals(lectorId, lector.lectorId) &&
-                Objects.equals(facultyId, lector.facultyId) &&
+        return lectorId == lector.lectorId &&
+                Objects.equals(faculty, lector.faculty) &&
                 Objects.equals(firstName, lector.firstName) &&
                 Objects.equals(lastName, lector.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(lectorId, facultyId, firstName, lastName);
+        return Objects.hash(lectorId, faculty, firstName, lastName);
     }
 
     @Override
     public String toString() {
         return "Lector{" +
                 "lectorId=" + lectorId +
-                ", facultyId=" + facultyId +
+                ", faculty=" + faculty +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 '}';

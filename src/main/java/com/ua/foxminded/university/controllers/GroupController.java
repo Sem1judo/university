@@ -65,7 +65,7 @@ public class GroupController {
 
         ModelAndView mav = new ModelAndView("group/allGroups");
 
-        groupServices.delete(groupId);
+        groupServices.deleteById(groupId);
 
         mav.addObject("groups",  groupServices.getAll());
 

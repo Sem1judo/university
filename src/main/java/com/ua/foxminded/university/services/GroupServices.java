@@ -1,7 +1,7 @@
 package com.ua.foxminded.university.services;
 
-import com.ua.foxminded.university.dao.impl.FacultyDaoImpl;
-import com.ua.foxminded.university.dao.impl.GroupDaoImplDao;
+import com.ua.foxminded.university.dao.DaoEntity;
+import com.ua.foxminded.university.dao.impl.DaoEntityImpl;
 import com.ua.foxminded.university.dto.GroupDto;
 import com.ua.foxminded.university.exceptions.ServiceException;
 import com.ua.foxminded.university.model.Faculty;
@@ -20,10 +20,11 @@ import java.util.List;
 
 @Service
 public class GroupServices {
+
     @Autowired
-    private GroupDaoImplDao groupDao;
+    private DaoEntityImpl<Group> groupDao;
     @Autowired
-    private FacultyDaoImpl facultyDao;
+    private DaoEntityImpl<Faculty> facultyDao;
     @Autowired
     private ValidatorEntity<Group> validator;
 
@@ -56,7 +57,7 @@ public class GroupServices {
         for (Group group : groups) {
 
             group = groupDao.getById(group.getGroupId());
-            faculty = facultyDao.getById(group.getFacultyId());
+            faculty = facultyDao.getById(group.getFaculty().getFacultyId());
 
             groupDto = new GroupDto();
             groupDto.setGroupId(group.getGroupId());
@@ -68,6 +69,7 @@ public class GroupServices {
 
         return groupDtos;
     }
+
     public List<GroupDto> getAll() {
         logger.debug("Trying to get all groups");
 
@@ -81,6 +83,7 @@ public class GroupServices {
             throw new ServiceException("Failed to get list of groups", e);
         }
     }
+
     public GroupDto getById(long id) {
         logger.debug("Trying to get group with id={}", id);
 
@@ -100,6 +103,7 @@ public class GroupServices {
         }
         return group;
     }
+
     public Group getByIdLight(long id) {
         logger.debug("Trying to get group with id={}", id);
 
@@ -134,18 +138,18 @@ public class GroupServices {
         }
     }
 
-    public boolean create(Group group) {
+    public void create(Group group) {
         logger.debug("Trying to create group: {}", group);
         validator.validate(group);
         try {
-            return groupDao.create(group);
+            groupDao.create(group);
         } catch (DataAccessException e) {
             logger.error("Failed to create group: {}", group, e);
             throw new ServiceException("Failed to create group", e);
         }
     }
 
-    public boolean delete(long id) {
+    public void deleteById(long id) {
         logger.debug("Trying to delete group with id={}", id);
 
         if (id == 0) {
@@ -153,7 +157,7 @@ public class GroupServices {
             throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
         }
         try {
-            return groupDao.delete(id);
+            groupDao.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             logger.warn("Not existing group with id={}", id);
             throw new NoSuchEntityException(NOT_EXIST_ENTITY);
@@ -163,9 +167,26 @@ public class GroupServices {
         }
     }
 
+    public void delete(Group group) {
+        logger.debug("Trying to delete group {}", group);
+
+        if (group == null) {
+            logger.warn(MISSING_ID_ERROR_MESSAGE);
+            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
+        }
+        try {
+            groupDao.delete(group);
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Not existing group = {}", group);
+            throw new NoSuchEntityException(NOT_EXIST_ENTITY);
+        } catch (DataAccessException e) {
+            logger.error("Failed to delete group ={}", group, e);
+            throw new ServiceException("Failed to delete group", e);
+        }
+    }
 
 
-    public boolean update(Group group) {
+    public void update(Group group) {
         logger.debug("Trying to update group: {}", group);
 
         if (group.getGroupId() == 0) {
@@ -184,28 +205,27 @@ public class GroupServices {
         }
 
         try {
-            return groupDao.update(group);
+            groupDao.update(group);
         } catch (DataAccessException e) {
             logger.error("Failed to update group: {}", group);
             throw new ServiceException("Problem with updating group");
         }
     }
 
-    public int getLessonsForGroup(Long id) {
-        logger.debug("Trying to get lessons for group with id={}", id);
-        if (id == 0) {
-            logger.warn(MISSING_ID_ERROR_MESSAGE);
-            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
-        }
-        try {
-            return groupDao.getLessonsById(id);
-        } catch (EmptyResultDataAccessException e) {
-            logger.warn("Not existing group with id={}", id);
-            throw new NoSuchEntityException("Doesn't exist such lessons for group");
-        } catch (DataAccessException e) {
-            logger.error("Failed to get lessons group by such id={}", id);
-            throw new ServiceException("Failed to get lessons group by such id", e);
-        }
+//    public int getLessonsForGroup(Long id) {
+//        logger.debug("Trying to get lessons for group with id={}", id);
+//        if (id == 0) {
+//            logger.warn(MISSING_ID_ERROR_MESSAGE);
+//            throw new ServiceException(MISSING_ID_ERROR_MESSAGE);
+//        }
+//        try {
+//            return groupDao.getLessonsById(id);
+//        } catch (EmptyResultDataAccessException e) {
+//            logger.warn("Not existing group with id={}", id);
+//            throw new NoSuchEntityException("Doesn't exist such lessons for group");
+//        } catch (DataAccessException e) {
+//            logger.error("Failed to get lessons group by such id={}", id);
+//            throw new ServiceException("Failed to get lessons group by such id", e);
+//        }
 
-    }
 }
